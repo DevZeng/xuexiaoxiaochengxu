@@ -1,0 +1,10 @@
+<view class="family">
+  <view class="list" bindtap='toDetails'>
+    <view>
+      <image src="/images/555.jpg"></image>
+      <text>审核中</text>
+    </view>
+    <text>家长</text>
+  </view>
+  
+</view>

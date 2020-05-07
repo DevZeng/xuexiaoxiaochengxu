@@ -1,0 +1,133 @@
+@import "../../../wxParse/wxParse.wxss";
+page{
+  background-color:#f8f8f8;
+  font-size: 28rpx;
+}
+/* 资讯详情 */
+.details{
+  background-color:#fff;
+  padding:0 20rpx;
+  margin-bottom:15rpx;
+}
+.details .title{
+  display: block;
+  margin: 20rpx auto;
+  line-height:50rpx;
+  font-size: 35rpx;
+  font-weight: bold;
+}
+.details .info{
+  margin:0 0 20rpx 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.details .info view{
+  display: flex;
+  align-items: center;
+}
+.details .info image{
+  width:80rpx;
+  height:80rpx;
+  margin-right:20rpx;
+  border-radius: 50%;
+}
+.details .info .name{
+  font-size: 26rpx;
+  color:#666;
+}
+.details .info .date{
+  font-size: 24rpx;
+  color:#999;
+}
+
+
+/* 富文本内容 */
+.details .content_text{
+  line-height: 50rpx !important;
+  color:#666;
+}
+.details .content_text image{
+  width:100% !important;
+}
+
+.details .box image{
+margin:20rpx 0;
+}
+.details .box{
+  height:80rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25rpx;
+}
+.details .box view{
+  display: flex;
+  align-items: center;
+}
+
+.details .icon{
+  width:35rpx;
+  height:35rpx;
+  margin:0 10rpx 0 0 !important;
+}
+.liulancount{
+  width: 30vw;
+}
+
+
+/* 评论 */
+.comment {
+  background-color:#fff;
+}
+.comment .box{
+  height:80rpx;
+  padding:0 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25rpx;
+  border-bottom:1px solid #f8f8f8;
+}
+.comment .box view{
+  display: flex;
+  align-items: center;
+}
+.comment .box image{
+  width:35rpx;
+  height:35rpx;
+  margin-right:10rpx;
+}
+.comment .comment-box{
+  padding:30rpx;
+}
+.comment .comment-box .comment-list{
+  margin-bottom:20rpx;
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.comment .comment-box .comment-list image{
+  width:80rpx;
+  height:80rpx;
+}
+.comment .comment-box .comment-list .comment-info{
+  width:600rpx;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items:stretch;
+}
+.comment .comment-box .comment-list .comment-info view{
+  height:45rpx;
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.comment .comment-box .comment-list .comment-info .name{
+  font-size: 26rpx;
+}
+.comment .comment-box .comment-list .comment-info .date{
+  color:#b0b0b0;
+  font-size: 25rpx;
+}

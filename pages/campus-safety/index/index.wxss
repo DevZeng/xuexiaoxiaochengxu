@@ -1,0 +1,208 @@
+
+
+page{
+  /* background-color:#f8f8f8; */
+  background-color:#fff;
+  color:#999;
+  font-size: 24rpx;
+}
+/* 孩子信息 */
+.info{
+  width:650rpx;
+  height:180rpx;
+  padding:15rpx;
+  margin:40rpx auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26rpx;
+  border-radius: 40rpx;
+  box-shadow:-2rpx 2rpx 15rpx #bbb;
+  color:#2a9f93;
+}
+.info .info-box{
+  width:250rpx;
+  text-align: center;
+}
+.info .info-box .portrait{
+ width:165rpx;
+height:165rpx;
+border-radius:87rpx;
+border:5rpx solid #bbb;
+box-shadow: 0rpx 2rpx 15rpx #bbb;
+}
+/* .info view{
+  display: flex;
+  flex-direction:column;
+  justify-content: space-around;
+  align-items: flex-start;
+} */
+.info .info-box1{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  width:380rpx;
+  height:160rpx;
+  margin:0 0 0 20rpx;
+}
+.info .info-box1 view{
+ display: flex;
+ justify-content: flex-start;
+ align-items: center;
+}
+.info .info-box1 image{
+  width:28rpx;
+  height:28rpx;
+  margin:0 30rpx;
+  /* margin:auto 30rpx; */
+} 
+/* .info .info-box1 text{
+  margin-right:30rpx;
+} */
+.info .studentName{
+  font-weight: bold;
+  font-size: 30rpx !important;
+}
+
+
+/* 定位信息 */
+.locate-information{
+  position:relative;
+  width:650rpx;
+  /* height:250rpx; */
+  padding:50rpx 15rpx;
+  margin:40rpx auto;
+  border-radius: 40rpx;
+  box-shadow:-2rpx 2rpx 15rpx #bbb;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+.locate-information .date-box{
+  position: relative;/* formID按钮父元素 */
+  width:250rpx;
+  height:250rpx;
+  background-color:#2a9f93;
+  color:#fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.locate-information .date-box .date{
+  font-size: 30rpx;
+}
+.locate-information .date-box .month{
+  height:110rpx;
+  line-height:110rpx;
+  font-size: 120rpx;
+}
+.locate-information .date-box .week{
+  font-size: 22rpx;
+}
+.locate-information .date-box .lunar-calendar{
+  font-size: 18rpx;
+}
+.locate-information .record{
+  width:380rpx;
+  height:250rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.locate-information .record .recordText{
+  position: relative;/* formID按钮父元素 */
+  display: block;
+  width:150rpx;
+  height:45rpx;
+  line-height:45rpx;
+  text-align: center;
+  color:#2a9f93;
+  /* border:1rpx solid #00c9d0; */
+}
+.locate-information .record .record-box{
+  width:380rpx;
+  height:200rpx;
+  overflow-y: auto;
+}
+.locate-information .record .record-box .record-list{
+  width:380rpx;
+  height:50rpx;
+  max-height:50rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* background-color:red;  */
+}
+.locate-information .record .record-list image{
+  width:30rpx;
+  height:30rpx;
+   margin:auto 20rpx; 
+  /* background-color:red; */
+}
+.locate-information .record .record-list text{
+  height:50rpx;
+  width:300rpx;
+  line-height:50rpx;
+  /* border-bottom:2rpx solid #e9e9e9; */
+}
+
+
+
+/* 日历 */
+.mask{
+  position: fixed; 
+  left:0;
+  top:0;
+  width:100vw;
+  height:100vh;
+  background-color:rgba(0,0,0,.0);
+  z-index: 99999;
+}
+/* 整体 */
+.calendar{
+  position:absolute;
+  left:15rpx;
+  top:10rpx;
+  background-color: #2a9f93;
+  padding: 10rpx 0 0 0;
+  margin:0 !important;
+  font-size: 28rpx;
+  color:#fff;
+  z-index: 100000;
+} 
+/* 头部 */
+.hd {
+  font-size: 28rpx; /*修改了标题文字和按钮的大小*/
+  color: #fff;   /*修改了标题文字和按钮的颜色*/
+}
+/*星期&日期 */
+.board {
+  color: #fff;
+  width:570rpx;
+  font-size: 22rpx;
+  /* background-color: #bbb; */
+} 
+
+
+/* 当前定位位置 */
+.loaction-box{
+  width:750rpx;
+  margin:10rpx 0 0 0;
+  /* padding:auto 30rpx; */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loaction-box image{
+  width:30rpx;
+  height:30rpx;
+  margin:0 10rpx 0 0;
+}
+.loaction-box text{
+  max-width:650rpx;
+  /* text-align: center; */
+}

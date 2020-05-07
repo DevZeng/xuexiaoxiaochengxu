@@ -1,0 +1,85 @@
+<!-- <block> -->
+<block wx:if="{{notice_array.length > 0}}">
+<view class="nav">
+  <picker bindchange="classChange" value="{{class_index}}" range="{{class_array}}">
+  <view class="navbtu">
+    <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+    <text>{{class_array[class_index]}}</text>
+    <image src="/icon/down.png"></image>
+  </view>
+  </picker>
+  <view class="navbtu" wx:if="{{releaseState}}" bindtap='toEdit'>
+    <text>发布公告</text>
+  </view>
+</view>
+<view class="details">
+  <!-- 详情  -->
+  <view class="titleBox">
+    <text class="title">{{notice_array[class_index].notice_title}}</text>
+  </view>
+  <text class="date">{{notice_array[class_index].update_time}}</text>
+
+  <view class="content">
+    <text>{{notice_array[class_index].notice_content}}</text>
+    <view class="img-box">
+      <image mode='aspectFill' data-index="{{index}}" bindtap='previewImage' wx:for="{{notice_array[class_index].notice_image}}" wx:key="{{index}}" src="{{item}}">
+        <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+      </image>
+    </view>
+  </view>
+
+  <view class="box">
+    <view>
+      <image src="/icon/browse.png"></image>{{notice_array[class_index].notice_view}}
+    </view>
+    <view>
+      <image data-value="{{notice_array[class_index]}}" bindtap='setGive' src="{{notice_array[class_index].give_status == 1 ? '/icon/thumbs1.png' : '/icon/thumbs.png'}}">
+      </image>{{notice_array[class_index].notice_give}}
+    </view>
+  </view>
+</view>
+<!-- 评论 -->
+<view class="comment">
+  <view class="box">
+    <view>
+      <image src="/icon/news2.png"></image>{{meassage_list.length}}
+    </view>
+    <view class="box1" bindtap='Comment'>
+      <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+      <image src="/icon/edit1.png"></image>
+    </view>
+  </view>
+  <view wx:if="{{meassage_list.length > 0}}" class="comment-box">
+    <!-- 评论循环 -->
+    <view wx:for="{{meassage_list}}" wx:key="{{index}}" data-value="{{item}}" bindtap='Comment' class="comment-list" >
+      <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+      <image src="{{item.comment_image}}"></image>
+      <view class="comment-info">
+        <view>
+          <text class="name"><text style="color:#2c61ba;">{{item.comment_name}}</text></text>
+          <text class="date">{{item.creatime}}</text>
+        </view>
+        <text wx:if="{{item.becomment_name}}">回复 <text style="color:#2c61ba;">{{item.becomment_name}}</text> : {{item.message}}</text>
+        <text wx:else>{{item.message}}</text>
+      </view>
+    </view>
+  </view>
+  <view wx:else class="notData">暂无评论~</view>
+</view>
+
+<view class="chat-input" wx:if="{{showInput}}">
+  <!-- <input bindblur='message' placeholder='{{placeholderText}}' focus='auto' value="{{inputText}}" ></input> -->
+  <textarea bindinput='message' bindblur='message' placeholder='{{placeholderText}}' cursor-spacing='10' fixed auto-height focus='auto' value="{{inputText}}"  />
+  <button bindtap='sendMessage'>发送</button>
+</view>
+</block>  
+
+<!-- 空空如也 -->
+  <view wx:else class="view-empty">
+    <image src="/icon/not1.png"></image>
+    <text class="hint">暂无公告~</text>
+    <button class="btn" wx:if="{{releaseState}}" bindtap='toEdit' >去发布</button>
+  </view>
+<!-- <text wx:else class="notData">暂无公告~</text> -->
+<!-- <text class="notData">暂无公告~</text> -->
+<!-- <button class="editBtu" wx:if="{{releaseState && notice_array.length == 0}}" bindtap='toEdit' >去发布</button> -->

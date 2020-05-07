@@ -1,0 +1,5 @@
+<!--pages/showh5/showh5.wxml-->
+<!-- <text>{{link}}</text> -->
+<block>
+<web-view src="{{link}}" bindmessage="bindGetMsg"></web-view>
+</block>

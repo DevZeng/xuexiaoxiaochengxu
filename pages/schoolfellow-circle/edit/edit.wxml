@@ -1,0 +1,46 @@
+<picker bindchange="classChange" value="{{class_index}}" range="{{class_array}}">
+  <view class="classification">
+    <view>
+      <text class="red">*</text>
+      <text class="lable">分类：</text>
+      <text class="text">{{class_array[class_index]}}</text>
+    </view>
+    <image src="/icon/right.png"></image>
+  </view>
+</picker>
+
+<view class="input-box">
+  <textarea bindinput='contentInput' placeholder='请输入帖子内容'></textarea>
+</view>
+
+<view class="img-box">
+  <view wx:for="{{imageArray}}" wx:key="{{index}}">
+    <image mode='aspectFill' data-index="{{index}}" bindtap='previewImage' src="{{item}}"></image>
+    <image class="delete" mode='aspectFill' data-index="{{index}}" catchtap='deleteImg' src="/icon/delete.png"></image>
+  </view>
+  <view wx:if="{{imageArray.length < 9}}">
+    <image bindtap='upload_img' mode='scaleToFill' src="/icon/uploadPicture.png"></image>
+  </view>
+</view>
+
+<view class="addressBox" bindtap='map'>
+  <view>
+    <image src="/icon/address.png"></image>
+    <text>{{address}}</text>
+  </view>
+  <image class="rightIcon" src="/icon/right.png"></image>
+</view>
+
+<button bindtap='release'>确认发布</button>
+
+
+<view wx:if="{{mask_disable}}" class="mask" bindtap="display"></view>
+<view wx:if="{{mask_disable}}" class="tipBox ripple flipInX">
+  <view class="title">
+    <text>检测到您没打开安全校园的定位权限，是否去设置打开？</text>
+  </view>
+  <view class="btuBox">
+    <text bindtap="display" class="cancel">取消</text>
+    <button open-type="openSetting" bindopensetting="map1" class="setBtu">去设置</button>
+  </view>
+</view>

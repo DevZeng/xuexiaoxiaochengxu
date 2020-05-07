@@ -1,0 +1,283 @@
+
+/* 人脸信息 */
+ .userinfo {
+  height:40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+}
+.userinfo-avatar {
+  width: 158rpx;
+  height: 158rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+} 
+.userinfo .text{
+  margin:20rpx 0 0 0;
+}
+.portrait-box{
+  padding: 0 50rpx;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.portrait-box view{
+  position: relative;
+  width:200rpx;
+  height:150rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
+  background-color:rgba(0,0,0,0.4);
+}
+.portrait-box image{
+  width:200rpx;
+  height:150rpx;
+}
+.portrait-box .image{
+  position: absolute;
+  left:0;
+  top:0;
+  width:200rpx;
+  height:150rpx;
+  z-index: 100;
+}
+
+/* 输入信息列表 */
+.list{
+  width:730rpx;
+  padding:20rpx 0;
+  float:right;
+  border-top:1rpx solid #ddd;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30rpx;
+  color:#666;
+}
+.list image{
+  width:50rpx;
+  height:50rpx;
+  margin:auto 25rpx;
+}
+.list view{
+  width: 650rpx;
+  height:120rpx;
+  display: flex;
+  justify-content: space-start;
+  align-items: center;
+}
+.list text{
+ width:150rpx;
+}
+.list input{
+  text-align: right;
+  width:450rpx;
+}
+.list .optionBox{
+  width: 100%;
+  justify-content: center;
+}
+.list .optionBox text{
+ color:#666;
+ width:140rpx;
+ height:60rpx;
+ line-height:60rpx;
+ margin-right:20rpx;
+ text-align: center;
+ border-radius: 10rpx;
+ background-color:#ccc;
+}
+.list .optionBox .select{
+ color:#fff;
+ background-color:#2a9f93;
+}
+textarea{
+  display: inline-block;
+ width:620rpx;
+ height:300rpx;
+ padding:15rpx;
+ margin:0 50rpx;
+ border:1rpx solid #ddd;
+ border-radius: 30rpx;
+ font-size: 30rpx;
+}
+
+
+/* 提交审核按钮 */
+button{
+  width:450rpx;
+  height:70rpx;
+  line-height:70rpx;
+  margin:50rpx auto;
+  color:#fff;
+  background-color:#2a9f93;
+  border-radius: 50rpx;
+  font-size: 35rpx;
+}
+button::after{
+  border: none;
+}
+
+
+
+
+/* 设置授权弹窗 */
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.tipBox {
+  position: fixed;
+  left: 15vw;
+  top: 35%;
+  /* left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) !important; */
+  width: 70vw;
+  border-radius: 10rpx;
+  background-color: #fff;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 35rpx;
+}
+
+.tipBox .title {
+  padding: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150rpx;
+  line-height: 50rpx;
+}
+
+.tipBox .title text {
+  text-align: center;
+}
+
+.tipBox .btuBox {
+  height: 100rpx;
+  display: flex;
+  align-items: stretch;
+  border-top: 4rpx solid #dcdcdc;
+}
+
+.tipBox .btuBox .cancel {
+  width: 49.9%;
+  line-height: 100rpx;
+  border-right: 4rpx solid #dcdcdc;
+  text-align: center;
+  color: #ccc;
+}
+
+.tipBox .btuBox .setBtu {
+  width: 50%;
+  height: 100%;
+  line-height: 100rpx;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 35rpx;
+  color: #2a9f93;
+  background-color: #fff;
+}
+
+
+
+/* 照相机 */
+.cameraBox{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+}
+.viewBox{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: stretch;
+  flex-direction:column;
+}
+/* 顶部设置导航 */
+.cameraTab{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 94vw;
+  height: 12vw;
+  padding: 0 3vw;
+  background-color: rgba(0,0,0,.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 32rpx;
+  color:#fff;
+}
+.cameraTab .tabImg{
+  width:7vw;
+  height:7vw;
+}
+.content{
+  width:100vw;
+  height:100vw;
+  position: relative;
+}
+/* 相机遮罩图片 */
+.faceImg{
+  width:100vw;
+  height:100vw;
+  padding:0;
+  margin:0;
+}
+/* 圆圈 */
+.circle{
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform: translate(-50%,-50%);
+  width:80vw;
+  height:80vw;
+  border-radius: 50%;
+  border:10rpx solid #ccc;
+}
+/* 拍照按钮 */
+.photographBtn{
+  position: fixed;
+  left: 50%;
+  bottom:5vw;
+  transform: translate(-50%,-50%);
+  z-index: 10000;
+  width:120rpx;
+  height:120rpx;
+  padding:0;
+  margin:0;
+  border-radius: 50%;
+  background-color: red;
+  border:10rpx solid #eee;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photographBtn .cameraImg{
+  width:70rpx;
+  height:70rpx;
+}

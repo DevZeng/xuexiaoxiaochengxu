@@ -1,0 +1,48 @@
+
+<view class='list'>
+  <swiper indicator-dots="{{true}}" autoplay="{{false}}" previous-margin="{{'140rpx'}}" next-margin="{{'140rpx'}}" bindchange="swiperChange">
+    <block wx:for="{{goodsList}}" wx:key="{{index}}">
+      <swiper-item>
+        <!-- <image src="{{item}}" class="slide-image {{navIndex == index ? 'active' : ''}}"/> -->
+        <view class="banner slide-image {{navIndex == index ? 'active' : ''}}">
+          <text class="name">{{item.goods_name}}</text>
+          <text class="price">￥{{item.priceText}}</text>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+<view class="recordBox">
+  <text bindtap='toRecord'>账单明细>></text>
+</view>
+
+<view class="promptBox">
+  <text>注：{{goodsList[navIndex].introduce}}</text>
+  <text class="prompt">提交订单，表示您同意相关服务协议。</text>
+</view>
+
+<!-- 底部结算导航 -->
+<view class="foot">
+  <text class="total_price">总计：￥{{goodsList[navIndex].priceText}}</text>
+  <text class="settlement" bindtap='purchase'>立即支付</text>
+</view>
+
+<!-- <view class="recordBox">
+  <text bindtap='toRecord'>账单明细>></text>
+</view>
+<text class="title">会员购买：</text>
+
+<view class="nav">
+  <text wx:for="{{goodsList}}" wx:key="{{index}}" data-index="{{index}}" bindtap='nav' class="{{item.class}}">{{item.goods_name}}</text>
+</view>
+
+<view class="content">
+  <text class="price">￥{{goodsList[navIndex].priceText}}</text>
+  <text class="text">({{goodsList[navIndex].introduce}})</text>
+</view>
+
+<text class="prompt">提交订单，表示您同意相关服务协议。</text>
+<text class="prompt" wx:if="{{goodsList[navIndex].good_type == 2}}" style="border:none;">注：此商品为限购商品，每个用户限购一次</text>
+
+<button bindtap='purchase'>立即支付</button> -->

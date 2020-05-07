@@ -1,0 +1,177 @@
+/* 分类 */
+.classification {
+  height: 80rpx;
+  padding: 0 30rpx;
+  border-bottom: 3rpx solid #ddd;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  font-size: 30rpx;
+}
+
+.classification .red {
+  color: red;
+}
+
+.classification .lable {
+  color: #666;
+}
+
+.classification .text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.classification image {
+  width: 40rpx;
+  height: 40rpx;
+}
+/* 输入框 */
+.input-box {
+  padding: 0 30rpx;
+  font-size: 30rpx;
+}
+
+.input-box textarea {
+  width: 690rpx;
+  height: 200rpx;
+  margin: 30rpx 0;
+}
+/* 图片 */
+.img-box {
+  padding:30rpx 0 30rpx 30rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.img-box view{
+  position: relative;
+  width:120rpx;
+  height:120rpx;
+  margin:24rpx 24rpx 0 0;
+}
+.img-box image{
+  width:120rpx;
+  height:120rpx;
+}
+.delete{
+  position: absolute;
+  right:0;
+  bottom:0;
+  width:40rpx !important;
+  height:40rpx !important;
+  z-index: 1000;
+}
+
+/* 地址 */
+.addressBox{
+  width:690rpx;
+  /* height:80rpx; */
+  padding:25rpx 0;
+  margin:10rpx auto;
+  border-top:1rpx solid #ddd;
+  border-bottom:1rpx solid #ddd;
+  font-size: 30rpx;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addressBox view{
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.addressBox image{
+  width: 40rpx;
+  height: 40rpx;
+}
+.addressBox text{
+  margin:0 0 0 10rpx;
+}
+
+/* 确认发布 */
+button{
+  width:690rpx;
+  height:80rpx;
+  line-height:80rpx;
+  margin:100rpx auto 50rpx auto;
+  color:#fff;
+  background-color:#2a9f93;
+  border-radius: 10rpx;
+  font-size: 32rpx;
+}
+button::after{
+  border: none;
+}
+
+
+/* 设置定位授权弹窗 */
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.tipBox {
+  position: fixed;
+  left: 15vw;
+  top: 35%;
+  /* left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) !important; */
+  width: 70vw;
+  border-radius: 10rpx;
+  background-color: #fff;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 35rpx;
+}
+
+.tipBox .title {
+  padding: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150rpx;
+  line-height: 50rpx;
+}
+
+.tipBox .title text {
+  text-align: center;
+}
+
+.tipBox .btuBox {
+  height: 100rpx;
+  display: flex;
+  align-items: stretch;
+  border-top: 4rpx solid #dcdcdc;
+}
+
+.tipBox .btuBox .cancel {
+  width: 49.9%;
+  line-height: 100rpx;
+  border-right: 4rpx solid #dcdcdc;
+  text-align: center;
+  color: #ccc;
+}
+
+.tipBox .btuBox .setBtu {
+  width: 50%;
+  height: 100%;
+  line-height: 100rpx;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 35rpx;
+  color: #2a9f93;
+  background-color: #fff;
+}

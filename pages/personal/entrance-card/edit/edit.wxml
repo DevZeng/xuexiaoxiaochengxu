@@ -1,0 +1,27 @@
+
+
+  <view class="tableviewcell">
+    <image class="left-icon" src="/icon/NO.png" />
+    <text>学号：</text>
+    <input class="input" placeholder='请输入' value='{{details.stu_number}}' disabled='true'></input>
+  </view>
+  <view class="tableviewcell">
+    <image class="left-icon" src="/icon/NO.png" />
+    <text>卡号：</text>
+    <input class="input" bindblur='numInput' type="text" maxlength='50' placeholder='请输入门禁卡卡号' value='{{details.card_number}}'></input>
+  </view>
+<!-- <view class="list">
+  <image src="/icon/NO.png"></image>
+  <text>学号：</text>
+  <view>{{details.stu_number}}</view>
+</view>
+<view class="list">
+  <image src="/icon/NO.png"></image>
+  <text>卡号：</text>
+  <view>
+    <input bindinput='numInput' type="number" maxlength='20' placeholder='请输入卡号' value='{{details.card_number}}'></input>
+  </view>
+</view> -->
+<button bindtap='submission'>保存</button>
+<button wx:if="{{!addStust}}" bindtap='toRecord'>查看通行记录</button>
+

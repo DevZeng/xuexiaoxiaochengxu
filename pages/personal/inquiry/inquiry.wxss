@@ -1,0 +1,89 @@
+page {
+  background-color: #f8f8f8;
+  font-size: 28rpx;
+  height:100vh;
+}
+
+/* 头部导航 */
+.nav {
+  padding: 0 20rpx;
+  height:10vh;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 15rpx;
+  font-size: 32rpx;
+}
+.navbtu{
+  height: 60rpx;
+  padding:0 20rpx;
+  min-width:150rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2a9f93;
+  border-radius: 60rpx;
+}
+.navbtu image{
+  width:30rpx;
+  height:30rpx;
+  margin-left:20rpx;
+}
+
+
+/* 成绩详情 */
+
+.details {
+  width: 100vw;
+  height:100vh;
+  overflow-y: auto;
+  background-color: #fff;
+
+  /* transform:rotate(90deg); */
+}
+
+.table {
+  position: relative;
+  border: 0px solid darkgray;
+}
+.tr {
+  display: flex;
+  justify-content: center;
+  height: 10vh;
+  align-items: center;
+}
+.bg-w{
+  position: absolute;
+  left:0;
+  top:0;
+  background: snow;
+}
+.bg-g{
+  background: #E6F3F9;
+}
+.bol{
+  position: absolute;
+  left:0;
+  top:10vh;
+  height:90vh;
+  overflow-x: auto;
+}
+.th{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  height: 10vh;
+  white-space:nowrap;/*文本不换行*/
+}
+.td{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  white-space:nowrap;/*文本不换行*/
+}
+
+

@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/campus-information/classification/classification",
+    "pages/campus-information/details/details",
+    "pages/campus-safety/index/index",
+    "pages/campus-safety/record/record",
+    "pages/personal/index/index",
+    "pages/personal/information/information",
+    "pages/personal/children/index/index",
+    "pages/personal/children/search/search",
+    "pages/personal/children/children-details/children-details",
+    "pages/personal/children/family-details/family-details",
+    "pages/personal/class-management/index/index",
+    "pages/personal/class-management/manage/manage",
+    "pages/personal/class-management/auditing/auditing",
+    "pages/personal/class-management/children-details/children-details",
+    "pages/personal/class-management/family-details/family-details",
+    "pages/personal/purchase-service/index/index",
+    "pages/personal/purchase-service/record/record",
+    "pages/personal/equipment/index/index",
+    "pages/personal/equipment/details/details",
+    "pages/personal/help-document/index/index",
+    "pages/personal/help-document/details/details",
+    "pages/personal/inquiry/inquiry",
+    "pages/personal/entrance-card/edit/edit",
+    "pages/personal/entrance-card/record/record",
+    "pages/weixin/gongzonghao/gongzonghao",
+    "pages/showh5/showh5"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2a9f93",
+    "navigationBarTitleText": "龙头环小学",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#2a9f93",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/icon/activity1.png",
+        "selectedIconPath": "icon/activity2.png",
+        "text": "名校风采"
+      },
+      {
+        "pagePath": "pages/campus-safety/index/index",
+        "iconPath": "/icon/school2.png",
+        "selectedIconPath": "icon/school4.png",
+        "text": "安全校园"
+      },
+      {
+        "pagePath": "pages/personal/index/index",
+        "iconPath": "/icon/my.png",
+        "selectedIconPath": "icon/my1.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "plugins": {
+    "calendar": {
+      "version": "1.1.3",
+      "provider": "wx92c68dae5a8bb046"
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "为了更好的用户体验，我们需要获取您的地理位置信息。"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

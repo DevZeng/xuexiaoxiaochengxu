@@ -1,0 +1,26 @@
+<view class="classification">
+  <view class="this" wx:for="{{classFication}}" wx:key="{{index}}" data-id="{{item.id}}" data-index="{{index}}" bindtap='nav' class="{{index == num ? 'this' : ''}}">
+    {{item.title}}
+    <form bindsubmit="getFormID" report-submit="true">
+      <button formType="submit" class="formBtu"></button>
+    </form>
+  </view>
+</view>
+<scroll-view scroll-y lower-threshold="50" bindscrolltolower="scroll">
+  <view class="activity-box" wx:if="{{information.length > 0}}">
+    <view wx:for="{{information}}" wx:key="{{index}}" class="activity-list" data-id="{{item.details_id}}" bindtap='openDetals'>
+      <form bindsubmit="getFormID" report-submit="true">
+        <button formType="submit" class="formBtu"></button>
+      </form>
+      <image mode="aspectFill" src="{{item.cover}}" />
+      <text class="title">{{item.title}}</text>
+      <text class="read-num">阅读量：{{item.details_browse}}</text>
+    </view>
+  </view>
+
+  <!-- 空空如也 -->
+  <view wx:else class="view-empty">
+    <image src="/icon/not1.png"></image>
+    <text class="hint">暂无数据~</text>
+  </view>
+</scroll-view>

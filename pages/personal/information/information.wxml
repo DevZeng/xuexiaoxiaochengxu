@@ -1,0 +1,171 @@
+<view class="list">
+  <view class="tableviewcell" style="justify-content: flex-start;">
+    <image mode="aspectFill" class="left-icon" src="{{u_info.avatarUrl}}" style="width:120rpx;height:120rpx;" />
+    <text>{{u_info.nickname}}</text>
+    <text style="width:330rpx;text-align:right;" wx:if="{{isworkers}}">{{u_info.staff_Status == 0 ? '审核中' : u_info.staff_Status == 1  ? '审核通过' : u_info.staff_Status == 2 ? '审核不通过' : ''}}</text>
+    <text style="width:330rpx;text-align:right;" wx:if="{{isteacher}}">{{u_info.status == 1 ? '审核中' : u_info.status == 2 ? '审核通过' :  u_info.status == 0 ? '审核不通过' : ''}}</text>
+  </view>
+
+  <view class="tableviewcell">
+    <image class="left-icon" src="/icon/my1.png" />
+    <text>姓名</text>
+    <input class="input" bindblur='nameInput' type="text" maxlength='10' placeholder='请输入' value='{{userInfo.name}}'></input>
+  </view>
+  <view class="tableviewcell">
+    <image class="left-icon" src="/icon/sex1.png" />
+    <text>性别</text>
+    <radio-group bindchange="user_sex" class="sex-box">
+      <radio value="1" checked="{{userInfo.sex== 1?'true':''}}" />男
+      <radio value="2" checked="{{userInfo.sex== 2?'true':''}}" />女</radio-group>
+  </view>
+  <!-- <view class="tableviewcell">
+    <image class="left-icon" src="/icon/age.png" />
+    <text>年龄</text>
+    <input class="input" bindblur='ageInput' type="number" maxlength='3' placeholder='请输入' value='{{u_info.user_age}}'></input>
+  </view> -->
+  <view class="tableviewcell"  wx:if="{{showFace}}">
+    <image class="left-icon" src="/icon/iphone.png" />
+    <text>手机</text>
+    <input class="input" bindblur='iphoneInput' type="number" maxlength='11' placeholder='请输入' value='{{userInfo.phone}}'></input>
+  </view>
+  <!-- <view class="tableviewcell">
+    <image class="left-icon" src="/icon/mailbox.png" />
+    <text>邮箱</text>
+    <input class="input" bindblur='mailInput' type="text" placeholder='请输入' value='{{u_info.user_mail}}'></input>
+  </view> -->
+  <view class="tableviewcell"  wx:if="{{showFace}}">
+    <image class="left-icon" src="/icon/ID.png" />
+    <text>身份证</text>
+    <input class="input" bindblur='cardInput' type="idcard" maxlength='18' placeholder='请输入' value='{{userInfo.id_card}}'></input>
+  </view>
+  
+  <view class="tableviewcell">
+    <image class="left-icon" src="/icon/address.png" />
+    <text style="width:130rpx;">地址</text>
+    <view class="box2">
+      <input bindblur='addressInput' class="input" type="text" placeholder='点击图标选择地址' value="{{userInfo.address}}"></input>
+      <image bindtap='map' class="right-icon" src="/icon/address.png"></image>
+    </view>
+  </view>
+  
+  <!-- <view class="tableviewcell">
+    <image class="left-icon" src="/icon/unit.png" />
+    <text>工作单位</text>
+    <input class="input" bindblur='wordInput' type="text" placeholder='请输入' value='{{u_info.user_word}}'></input>
+  </view> -->
+  <view class="tableviewcell" wx:if="{{showFace}}">
+    <image class="left-icon" src="/icon/authentication.png" />
+    <text>是否教职工</text>
+    <view>
+      <switch checked='{{isworkers}}' bindchange="switchChange" />
+    </view>
+  </view>
+  
+  <!-- <view class="tableviewcell" wx:if="{{showFace}}">
+    <image class="left-icon" src="/icon/authentication.png" />
+    <text>是否本校教师</text>
+    <view>
+      <switch checked='{{isteacher}}' bindchange="switchChange1" />
+    </view>
+  </view> -->
+  <block wx:if="{{isworkers}}">
+    <!-- <view class="tableviewcell">
+      <image class="left-icon" src="/icon/NO.png" />
+      <text>部门</text>
+      <input class="input" bindblur='departmentInput' type="text" placeholder='请输入' value='{{u_info.department}}'></input>
+    </view> -->
+    <view class="tableviewcell">
+      <image class="left-icon" src="/icon/subject.png" />
+      <text >所在学校</text>
+    <picker bindchange="bindSchoolChange" value="{{index}}" range-key="name" range="{{schools}}">
+    <input class="input" placeholder='请选择' value='{{schools[select_school].name}}' disabled="true"></input>
+  </picker>
+    </view>
+    <view class="tableviewcell">
+      <image class="left-icon" src="/icon/subject.png" />
+      <text >职位</text>
+    <picker bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{workers}}">
+    <input class="input" placeholder='请选择' value='{{workers[type].name}}' disabled="true"></input>
+  </picker>
+    </view>
+  </block>
+  <block wx:if="{{type==1}}">
+    <view class="tableviewcell">
+      <image class="left-icon" src="/icon/grade.png" />
+      <text>年级</text>
+      <picker bindchange="gradeChange" value="{{select_grade}}" range-key="title" range="{{grades}}">
+        <text class="input">{{grades[select_grade].title}}</text>
+        <!-- <input class="input" type="text" placeholder='请选择' value='{{u_info.class_grade}}'></input> -->
+      </picker>
+    </view>
+    <view class="tableviewcell">
+      <image class="left-icon" src="/icon/class1.png" />
+      <text>班级</text>
+      <picker bindchange="classChange" value="{{select_class}}" range-key="title" range="{{classes}}">
+        <text class="input">{{classes[select_class].title}}</text>
+        <!-- <input class="input" type="text" placeholder='请选择' value='{{u_info.class_name}}'></input> -->
+      </picker>
+    </view>
+    <!-- <view class="tableviewcell">
+      <image class="left-icon" src="/icon/subject.png" />
+      <text value='{{u_info.user_age}}'>学科</text>
+      <input class="input" bindblur='subjectsInput' type="text" placeholder='请输入' value='{{u_info.subjects}}'></input>
+    </view> -->
+  </block>
+  
+  <block wx:if="{{isteacher || isworkers}}">
+    <!-- 人脸 -->
+    <view class="tableviewcell" style="border:none;justify-content: flex-start; ">
+      <image class="left-icon" src="/icon/recognition.png"></image>
+      <text style="width:500rpx;">人脸数据(点击图片更换)</text>
+    </view>
+    <view class="portrait-box">
+      <!-- <view data-type="1" bindtap='UploadCheck'> -->
+      <view data-type="1" bindtap='cameraDisable'>
+        <image mode="aspectFill" src="{{userInfo.href}}"></image>
+        <image class="image" wx:if="{{!userInfo.href}}" mode="aspectFill" src="/icon/head.png"></image>
+        <!-- <text wx:if="{{!u_info.user_head1}}">点击上传</text> -->
+      </view>
+      <!-- <view data-type="2" bindtap='UploadCheck'>
+        <image mode="aspectFill" src="{{u_info.user_head2}}"></image>
+        <image class="image" wx:if="{{!u_info.user_head2}}" mode="aspectFill" src="/icon/head.png"></image>
+      </view> -->
+    </view>
+  </block>
+  <form bindsubmit="Submission2" report-submit="true">
+    <button formType="submit">提交审核</button>
+  </form>
+</view>
+
+<view wx:if="{{mask_disable}}" class="mask" bindtap="display"></view>
+<view wx:if="{{mask_disable}}" class="tipBox ripple flipInX">
+  <view class="title">
+    <text>检测到您没打开安全校园的相关权限，是否去设置打开？</text>
+  </view>
+  <view class="btuBox">
+    <text bindtap="display" class="cancel">取消</text>
+    <button open-type="openSetting" bindopensetting="authorization" class="setBtu">去设置</button>
+  </view>
+</view>
+
+
+<!-- 相机 -->
+<camera wx:if="{{showCamera}}" device-position="{{cameraConfig.position}}" flash="{{cameraConfig.flash}}" bindstop="cameraStop" binderror="cameraError" class="cameraBox">
+  <cover-view class="viewBox">
+    <cover-view style='background-color: #fff;flex:1;'></cover-view>
+    <cover-view class="content">
+      <cover-image mode='widthFix' class="faceImg" src="/icon/face.png" />
+      <cover-view class="circle"></cover-view>
+    </cover-view>
+    <cover-view style='background-color: #fff;flex:1;'></cover-view>
+  </cover-view>
+
+  <cover-view class="cameraTab">
+    <cover-image class="tabImg" src="/icon/{{cameraConfig.flash}}.png" bindtap='flashChange'></cover-image>
+    <cover-image class="tabImg" src="/icon/switch.png" bindtap='positionChange'></cover-image>
+    <cover-view bindtap='cameraDisable'>取消</cover-view>
+  </cover-view>
+  <cover-view class="photographBtn" bindtap='takePhoto'>
+    <cover-image class="cameraImg" src="/icon/camera.png"></cover-image>
+  </cover-view>
+</camera>

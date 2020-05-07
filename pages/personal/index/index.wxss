@@ -1,0 +1,120 @@
+page{
+   /* background-color:#f8f8f8;  */
+  color:#666;
+  min-height:100vh;
+} 
+
+button::after{
+  border: none;
+}
+/* 个人信息 */
+.container{
+  height: 48.6vw;
+  background-color:#2a9f93; 
+  /* margin:0 0 12rpx 0; */
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfo-avatar {
+  width: 158rpx;
+  height: 158rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  border:8rpx solid #fff;
+}
+.userinfo-nickname {
+  color: #FFF;
+}
+.login-button{
+  font-size: 32rpx;
+  background-color:#f6f5fa;
+}
+
+/* 购买服务提示 */
+.prompt-box{
+  height:70rpx;
+  line-height:70rpx;
+  padding:0 20rpx;
+  font-size: 28rpx;
+}
+.prompt-box .not{
+  display:block;
+  text-align: center;
+  margin:0 auto;
+  color:red;
+  font-size: 30rpx;
+}
+
+/* 导航分类 */
+.list{
+  background-color:#fff;
+  /* height:140rpx; */
+  /* margin:20rpx 0; */
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 0.5vw;
+}
+
+.list view{
+  position: relative;/* formID按钮父元素 */
+  width:23.6vw;
+  min-width: 23.6vw;
+  height:23.6vw;
+  min-height: 23.6vw;
+  background-color:#e2fafe;
+  border-radius: 20rpx;
+  margin: 1vw 0.575vw 0 0.575vw;
+  box-shadow:-1rpx 1rpx 4rpx #ccc;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.list button{
+  width:23.6vw;
+  min-width: 23.6vw;
+  height:23.6vw;
+  min-height: 23.6vw;
+  background-color:#e2fafe;
+  margin: 1vw 0.575vw 0 0.575vw;
+  border-radius: 20rpx;
+  color:#666;
+  box-shadow:-1rpx 1rpx 4rpx #ccc;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.list image{
+  width:60rpx;
+  height:60rpx;
+  /* border-radius: 70rpx; */
+}
+.list text{
+  width:180rpx;
+  height:50rpx;
+  line-height:50rpx;
+  margin:10rpx 0 0 0;
+  font-size: 28rpx;
+  text-align: center;
+  /* background-color:red; */
+}
+
+/* 技术支持文字 */
+.supportText{
+  width:100%;
+  height:80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 25rpx;
+  color: #aaa;
+}

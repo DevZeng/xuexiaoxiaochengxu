@@ -1,0 +1,55 @@
+<view class="class-tab">
+  <view class="tab-box">
+    <view bindtap="tabClick" data-index="0" class="tab-btu {{tabClasss[0]}}">
+      <text>校园信息</text>
+      <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+    </view>
+  </view>
+  <view class="tab-box">
+    <view bindtap="tabClick" data-index="1" class="tab-btu {{tabClasss[1]}}">
+      <text>位置轨迹</text>
+      <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+    </view>
+  </view>
+</view>
+
+<!-- 校园安全 -->
+<view wx:if="{{tabtype == 0}}">
+  <view class="record-list" wx:for="{{recordsList}}" wx:key="{{index}}">
+    <view>
+      <image src="{{item.school_status == 1 ? '/icon/out.png' : '/icon/enter.png'}}" />
+      <text>{{item.date}}</text>
+      <text style="margin:auto 20rpx;">{{item.time}}</text>
+    </view>
+    <view class="address_text">
+      <text class="{{item.school_status == 1 ? '' : 'col'}}">{{item.school_status == 1 ? '进入' : '离开'}}学校</text>
+    </view>
+  </view>
+  <text wx:if="{{recordsList.length == 0}}" class="notData">暂无数据~</text>
+</view>
+<!-- 轨迹 -->
+<scroll-view scroll-y wx:if="{{tabtype == 1}}" lower-threshold="50" bindscrolltolower="getTrajectory" class="scrollBox">
+  <view style="height:105rpx;"></view>
+  <view class="record-list" wx:for="{{trajectoryList}}" wx:key="{{index}}" hidden='{{item.lat == 0 ? true : false}}' data-data="{{item}}" bindtap='openLocation'>
+    <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+    <view>
+      <image src="/icon/address1.png" />
+      <text>{{item.date}}</text>
+      <text style="margin:auto 20rpx;">{{item.time}}</text>
+    </view>
+    <view class="address_text">
+      <text>{{item.addressText}}</text>
+    </view>
+  </view>
+  <text wx:if="{{trajectoryList.length == 0}}" class="notData">暂无数据~</text>
+</scroll-view>
+<!-- <view wx:if="{{tabtype == 1}}">
+  <view class="record-list" wx:for="{{trajectoryList}}" wx:key="{{index}}">
+    <view>
+      <image src="/icon/address1.png" />
+      <text>{{item.imex_time}}</text>
+    </view>
+    <text>{{item.school_status == 1}}位置</text>
+  </view>
+  <text wx:if="{{!recordsList}}" class="notData">暂无数据~</text>
+</view> -->

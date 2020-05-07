@@ -1,0 +1,75 @@
+page{
+  background-color: #eee;
+}
+.search{
+  width:92vw;
+  padding:0 4vw;
+  height:120rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  border-bottom:2rpx solid #ddd;
+  background-color: #fff;
+}
+.search input{
+  flex: 1;
+  /* width:500rpx; */
+}
+.search text{
+ color:#fff;
+ width:130rpx;
+ height:60rpx;
+ line-height:60rpx;
+ text-align: center;
+ font-size: 30rpx;
+ border-radius: 30rpx;
+ background-color:#2a9f93;
+}
+
+
+
+/* 学生列表 */
+.dateCelebrityBox{
+  font-size: 28rpx;
+  color:#666;
+  width:100vw;
+  /* margin: 10rpx auto; */
+  background-color: #fff;
+}
+.dateCelebrity{
+  display: flex;
+  align-items: center;
+  padding:20rpx 10rpx;
+  border-bottom:3rpx solid #ddd;
+}
+.dateCelebrity .portrait{
+  width:120rpx;
+  height:120rpx;
+  margin:0 20rpx;
+  border-radius: 10%;
+}
+.dateCelebrity .infoBox{
+  flex: 1;
+  height:120rpx;
+  line-height: 40rpx;
+
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.dateCelebrity .infoBox text{
+  height:40rpx;
+  line-height:40rpx;
+
+  display: -webkit-box; 
+  -webkit-box-orient: vertical; 
+  -webkit-line-clamp: 1; 
+  text-overflow: ellipsis; 
+  overflow: hidden;
+}
+.dateCelebrity .infoBox .distance{
+  color:#aaa;
+  font-size: 28rpx;
+}

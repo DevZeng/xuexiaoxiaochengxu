@@ -1,0 +1,11 @@
+<block wx:if="{{recordList.length > 0}}">
+  <view wx:for="{{recordList}}" wx:key="{{index}}" class="list">
+    <text>状态： {{item.card_record_status == '0' ? '走出校园' : item.card_record_status == '1' ? '进入校园' : '无状态'}}</text>
+    <text>时间： {{item.create_time}}</text>
+  </view>
+</block>
+<!-- 空空如也 -->
+  <view wx:else class="view-empty">
+    <image src="/icon/not1.png"></image>
+    <text class="hint">暂无记录~</text>
+  </view>

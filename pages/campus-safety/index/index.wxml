@@ -1,0 +1,67 @@
+<map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" controls="{{controls}}" show-location="ture" bindcontroltap="controltap" markers="{{markers}}" circles="{{circles}}" bindmarkertap="markertap" show-location style="width: 100%; height: 400rpx;">
+</map>
+<view class="ripple {{cardRightIn?'fadeInRight':''}} {{cardLeftIn?'fadeInLeft':''}}" wx:for="{{childrenlist}}" wx:if="{{index==currentIndex}}" wx:key="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" data-index="{{index}}">
+  <!-- 孩子信息 -->
+  <view class="info">
+    <view class="info-box">
+      <image class="portrait" mode="aspectFill" src="{{item.stu_head}}" />
+    </view>
+    <view class="info-box1">
+      <view>
+        <text class="studentName">{{item.stu_name}}</text>
+        <image mode="aspectFill" src="{{item.stu_sex == 1 ? '/icon/boy.png' : '/icon/girl.png'}}" />
+        <text>{{item.stu_age}}岁</text>
+      </view>
+      <text>学号：{{item.stu_number}}</text>
+      <text style="margin:0;" wx:if="{{item.class_grade}}">班级：{{item.class_grade}}年级{{item.class_name}}</text>
+      <text style="margin:0;" wx:else>班级：暂无录入信息</text>
+    </view>
+  </view>
+
+  <!-- 定位记录 -->
+  <view class="locate-information">
+    <view class="date-box" bindtap='calendar'>
+      <form bindsubmit="getFormID" report-submit="true">
+        <button formType="submit" class="formBtu"></button>
+      </form>
+      <text class="date">{{item.gregorian.year}}年{{item.gregorian.month}}月</text>
+      <text class="month">{{item.gregorian.date}}</text>
+      <text class="week">{{item.gregorian.week}}</text>
+      <text class="lunar-calendar">农历{{item.lunar[5]}}{{item.lunar[6]}}</text>
+    </view>
+    <view class="record">
+      <view data-value="{{item}}" bindtap='toRecord' class="recordText">
+        <form bindsubmit="getFormID" report-submit="true">
+          <button formType="submit" class="formBtu"></button>
+        </form>
+        <text>历史记录>></text>
+      </view>
+      <view class="record-box">
+        <view wx:for="{{item.recordsList}}" wx:for-item="items" wx:key="{{index}}" class="record-list">
+          <image src="{{item.school_status == 1 ? '/icon/out.png' : '/icon/enter.png'}}" />
+          <text>{{items.stu_name}}于 {{items.imex_time}} {{items.school_status == 1 ? '进入':'离开'}}了学校</text>
+        </view>
+        <text wx:if="{{!item.recordsList}}" class="notData">暂无数据~</text>
+      </view>
+    </view>
+
+    <!-- 日历显示 -->
+    <view wx:if="{{item.calendar_state}}" class="mask" bindtap='hideMask'></view>
+    <calendar wx:if="{{item.calendar_state}}" days-color="{{days_color}}" lunar cell-size="22" weeks-type="cn" calendar-style="calendar ripple pulse" header-style="hd" board-style="board" binddayClick="dayClick" binddateChange="dateChange" bindprevMonth="prev"
+      bindnextMonth="next" />
+  </view>
+</view>
+
+<!-- 当前定位位置 -->
+<view class="loaction-box">
+  <image src="/icon/address1.png" />
+  <text>{{address}}</text>
+</view>
+<view style="height:40rpx;"></view>
+
+
+
+    <!-- 日历显示 -->
+    <!-- <view wx:if="{{calendar_state}}" class="mask" bindtap='hideMask'></view>
+    <calendar wx:if="{{calendar_state}}" days-color="{{days_color}}" lunar cell-size="22" weeks-type="cn" calendar-style="calendar ripple pulse" header-style="hd" board-style="board" binddayClick="dayClick" binddateChange="dateChange" bindprevMonth="prev"
+      bindnextMonth="next" /> -->

@@ -1,0 +1,86 @@
+<block wx:if="{{childrenList.length > 0}}">
+  <view class="nav">
+    <picker bindchange="childrenChange" value="{{childrenIndex}}" range="{{childrenName}}">
+      <view class="navbtu">
+        <text>{{childrenName[childrenIndex]}}</text>
+        <image src="/icon/down.png"></image>
+      </view>
+    </picker>
+  </view>
+  <view class="details">
+    <block wx:if="{{achievementList.length > 0}}">
+      <!-- 成绩表格 -->
+      <view class="table">
+        <view class="tr bg-w">
+          <text class="th" style="width:150rpx;" wx:if="{{switchList.k_name}}">考试名称</text>
+          <text class="th" style="width:150rpx;" wx:if="{{switchList.k_date}}">考试时间</text>
+          <text class="th" style="width:150rpx;" wx:if="{{switchList.class_ranking}}">班级排名</text>
+          <text class="th" style="width:150rpx;" wx:if="{{switchList.grade_ranking}}">年级排名</text>
+          <text class="th" style="width:150rpx;" wx:if="{{switchList.class_advance}}">班级进退步</text>
+          <text class="th" style="width:150rpx;" wx:if="{{switchList.grade_advance}}">年级进退步</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.chineses}}">语文</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.mathematics}}">数学</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.english}}">英语</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.english_k}}">口语</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.politics}}">政治</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.biology}}">生物</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.physics}}">物理</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.chemistry}}">化学</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.sports}}">体育</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.li_zong}}">理综</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.wen_zong}}">文综</text>
+          <text class="th" style="width:100rpx;" wx:if="{{switchList.art}}">艺考</text>
+        </view>
+        <view class="bol">
+          <block wx:for="{{achievementList}}" wx:key="{{code}}">
+            <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.k_name}}">{{item.k_name}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.k_date}}">{{item.k_date}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.class_ranking}}">{{item.class_ranking}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.grade_ranking}}">{{item.grade_ranking}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.class_advance}}">{{item.class_advance}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.grade_advance}}">{{item.grade_advance}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.chineses}}">{{item.chineses}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.mathematics}}">{{item.mathematics}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.english}}">{{item.english}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.english_k}}">{{item.english_k}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.politics}}">{{item.politics}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.biology}}">{{item.biology}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.physics}}">{{item.physics}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.chemistry}}">{{item.chemistry}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.sports}}">{{item.sports}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.li_zong}}">{{item.li_zong}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.wen_zong}}">{{item.wen_zong}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.art}}">{{item.art}}</text>
+            </view>
+            <view class="tr" wx:else>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.k_name}}">{{item.k_name}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.k_date}}">{{item.k_date}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.class_ranking}}">{{item.class_ranking}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.grade_ranking}}">{{item.grade_ranking}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.class_advance}}">{{item.class_advance}}</text>
+              <text class="td" style="width:150rpx;" wx:if="{{switchList.grade_advance}}">{{item.grade_advance}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.chineses}}">{{item.chineses}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.mathematics}}">{{item.mathematics}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.english}}">{{item.english}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.english_k}}">{{item.english_k}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.politics}}">{{item.politics}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.biology}}">{{item.biology}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.physics}}">{{item.physics}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.chemistry}}">{{item.chemistry}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.sports}}">{{item.sports}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.li_zong}}">{{item.li_zong}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.wen_zong}}">{{item.wen_zong}}</text>
+              <text class="td" style="width:100rpx;" wx:if="{{switchList.art}}">{{item.art}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="notData">暂无成绩信息~</view>
+  </view>
+</block>
+  <view wx:else class="view-empty">
+    <image src="/icon/not1.png"></image>
+    <text class="hint">暂无内容~</text>
+  </view>

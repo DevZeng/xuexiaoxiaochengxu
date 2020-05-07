@@ -1,0 +1,49 @@
+<!-- 头部大图 -->
+<!-- <image mode='aspectFill' class="img" src="{{pictureList[pictureIndex].picture}}"></image> -->
+<view class="header">
+  <swiper class="swiper" circular="true" autoplay="true" interval="5000" duration="1000">
+    <swiper-item>
+      <image mode="aspectFill" src="{{pictureList[pictureIndex].picture}}" class="slide-image" />
+    </swiper-item>
+  </swiper>
+</view>
+<!-- 颜色选择 -->
+<view class="img-box" wx:if="{{addState}}">
+  <text>颜色选择：</text>
+  <radio-group bindchange="radioChange">
+    <view wx:for="{{pictureList}}" wx:key="{{index}}" class="attr_value">
+      <radio color="" value="{{index}}" checked="{{pictureIndex == index ? true : false}}"></radio>
+      <image mode="aspectFill" src="{{item.picture}}"></image>
+    </view>
+  </radio-group>
+</view>
+<!-- 输入 -->
+<view class="list">
+  <view class="input-box">
+    <view class="tableviewcell">
+      <image class="left-icon" src="/icon/ID1.png" />
+      <text>设备ID</text>
+      <view class="input">
+        <!-- 键盘输入 -->
+        <input style="width:340rpx;" bindblur='IDInput' type="text" placeholder='请输入ID' disabled='{{!addState}}' value="{{details.device_id}}"></input>
+        <!-- <text wx:if="{{details.device_id}}">{{details.device_id}}</text> -->
+        <!-- 扫描输入 -->
+        <image wx:if="{{addState}}" class="left-icon" src="/icon/code.png" bindtap="getDeviceid"></image>
+      </view>
+      <!-- 键盘输入 -->
+      <!-- <input class="input" bindblur='IDInput' type="text" placeholder='请输入ID' disabled='{{details.stu_number}}' value="{{details.device_id}}"></input> -->
+    </view>
+  </view>
+  <view class="input-box">
+    <view class="tableviewcell">
+      <image class="left-icon" src="/icon/NO.png" />
+      <text>学号</text>
+      <input class="input" style="width:340rpx;margin-right:60rpx;" bindblur='numberInput' type="text" placeholder='请输入学号' disabled='{{details.stu_number}}' value="{{details.stu_number}}"></input>
+    </view>
+  </view>
+</view>
+
+<view class="btn-box">
+  <button wx:if="{{addState}}" bindtap='Binding'>保存</button>
+  <button wx:else bindtap='Remove1' style="background-color:red;">解除该设备</button>
+</view>

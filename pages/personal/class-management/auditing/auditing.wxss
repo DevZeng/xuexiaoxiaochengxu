@@ -1,0 +1,58 @@
+.box {
+  padding: 0 0 40rpx 40rpx;
+  background-color: #fff;
+  font-size: 30rpx;
+}
+
+.box .list {
+  padding: 20rpx 25rpx 20rpx 0;
+  border-bottom: 2rpx solid #ddd;
+  background-color: #fff;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.box .list .infoList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.box .list .infoList view {
+  display: flex;
+  align-items: center;
+}
+.box .list .infoList image {
+ width:50rpx;
+ height:50rpx;
+ margin:0 10rpx;
+}
+
+.box .list text {
+  width: 140rpx;
+  text-align: left;
+}
+
+.box .list .relationship {
+  width: 200rpx;
+  text-align: center;
+}
+
+/* 去审核 */
+
+button {
+  width: 150rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  margin:0; 
+  color: #fff;
+  background-color: #2a9f93;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+}
+
+button::after {
+  border: none;
+}

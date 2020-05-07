@@ -1,0 +1,14 @@
+/* pages/personal/help-document/details/details.wxss */
+@import "../../../../wxParse/wxParse.wxss";
+page{
+  width:710rpx;
+  padding:20rpx;
+  min-width: 710rpx;
+  font-size: 30rpx;
+  line-height: 50rpx !important;
+  color:#666;
+}
+image{
+ width:100% !important;
+ margin:20rpx 0;
+}

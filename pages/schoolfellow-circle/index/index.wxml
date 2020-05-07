@@ -1,0 +1,108 @@
+<!--index.wxml-->
+
+<scroll-view scroll-y lower-threshold="50" bindscrolltolower="scrolltolower" bindscroll="scroll">
+  <view class="box">
+  <!-- 轮播图 -->
+    <view class="header">
+      <view class="search_box">
+        <input type='text' bindinput='searchInput' confirm-type="search" bindconfirm="search" placeholder="搜索" value="{{searchText}}">
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+        </input>
+        <image src="/icon/search1.png" bindtap="search">
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+        </image>
+      </view>
+      <swiper class="swiper" circular="true" autoplay="true" interval="5000" duration="1000">
+        <block wx:for="{{banner}}" wx:key="{{index}}">
+          <swiper-item>
+            <image mode="aspectFill" src="{{item.carousel_images}}" class="slide-image" />
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <!-- 帖子分类 -->
+    <view class="classification">
+      <view wx:for="{{classFication}}" wx:key="{{index}}" data-id="{{item.class_id}}" bindtap='openClassification'>
+        <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+        <image mode='aspectFill' src="{{item.aumni_images}}"/>
+        <text>{{item.aumni_name}}</text>
+      </view>
+    </view>
+    <!-- 帖子列表 -->
+    <view class="activity-box">
+      <view class="activity-list" wx:for="{{information}}" wx:key="{{index}}" id='box'>
+        <!-- 帖子发布者用户信息 -->
+        <view class="userInfo">
+          <image mode='aspectFill' src="{{item.user_image}}" data-user_openid="{{item.user_openid}}" bindtap='openHome'>
+            <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+          </image>
+          <text class="name">{{item.user_alias}}</text>
+          <text class="time">{{item.creatime}} 发布</text>
+        </view>
+        <!-- 帖子内容 -->
+        <text class="content {{item.fullText ? '' : 'abbreviations'}}" id="box{{index}}">{{item.content}}</text>
+        <view class="operation" data-index="{{index}}" bindtap='operation' wx:if="{{item.havelong}}">{{item.fullText ? '收起' : '全文'}}
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+        </view>
+        <!-- 帖子图片 -->
+        <view class="image-box">
+          <image mode="{{item.images.length == 1 ? 'aspectFit' : 'aspectFill'}}" class="{{item.images.length == 1 ? 'one' : 'multiple'}}" wx:for="{{item.images}}" wx:for-item="items" wx:key="{{index}}" src="{{items}}" data-id="{{item.id}}" data-index="{{index}}" bindtap='previewImage'>
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+          </image>
+        </view>
+        <!-- 帖子定位地址 -->
+        <view class="address">
+          <image src="/icon/address.png"></image>
+          <text>{{item.positions}}</text>
+        </view>
+        <!-- 帖子点赞评论框 -->
+        <view class="comment-btuBox">
+          <view class="btuBox" wx:if="{{item.commentBtu}}">
+            <view data-id="{{item.id}}" data-index="{{index}}" data-status="{{item.thumbsStatus}}" bindtap="thumbs" >{{item.thumbsStatus ? '取消' : '点赞'}}
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+          </view>|
+            <view data-id="{{item.id}}" bindtap='comment'>评论
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+          </view>
+          </view>
+          <image src="/icon/news.png" data-index="{{index}}" bindtap='showcommentBtu'>
+          <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+          </image>
+        </view>
+        <view class="comment-box" wx:if="{{item.aumniComment.length > 0 || item.aumniGive.length > 0}}">
+          <!-- 冒泡三角 -->
+          <text class='triangle'></text>
+          <!-- 点赞 -->
+          <view class="fabulous-box" wx:if="{{item.aumniGive.length > 0}}">
+            <image src="/icon/thumbs.png"></image>
+            <view class="fabulous-list">
+              <text wx:for="{{item.aumniGive}}" wx:for-item="items" wx:key="{{index}}">{{index > 0 ? '、' : ''}}{{items.user_alias}}</text>
+            </view>
+          </view>
+          <!-- 评论 -->
+          <view class="commentList-box" wx:if="{{item.aumniComment.length > 0}}">
+            <!-- 评论循环 -->
+            <image src="/icon/news1.png" class="icon"></image>
+            <view class="comment-contentBox">
+              <view wx:for="{{item.aumniComment}}" wx:for-item="items" wx:key="{{index}}" data-id="{{item.id}}" data-value="{{items}}" bindtap='comment' class="comment-list" >
+                <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+                <view class="comment-info">
+                  <text wx:if="{{items.becomment_openid}}"><text style="color:#2a9f93;">{{items.comment_name}}</text> 回复 <text style="color:#2a9f93;">{{items.becomment_name}}</text> : {{items.message}}</text>
+                  <text wx:else><text style="color:#2a9f93;">{{items.comment_name}}</text> : {{items.message}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <text wx:if="{{information.length == 0}}" class="notData">暂无数据~</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 评论输入框 -->
+<view class="chat-input" wx:if="{{showInput}}">
+  <!-- <input bindblur='message' placeholder='{{placeholderText}}' focus='auto' value="{{inputText}}" ></input> -->
+  <textarea bindinput='message' bindblur='message' placeholder='{{placeholderText}}' cursor-spacing='10' fixed auto-height focus='auto' value="{{inputText}}"  />
+  <button catchtap='sendMessage'>发送</button>
+</view>

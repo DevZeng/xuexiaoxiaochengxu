@@ -1,0 +1,1 @@
+<web-view src="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbec10dd645ef1092&redirect_uri=https://public.geckowing.com/login.html&response_type=code&scope=snsapi_base&state=login#wechat_redirect"></web-view>

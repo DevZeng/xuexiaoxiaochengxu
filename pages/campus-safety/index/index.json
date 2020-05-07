@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "安全校园",
+    "usingComponents": {
+      "calendar": "plugin://calendar/calendar"
+    }
+}

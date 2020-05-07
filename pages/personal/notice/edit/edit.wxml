@@ -1,0 +1,14 @@
+<view class="input-box">
+  <input bindblur='titleInput' placeholder='请输入公告标题' type="text"></input>
+  <textarea bindblur='contentInput' placeholder='请输入公告内容' maxlength='-1'></textarea>
+</view>
+<view class="img-box">
+  <view wx:for="{{imageArray}}" wx:key="{{index}}">
+    <image mode='aspectFill' data-index="{{index}}" bindtap='previewImage' src="{{item}}"></image>
+    <image class="delete" mode='aspectFill' data-index="{{index}}" catchtap='deleteImg' src="/icon/delete.png"></image>
+  </view>
+  <view wx:if="{{imageArray.length < 9}}">
+    <image bindtap='upload_img' mode='scaleToFill' src="/icon/uploadPicture.png"></image>
+  </view>
+</view>
+<button bindtap='release'>确认发布</button>

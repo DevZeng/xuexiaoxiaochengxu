@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "龙头环小学",
+  "usingComponents":{
+    "calendar": "plugin://calendar/calendar"
+  }
+}

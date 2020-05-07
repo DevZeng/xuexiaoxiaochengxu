@@ -1,0 +1,90 @@
+<view class="userinfo">
+  <view class="portrait-box">
+    <view style="border:5rpx solid #999;">
+      <image mode="aspectFill" src="{{details.visitor_head1}}"></image>
+      <image class="image" wx:if="{{!details.visitor_head1}}" bindtap='cameraDisable' mode="aspectFill" src="/icon/head.png"></image>
+      <!-- <text bindtap='UploadCheck' wx:if="{{!visitor_head1}}">点击上传</text> -->
+    </view>
+  </view>
+  <text class="text" wx:if="{{details.vistior_status != 0 && details.vistior_status != 1}}" bindtap='upload'> 人脸信息采集 </text>
+  <text class="text" wx:if="{{details.vistior_status == 1}}">有效截止日期：{{details.vistor_times}}</text>
+</view>
+<view>
+  <!-- <view class="list">
+  <image src="../../../../icon/time.png"></image>
+  <text>时间</text>
+  <view class="optionBox">
+    <text class="{{classList[0]}}" data-num="7" data-indesx="0" bindtap='timeOption'>一周</text>
+    <text class="{{classList[1]}}" data-num="30" data-index="1" bindtap='timeOption'>一个月</text>
+    <text class="{{classList[2]}}" data-num="365" data-index="2" bindtap='timeOption'>一年</text>
+  </view>
+</view> -->
+  <view class="list">
+    <image src="/icon/my1.png" />
+    <text>访问学校</text>
+    <picker bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{schools}}">
+    <input class="picker" disabled="true"   placeholder='请选择'  value='{{details.user_name}}'></input>
+  </picker>
+  </view>
+  <view class="list">
+    <image src="/icon/my1.png" />
+    <text>真实姓名</text>
+    <input class="input" bindblur='nameInput' type="text" maxlength='10' placeholder='请输入' disabled='{{details.visitor_butt}}' value='{{details.user_name}}'></input>
+  </view>
+  <view class="list">
+    <image src="/icon/iphone.png" />
+    <text>手机</text>
+    <input class="input" bindblur='iphoneInput' type="number" maxlength='11' placeholder='请输入' disabled='{{details.visitor_butt}}' value='{{details.user_iphone}}'></input>
+  </view>
+  <view class="list">
+    <image src="/icon/handover.png"></image>
+    <text>拜访人</text>
+    <input bindblur='visitnameInput' type="text" maxlength='20' placeholder='请填写拜访人' disabled='{{details.visitor_butt}}' value='{{details.visitor_butt}}'></input>
+  </view>
+  <view class="list">
+    <image src="/icon/arrive.png"></image>
+    <text>访客理由</text>
+  </view>
+</view>
+
+<textarea placeholder='请填写访客理由' bindblur='reasonInput' disabled='{{details.visitor_reason}}' value="{{details.visitor_reason}}"></textarea>
+
+<button wx:if="{{details.vistior_status == 0}}" disabled='true' bindtap='submission'>审核中</button>
+<form wx:if="{{details.vistior_status != 0 && details.vistior_status != 1}}" bindsubmit="submission" report-submit="true">
+  <button formType="submit">{{details.vistior_status == 2 ? '申请失败，重新申请' : details.vistior_status == 3 ? '身份过期，重新申请' : '提交审核'}}</button>
+</form>
+<!-- <button wx:if="{{vistior_status != 0 && vistior_status != 1}}" bindtap='submission'>提交审核</button> -->
+
+
+<view wx:if="{{mask_disable}}" class="mask" bindtap="display"></view>
+<view wx:if="{{mask_disable}}" class="tipBox ripple flipInX">
+  <view class="title">
+    <text>检测到您没打开安全校园的相关权限，是否去设置打开？</text>
+  </view>
+  <view class="btuBox">
+    <text bindtap="display" class="cancel">取消</text>
+    <button open-type="openSetting" bindopensetting="authorization" class="setBtu">去设置</button>
+  </view>
+</view>
+
+
+<!-- 相机 -->
+<camera wx:if="{{showCamera}}" device-position="{{cameraConfig.position}}" flash="{{cameraConfig.flash}}" bindstop="cameraStop" binderror="cameraError" class="cameraBox">
+  <cover-view class="viewBox">
+    <cover-view style='background-color: #fff;flex:1;'></cover-view>
+    <cover-view class="content">
+      <cover-image mode='widthFix' class="faceImg" src="/icon/face.png" />
+      <cover-view class="circle"></cover-view>
+    </cover-view>
+    <cover-view style='background-color: #fff;flex:1;'></cover-view>
+  </cover-view>
+
+  <cover-view class="cameraTab">
+    <cover-image class="tabImg" src="/icon/{{cameraConfig.flash}}.png" bindtap='flashChange'></cover-image>
+    <cover-image class="tabImg" src="/icon/switch.png" bindtap='positionChange'></cover-image>
+    <cover-view bindtap='cameraDisable'>取消</cover-view>
+  </cover-view>
+  <cover-view class="photographBtn" bindtap='takePhoto'>
+    <cover-image class="cameraImg" src="/icon/camera.png"></cover-image>
+  </cover-view>
+</camera>

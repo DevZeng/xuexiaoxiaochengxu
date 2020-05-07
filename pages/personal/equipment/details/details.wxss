@@ -1,0 +1,162 @@
+.img {
+  display: block;
+  width:100vw;
+  height: 60vw;
+}
+/* banner图 */
+.header{
+  position:relative;
+  width:100vw;
+  height:56.25vw;
+}
+
+.header .swiper{
+  width:100vw;
+  height:56.25vw;
+}
+.header .swiper .slide-image{
+  width:100vw;
+  height:56.25vw;
+}
+/* 颜色选择 */
+
+.img-box {
+  padding: 30rpx;
+  height: 100rpx;
+  font-size: 30rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.img-box .attr_value {
+  float: left;
+  margin-right: 20rpx;
+  position: relative;
+}
+.img-box .attr_value radio{
+  display: block;
+  width: 150rpx;
+  height: 90rpx;
+}
+.img-box image {
+  display: block;
+  width: 150rpx;
+  height: 90rpx;
+  border-radius: 10rpx;
+}
+
+/*radio默认样式重置*/
+
+radio {
+  box-sizing: border-box;
+  background: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+radio .wx-radio-input {
+  margin-right: 15rpx;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: none;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+}
+
+radio .wx-radio-input.wx-radio-input-checked {
+  background-color: transparent;
+  border: 0 solid #2a9f93;
+  border-radius: 10rpx;
+  /* border-color:#00c9d0; *//* overflow: hidden; */
+  box-sizing: border-box;
+}
+
+radio .wx-radio-input.wx-radio-input-checked::before {
+  /* content: '../../../../icon/girl.png'; *//* font-family:"iconfont" !important; */
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #fff;
+  top: auto;
+  left: auto;
+  right: -10rpx;
+  bottom: -10rpx;
+  border-radius: 50rpx;
+  background-color: #2a9f93;
+  transform: translate(0, 0) scale(1);
+  -webkit-transform: translate(0, 0) scale(1);
+}
+/*radio默认样式重置*/
+
+
+/* 输入 */
+/* 功能列表 */
+.list{
+  padding: 0 0 40rpx 40rpx;
+  background-color:#fff;
+}
+.tableviewcell {
+  position:relative; 
+	padding: 25rpx 40rpx 25rpx 0;
+	border-bottom: 2rpx solid #dcdcdc;
+  background-color:#fff;
+	color: #666;
+	display: flex;
+	align-items: center; 
+  justify-content: space-between;
+  font-size: 35rpx;
+}
+
+.tableviewcell .input{
+  width:400rpx;
+  font-size: 30rpx;
+  text-align:right;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.tableviewcell view{
+  width:400rpx;
+  text-align:right;
+}
+
+.tableviewcell .left-icon {
+	width: 40rpx;
+	height: 40rpx;
+  margin:auto 0 auto 20rpx;
+}
+
+/*text*/
+.tableviewcell text {
+  width:200rpx;
+	font-size: 32rpx;
+  margin-left: 14rpx;
+}
+
+/* 按钮 */
+.btn-box{
+  margin:100rpx auto 50rpx auto;
+}
+button{
+  width:450rpx;
+  height:70rpx;
+  line-height:70rpx;
+  margin:20rpx auto 0 auto;
+  color:#fff;
+  background-color:#2a9f93;
+  border-radius: 50rpx;
+  font-size: 35rpx;
+}
+button::after{
+  border: none;
+}

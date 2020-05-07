@@ -1,0 +1,69 @@
+<!--index.wxml-->
+
+<scroll-view scroll-y lower-threshold="50" bindscrolltolower="scrolltolower" bindscroll="scroll">
+  <view class="box">
+    <!-- 帖子列表 -->
+    <view class="activity-box">
+      <view class="activity-list">
+        <!-- 帖子发布者用户信息 -->
+        <!-- <view class="userInfo">
+          <image mode='aspectFill' src="{{information.user_image}}"></image>
+          <text class="name">{{information.user_alias}}</text>
+          <text class="time">{{information.creatime}} 发布</text>
+        </view> -->
+        <!-- 帖子内容 -->
+        <text class="content {{information.fullText ? '' : 'abbreviations'}}" id="box">{{information.content}}</text>
+        <text class="operation" bindtap='operation' wx:if="{{information.havelong}}">{{information.fullText ? '收起' : '全文'}}</text>
+        <!-- 帖子图片 -->
+        <view class="image-box">
+          <image mode="{{information.images.length == 1 ? 'aspectFit' : 'aspectFill'}}" class="{{information.images.length == 1 ? 'one' : 'multiple'}}" wx:for="{{information.images}}" wx:key="{{index}}" src="{{item}}" data-id="{{information.id}}" data-index="{{index}}" bindtap='previewImage'></image>
+        </view>
+        <!-- 帖子定位地址 -->
+        <view class="address">
+          <image src="/icon/address.png"></image>
+          <text>{{information.positions}}</text>
+        </view>
+        <!-- 帖子点赞评论框 -->
+        <view class="comment-btuBox">
+          <view class="btuBox" wx:if="{{information.commentBtu}}">
+            <text data-id="{{information.id}}" data-index="{{index}}" data-status="{{information.thumbsStatus}}" bindtap="thumbs" >{{information.thumbsStatus ? '取消' : '点赞'}}</text>|
+            <text data-id="{{information.id}}" bindtap='comment'>评论</text>
+          </view>
+          <image src="/icon/news.png" data-index="{{index}}" bindtap='showcommentBtu'></image>
+        </view>
+        <view class="comment-box" wx:if="{{information.aumniComment.length > 0 || information.aumniGive.length > 0}}">
+          <!-- 冒泡三角 -->
+          <text class='triangle'></text>
+          <!-- 点赞 -->
+          <view class="fabulous-box" wx:if="{{information.aumniGive.length > 0}}">
+            <image src="/icon/thumbs.png"></image>
+            <view class="fabulous-list">
+              <text wx:for="{{information.aumniGive}}" wx:key="{{index}}">{{index > 0 ? '、' : ''}}{{item.user_alias}}</text>
+            </view>
+          </view>
+          <!-- 评论 -->
+          <view class="commentList-box" wx:if="{{information.aumniComment.length > 0}}">
+            <!-- 评论循环 -->
+            <image src="/icon/news1.png" class="icon"></image>
+            <view class="comment-contentBox">
+              <view wx:for="{{information.aumniComment}}" wx:key="{{index}}" data-id="{{information.id}}" data-value="{{item}}" bindtap='comment' class="comment-list" >
+                <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+                <view class="comment-info">
+                  <text wx:if="{{item.becomment_openid}}"><text style="color:#2a9f93;">{{item.comment_name}}</text> 回复 <text style="color:#2a9f93;">{{item.becomment_name}}</text> : {{item.message}}</text>
+                  <text wx:else><text style="color:#2a9f93;">{{item.comment_name}}</text> : {{item.message}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 评论输入框 -->
+<view class="chat-input" wx:if="{{showInput}}">
+  <!-- <input bindblur='message' placeholder='{{placeholderText}}' focus='auto' value="{{inputText}}" ></input> -->
+  <textarea bindinput='message' bindblur='message' placeholder='{{placeholderText}}' cursor-spacing='10' fixed auto-height focus='auto' value="{{inputText}}"  />
+  <button catchtap='sendMessage'>发送</button>
+</view>

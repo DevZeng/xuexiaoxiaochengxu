@@ -1,0 +1,21 @@
+<view class="box">
+
+  <view class="list" wx:for="{{equipmentList}}" wx:key="{{index}}" data-value="{{item}}" bindtap='toDetails'>
+    <view>
+      <text>GPS定位器</text>
+      <text>电量：{{item.device_battery}}%</text>
+    </view>
+    <image mode="aspectFill" src="{{item.picture}}"></image>
+    <view>
+      <text>{{item.stu_name}}</text>
+      <text>学号：{{item.stu_number}}</text>
+    </view>
+  </view>
+  
+</view>
+<view class="add" bindtap='toDetails'>
+<image src="/icon/add.png"></image>
+  <!-- <view>+</view> -->
+  <text>添加设备</text>
+</view>
+<!-- <view style="background-color:red;width:750rpx;height:100rpx;"></view> -->

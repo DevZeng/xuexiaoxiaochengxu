@@ -1,0 +1,50 @@
+<import src="../../../wxParse/wxParse.wxml" />
+<view class="details">
+<!-- 详情  -->
+  <text class="title">{{details.details_title}}</text>
+  <view class="info">
+    <!-- <view>
+      <image src="/images/555.jpg"></image>
+      <text class="name">张三</text>
+    </view> -->
+    <text class="date">{{details.creatime}}</text>
+  </view>
+  <!-- 内容 -->
+  <view class="content_text">
+  <template is="wxParse" data="{{wxParseData:article.nodes}}" class="content" />
+  </view>
+  <!-- 浏览量和点赞数 -->
+   <view class="box">
+     <view>
+      <image class="icon" src="/icon/browse.png"></image><text class='liulancount'>{{details.details_browse}}</text>
+    </view> 
+    <!-- <view>
+      <image src="/icon/thumbs.png"></image>99
+    </view> -->
+  </view> 
+</view>
+<!-- 评论 -->
+<!-- <view class="comment">
+  <view class="box">
+    <view>
+      <image src="/icon/news2.png"></image>200
+    </view>
+    <view>
+      <image src="/icon/edit1.png"></image>
+    </view>
+  </view>
+  <view class="comment-box"> -->
+  <!-- 评论循环 -->
+    <!-- <view class="comment-list">
+      <image src="/images/555.jpg"></image>
+      <view class="comment-info">
+        <view>
+          <text class="name">张三</text>
+          <text class="date">2018-01-01 18:00:00</text>
+        </view>
+        <text>评论内容！</text>
+      </view>
+    </view>
+   
+  </view>
+</view> -->

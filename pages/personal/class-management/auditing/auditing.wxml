@@ -1,0 +1,17 @@
+<view class="box">
+  <view wx:for="{{list}}" wx:key="{{index}}" class="list">
+    <view class="infoList">
+      <view data-relation="{{item.relation}}" data-value="{{item.user}}" bindtap='toFamilyDetails'>
+        <image src="/icon/parent.png"></image>
+        <text class="guardian">{{item.user_name}}</text>
+      </view>
+      <view data-stu_number="{{item.stu_number}}" bindtap='toChildrenDetails'>
+        <image src="/icon/children2.png"></image>
+        <text class="children">{{item.stu_name}}</text>
+      </view>
+    </view>
+    <button wx:if="{{item.stu_status == 0}}" data-value="{{item.stu_number}}" bindtap='toExamine'>去审核</button>
+    <button wx:else disabled='true'>已审核</button> 
+  </view>
+  <view wx:if="{{list.length == 0}}" class="notData">暂无家长审核~</view>
+</view>

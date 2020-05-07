@@ -1,0 +1,43 @@
+.box{
+  padding:0 2.667vw;
+  font-size: 3.3vw;
+  color:#999;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.box .list{
+  width:41.333vw;
+  padding:0 2.667vw;
+  margin-top:1.333vw;
+  border-radius: 10rpx;
+  background-color:#e2fafe;
+}
+.box .list image{
+  width:41.333vw;
+  height:26.667vw;
+  border-radius: 10rpx;
+}
+.box .list view{
+  height:50rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 添加设备 */
+.add{
+  width:20vw;
+  margin:20vw auto;
+  color:#2a9f93;
+  font-size: 4.667vw;
+  font-weight: bold;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
+.add image{
+  width:17.333vw;
+  height:17.333vw;
+}

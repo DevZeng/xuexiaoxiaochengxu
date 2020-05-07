@@ -1,0 +1,233 @@
+page {
+  background-color: #f8f8f8;
+  font-size: 28rpx;
+}
+
+.nav {
+  padding: 20rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 15rpx;
+  font-size: 32rpx;
+}
+.navbtu{
+  position: relative;
+  height: 60rpx;
+  padding:0 20rpx;
+  min-width:150rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2a9f93;
+  border-radius: 60rpx;
+}
+.navbtu image{
+  width:30rpx;
+  height:30rpx;
+  margin-left:20rpx;
+}
+
+
+/* 公告详情 */
+
+.details {
+  background-color: #fff;
+  padding: 0 20rpx;
+  margin-bottom: 15rpx;
+}
+
+.details .date {
+  display: block;
+  padding: 0 15rpx;
+  font-size: 28rpx;
+  color: #ccc;
+  text-align: right;
+}
+.details .titleBox {
+  padding:15rpx 0;
+  font-size: 35rpx;
+  font-weight: bold;
+}
+.details .title {
+  line-height: 40rpx;
+}
+.details .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.details .content text{
+  /* text-indent: 2em; */
+  font-size: 30rpx;
+  color:#666;
+  line-height:40rpx;
+}
+.details .content .img-box{
+  width:730rpx;
+  margin-top:30rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.details .content .img-box image{
+  position: relative;
+  width:170rpx;
+  height:170rpx;
+  margin: 5rpx;
+}
+
+.details .box {
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25rpx;
+}
+
+.details .box view {
+  display: flex;
+  align-items: center;
+}
+
+.details .box image {
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 10rpx;
+}
+
+
+/* 评论 */
+
+.comment {
+  background-color: #fff;
+}
+
+.comment .box {
+  height: 80rpx;
+  padding: 0 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25rpx;
+  border-bottom: 1px solid #f8f8f8;
+}
+.comment .box .box1 {
+  position: relative;
+  width:100rpx;
+  display: flex;
+  justify-content: flex-end;
+  /* background-color:red; */
+  
+}
+.comment .box view {
+  display: flex;
+  align-items: center;
+}
+
+.comment .box image {
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 10rpx;
+}
+
+.comment .comment-box {
+  padding: 30rpx;
+}
+
+.comment .comment-box .comment-list {
+  position: relative;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.comment .comment-box .comment-list image {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.comment .comment-box .comment-list .comment-info {
+  width: 600rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.comment .comment-box .comment-list .comment-info view {
+  height: 45rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.comment .comment-box .comment-list .comment-info .name {
+  font-size: 26rpx;
+}
+
+.comment .comment-box .comment-list .comment-info .date {
+  color: #b0b0b0;
+  font-size: 25rpx;
+}
+
+/* 评论输入框 */
+
+.chat-input{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:690rpx;
+  /* height:100rpx; */
+  padding:20rpx 30rpx;
+  font-size: 32rpx;
+  background-color:#FFF ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chat-input input{
+  width: 540rpx;
+  height:60rpx;
+  background-color:#f6f5fa;
+}
+.chat-input textarea{
+  width: 520rpx;
+  min-height:50rpx;
+  max-height:180rpx;
+  background-color:#f6f5fa;
+  padding:5rpx 10rpx;
+}
+.chat-input button{
+  width: 120rpx;
+  height:60rpx;
+  padding:0;
+  margin:0;
+  line-height:60rpx;
+  color:#fff;
+  background-color:#2a9f93;
+  font-size: 32rpx;
+}
+
+/* 去发布按钮 */
+.editBtu{
+  position: fixed;
+  left: 50%;
+  top:50%;
+  transform: translate(-50%,-50%);
+  width:250rpx;
+  height:70rpx;
+  line-height:70rpx;
+  color:#fff;
+  background-color:#2a9f93 !important;
+  border-radius: 10rpx;
+  font-size: 35rpx;
+}
+button::after{
+  border: none;
+}

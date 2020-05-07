@@ -1,0 +1,56 @@
+<view class="class-tab">
+  <view class="tab-box">
+    <view bindtap="tabClick" data-index="0" class="tab-btu {{tabClasss[0]}}">
+      <text>我的帖子</text>
+      <form bindsubmit="getFormID" report-submit="true">
+        <button formType="submit" class="formBtu"></button>
+      </form>
+    </view>
+  </view>
+  <view class="tab-box">
+    <view bindtap="tabClick" data-index="1" class="tab-btu {{tabClasss[1]}}">
+      <text>我的评论</text>
+      <form bindsubmit="getFormID" report-submit="true">
+        <button formType="submit" class="formBtu"></button>
+      </form>
+    </view>
+  </view>
+</view>
+
+<!-- 我的帖子 -->
+<!-- <view wx:if="{{tabtype == 0}}"> -->
+<scroll-view scroll-y wx:if="{{tabtype == 0}}" lower-threshold="50" bindscrolltolower="getPost" class="scrollBox">
+  <view style="height:105rpx;"></view>
+  <view class="postlist" wx:for="{{postList}}" wx:key="{{index}}" data-id="{{item.id}}" bindtap="{{item.a_status == 1 ? 'toDetails' : ''}}">
+    <image mode='aspectFill' class="image" src="{{item.images[0]}}"></image>
+    <view class="content">
+      <text class="contentText">{{item.content}}</text>
+      <view>
+        <view>点赞数:{{item.proint}}</view>
+        <view class="editBtu" data-index="{{index}}" data-id="{{item.id}}" catchtap="{{item.a_status == 1 ? 'deletePost' : ''}}">
+          <text wx:if="{{item.a_status == 0}}">审核中</text>
+          <text wx:elif="{{item.a_status == 2}}">不通过</text>
+          <text wx:if="{{item.a_status == 1}}">删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <text wx:if="{{postList.length == 0}}" class="notData">暂无数据~</text>
+  <button bindtap='toPost'>新增帖子</button>
+<!-- </view> -->
+</scroll-view>
+<!-- 我的评论 -->
+<scroll-view scroll-y wx:if="{{tabtype == 1}}" lower-threshold="50" bindscrolltolower="getCommen" class="scrollBox">
+  <view style="height:105rpx;"></view>
+  <view class="comment-list" wx:for="{{commenList}}" wx:key="{{index}}">
+    <image mode='aspectFill' src="/icon/qb.png"></image>
+    <view class="contentBox">
+      <view class="title">
+        <text>{{item.comment_name}}</text> 评论了 <text>{{item.becomment_name}}</text>
+      </view>
+      <text class="contentText">{{item.message}}</text>
+      <text class="time">{{item.creatime}}</text>
+    </view>
+  </view>
+  <text wx:if="{{commenList.length == 0}}" class="notData">暂无数据~</text>
+</scroll-view>

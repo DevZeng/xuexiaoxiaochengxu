@@ -1,0 +1,67 @@
+/**app.wxss**/
+@import '/utils/ripples.min.wxss';
+ /* .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}   */
+/* 暂无评论 */
+.notData{
+  display: inline-block;
+  width:100%;
+  height:80rpx;
+  line-height:80rpx;
+  text-align:center;
+  font-size: 35rpx;
+  color:#b0b0b0;
+}
+/* formID按钮 */
+.formBtu{
+  position: absolute;
+  left: 0;
+  top:0;
+  width:100%;
+  height:100%;
+  background-color:red !important;
+  opacity: .0;
+  z-index: 10000;
+}
+
+
+/* 空空如也 */
+.view-empty{
+	width: 750rpx;
+	height: 750rpx;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.view-empty image{
+	width: 200rpx;
+	height: 200rpx;
+}
+
+.view-empty .hint{
+	font-size: 32rpx;
+	color: #999999;
+}
+
+.view-empty .btn{
+	margin-top: 100rpx;
+
+  width:250rpx;
+  height:70rpx;
+  line-height:70rpx;
+  color:#fff;
+  background-color:#2a9f93 !important;
+  border-radius: 10rpx;
+  font-size: 35rpx;
+}
+
+

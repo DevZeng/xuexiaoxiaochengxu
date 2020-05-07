@@ -1,0 +1,166 @@
+page{
+  padding-top:105rpx;
+  background-color:#f8f8f8;
+}
+
+button {
+  width: 450rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  margin: 100rpx auto 50rpx auto;
+  color: #fff;
+  background-color: #2a9f93;
+  border-radius: 50rpx;
+  font-size: 35rpx;
+}
+button::after {
+  border: none;
+}
+
+/* 导航 */
+.class-tab{
+  position: fixed;
+  left:0;
+  top:0;
+  z-index: 1000;
+  display: flex;
+	margin-top: 0rpx;
+	justify-content: center;
+	background: #ffffff;
+	width:100%;
+  height:100rpx;
+  color:#666;
+  font-weight: bold;
+}
+.class-tab .tab-box{
+  width:375rpx;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.class-tab .tab-btu{
+  position: relative;
+  width:49.9%;
+  height:95rpx;
+  line-height:100rpx;
+  text-align:center;
+  justify-content: center;
+  font-size:32rpx;
+}
+.text-select{
+  color:#2a9f93;
+  border-bottom:5rpx solid #2a9f93;
+}
+
+
+/* 我的帖子 */
+.scrollBox{
+  position: fixed;
+  left:0;
+  top:0;
+  z-index: 100;
+  width:100vw;
+  height:100vh;
+}
+.postlist {
+  width: 710rpx;
+  height: 220rpx;
+  /* margin: 10rpx 0; */
+  padding: 20rpx;
+  border-bottom:10rpx solid #eee;
+  display: flex;
+  background-color: #fff;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postlist .image {
+  width: 300rpx;
+  height: 200rpx;
+  flex: 0 0 300rpx;
+}
+
+.postlist .content {
+  width: 390rpx;
+  height: 180rpx;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 26rpx;
+  color: #aaa;
+}
+
+.postlist .contentText {
+  font-size: 30rpx;
+  height: 80rpx;
+  line-height: 40rpx;
+  color: #999;
+
+  display: -webkit-box; 
+  -webkit-box-orient: vertical; 
+  -webkit-line-clamp: 2; 
+  text-overflow: ellipsis; 
+  overflow: hidden;
+}
+
+.postlist view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.postlist .editBtu{
+  display: inline-block;
+  flex: 0 0 160rpx;
+  width: 160rpx;
+  height:60rpx;
+  line-height: 60rpx;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  /* padding: 11rpx 10rpx; */
+  color: #fff;
+  background-color:#2a9f93;
+}
+
+
+/* 我的评论 */
+.comment-list{
+  padding:20rpx 0 20rpx 20rpx;
+
+  display: flex;
+  align-items: flex-start;
+}
+.comment-list image {
+  width:80rpx;
+  height:80rpx;
+  border-radius: 50%;
+}
+.comment-list .contentBox {
+  flex: 1;
+  line-height:45rpx;
+  font-size: 30rpx;
+  border-bottom:1rpx solid #ccc;
+
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+.comment-list .contentBox .title{
+  height:45rpx;
+    
+  display: -webkit-box; 
+  -webkit-box-orient: vertical; 
+  -webkit-line-clamp: 1; 
+  text-overflow: ellipsis; 
+  overflow: hidden;
+}
+
+.comment-list .contentBox .title text{
+  color:#2a9f93;
+}
+
+.comment-list .contentBox .time{
+  color:#999;
+  font-size: 25rpx;
+}

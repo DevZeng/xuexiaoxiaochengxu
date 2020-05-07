@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="userinfo">
+    <image mode="aspectFill" class="userinfo-avatar" src="{{info.stu_head}}"></image>
+    <!-- <text>{{info.stu_name}}</text> -->
+  </view>
+</view>
+
+
+<view class="list">
+  <image src="/icon/NO.png"></image>
+  <view>{{info.stu_number}}</view>
+</view>
+<view class="list">
+  <image src="/icon/name.png"></image>
+  <view>{{info.stu_name}}</view>
+</view>
+<view class="list">
+  <image src="/icon/sex.png"></image>
+  <view>{{info.stu_sex == 1 ? '男' : '女'}}</view>
+</view>
+<view class="list">
+  <image src="/icon/age.png"></image>
+  <view>{{info.stu_age}}</view>
+</view>
+<view class="list">
+  <image src="/icon/class.png"></image>
+  <view>{{info.class_grade}}年级</view>
+</view>
+<view class="list">
+  <image src="/icon/class.png"></image>
+  <view>{{info.class_name}}</view>
+</view>
+<view class="list" style="border:none;">
+  <image src="/icon/recognition.png"></image>
+  <view style="border:none;">人脸数据</view>
+</view>
+<view class="portrait-box">
+  <view>
+    <image mode="aspectFill" src="{{info.stu_images1}}"></image>
+  </view>
+  <!-- <view>
+    <image mode="aspectFill" src="{{info.stu_images2}}"></image>
+  </view> -->
+  <!-- <view>
+    <image mode="aspectFill" src="{{info.stu_images3}}"></image>
+  </view> -->
+</view>
