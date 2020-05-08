@@ -75,6 +75,11 @@
     <image src="/icon/visitor.png" />
     <text>访客申请</text>
   </view> 
+   <view  bindtap='openVisitorList'>
+   <button formType="submit" class="formBtu"></button>
+    <image src="/icon/visitor.png" />
+    <text>访客管理</text>
+  </view> 
    <!-- <view wx:if="{{userInfo.status != 2 && userInfo.status != 1 && userInfo.staff_status != 0 && userInfo.staff_status != 1}}" bindtap='openFaceApplication'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>

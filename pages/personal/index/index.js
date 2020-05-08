@@ -258,6 +258,11 @@ Page({
       url: '../visitor/visitor'
     })
   },
+  openVisitorList: function(){
+    wx.navigateTo({
+      url: '../visitor/visitorlist/visitorlist'
+    })
+  },
   // 跳转学习辅导
   openCoach: function () {
     wx.showToast({
