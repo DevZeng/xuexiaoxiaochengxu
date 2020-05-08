@@ -101,21 +101,21 @@ Page({
   getChildrenList: function() {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/stu/select_user',
+      url: app.globalData.host + '/children',
       data: {
-        user_openid: app.globalData.opnID
+        token: wx.getStorageSync('token')
       },
       method: 'get',
       success: function(res) {
         console.log('我的孩子列表返回')
         console.log(res)
-        if (res.data.date1) {
-          let children_list = res.data.date1;
-          for (let i = 0; i < children_list.length; i++) {
-            // 设置隐藏
-            children_list[i].family_state = false;
-          }
-          console.log(children_list)
+        if (res.statusCode==200) {
+          let children_list = res.data.data;
+          // for (let i = 0; i < children_list.length; i++) {
+          //   // 设置隐藏
+          //   children_list[i].family_state = false;
+          // }
+          // console.log(children_list)
           wx.hideToast()
           that.childrenList = children_list;
           that.setData({

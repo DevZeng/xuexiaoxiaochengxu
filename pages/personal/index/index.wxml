@@ -70,8 +70,8 @@
       <image src="/icon/file.png" />
       <text>帮助文档</text>
     </view>
-    <view wx:if="{{userInfo.status != 2&&showFace}}" bindtap='openFaceApplication'>
-    <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+    <view wx:if="{{showFace}}" bindtap='openFaceApplication'>
+   <button formType="submit" class="formBtu"></button>
     <image src="/icon/visitor.png" />
     <text>访客申请</text>
   </view> 

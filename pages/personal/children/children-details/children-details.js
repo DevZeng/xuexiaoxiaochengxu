@@ -90,51 +90,6 @@ Page({
       type_ = e.currentTarget.dataset.type;
     if (that.open_type == 0 || that.open_type == 1) { //只有添加默认家长和编辑孩子信息是才能更改图片
       that.cameraDisable();
-      // wx.chooseImage({
-      //   count: 1, //最多可以选择的图片总数  
-      //   sizeType: ['compressed'], // "original"原图，"compressed"压缩图，默认二者都有
-      //   sourceType: ['camera'], // "album"从相册选图，"camera"使用相机，默认二者都有
-      //   success: function(res) {
-      //     wx.showToast({
-      //       title: '头像上传中',
-      //       icon: 'loading',
-      //       duration: 10000
-      //     })
-      //     wx.uploadFile({
-      //       url: app.globalData.https + '/txUpload', //仅为示例，非真实的接口地址
-      //       filePath: res.tempFilePaths[0],
-      //       name: "file",
-      //       formData: {
-      //         "user": "test"
-      //       },
-      //       success: function(res) {
-      //         wx.hideToast();
-      //         console.log(res)
-      //         let data = JSON.parse(res.data)
-      //         if (data.sucesss) {
-      //           if (type_ == 1) {
-      //             that.info.stu_images1 = data.sucesss
-      //           } else if (type_ == 2) {
-      //             that.info.stu_images2 = data.sucesss
-      //           } else {
-      //             that.info.stu_images3 = data.sucesss
-      //           }
-      //           that.setData({
-      //             info: that.info
-      //           })
-      //         } else {
-      //           wx.showModal({
-      //             title: '错误提示',
-      //             content: data.error,
-      //             showCancel: false,
-      //             success: function(res) {}
-      //           })
-      //           console.log(data)
-      //         }
-      //       }
-      //     })
-      //   }
-      // })
     }
   },
   // 学号输出
@@ -256,22 +211,6 @@ Page({
       })
       return;
     } 
-    // else if (!info.stu_images1) {
-    //   wx.showToast({
-    //     title: '请上传人脸数据',
-    //     icon: 'loading',
-    //     duration: 1000
-    //   })
-    //   return;
-    // } 
-    // else if (!info.stu_head) {
-    //   wx.showToast({
-    //     title: '请上传生活照',
-    //     icon: 'loading',
-    //     duration: 1000
-    //   })
-    //   return;
-    // }
     else{
       if (that.open_type == 0) { //绑定默认家长
         console.log('绑定默认家长')

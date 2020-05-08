@@ -4,13 +4,13 @@
 </view>
 <text wx:if="{{strList && strList.length == 0}}" class="notData">暂无搜索数据~</text>
 <view class="dateCelebrityBox">
-  <view wx:for="{{strList}}" wx:key="{{index}}" data-id="{{item.stu_number}}" bindtap='toDetails' class="dateCelebrity" style="border:{{ strList.length == index + 1 ? 'none !important': ''}}" wx:if="{{item.swifi.length != 0}}">
+  <view wx:for="{{strList}}" wx:key="{{index}}" data-id="{{item.number}}" bindtap='toDetails' class="dateCelebrity" style="border:{{ strList.length == index + 1 ? 'none !important': ''}}" wx:if="{{item.swifi.length != 0}}">
     <!-- <text class="num">{{index + 1}}</text> -->
-    <image mode='aspectFill' class="portrait" mode='aspectFill' src="{{item.stu_head ? item.stu_head : '/icon/qb.png'}}"></image>
+    <image mode='aspectFill' class="portrait" mode='aspectFill' src="{{item.cover ? item.cover : '/icon/qb.png'}}"></image>
     <view class="infoBox">
-      <text>姓名： {{item.stu_name}}</text>
-      <text>学号： {{item.stu_number}}</text>
-      <text wx:if="{{item.class_grade}}">班级： {{item.class_grade}}年级 {{item.class_name}}</text>
+      <text>姓名： {{item.name}}</text>
+      <text>学号： {{item.number}}</text>
+      <text wx:if="{{item.grade}}">班级： {{item.grade}}年级 {{item.class}}</text>
       <text wx:else>班级： 暂无班级信息</text>
     </view>
   </view>

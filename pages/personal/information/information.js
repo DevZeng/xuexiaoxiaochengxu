@@ -40,9 +40,9 @@ Page({
       position: 'front'
     },
     workers:[{
-      'name':'普通职工','type':1
+      'name':'普通教职工','type':1
     },{
-      'name':'教师','type':2
+      'name':'班主任','type':2
     },{
       'name':'安保员','type':3
     }],
@@ -55,60 +55,21 @@ Page({
     // 初始化
     // console.log('openFace'+app.globalData.openFace);
     register_type = true;
-    user_info = '';
-    this.isteacher = false;
-    // this.showFace = app.globalData.openFace;
-    this.isworkers = false;
-    this.mask_disable = false;
-    this.u_info = '';
+    let info = app.globalData.userInfo;
     this.showCamera = false //是否显示照相机
     this.cameraConfig = { //照相机参数配置
       flash: 'off',
       position: 'front'
     }
+    let isworker = info.worker ==0?false:true;
     this.setData({
       isteacher: false,
-      isworkers: false,
+      isworkers: isworker,
       mask_disable: false,
-      u_info: {
-        user_iphone:'请输入号码'
-      },
+      userInfo: info,
       showFace :wx.getStorageSync('openFace')
-      // showFace = app.globalData.openFace
     })
-
-    wx.showToast({title: '加载中',icon: 'loading', mask: true,duration: 10000})
-
-    let that = this
-    if (options.u_info) { //注册信息的
-      console.log('这是进来注册的')
-      register_type = true;
-      let info = {
-        user_openid: app.globalData.opnID,
-        user_sex: JSON.parse(options.u_info).gender,
-        user_alias: JSON.parse(options.u_info).nickName,
-        user_image: JSON.parse(options.u_info).avatarUrl,
-        class_grade: '请选择年级',
-        class_name: '请选择班级',
-        user_iphone:'请输入号码'
-      }
-      that.setInfo(info)
-    } else { //修改信息的
-      register_type = false;
-      // 先显示个人信息
-      if (app.globalData.userInfo) {
-        let info = JSON.parse(JSON.stringify(app.globalData.userInfo));
-        that.setInfo(info)
-      }
-      // 获取最新的用户信息
-      app.getUserinfo(function(data) {
-        if (data) {
-          console.log(data)
-          let info = JSON.parse(JSON.stringify(data));
-          that.setInfo(info)
-        }
-      })
-    }
+    // wx.showToast({title: '加载中',icon: 'loading', mask: true,duration: 10000})
   },
 
   onShow: function() {
@@ -159,8 +120,15 @@ Page({
     // let workers = this.workers;
     console.log('picker发送选择改变，携带值为', e.detail.value)
     // console.log('picker发送选择改变，携带值为', this.workers[e.detail.value].type)
+    this.data.userInfo.worker = this.data.workers[e.detail.value].type
+    this.setData({
+      select_school: e.detail.value,
+      
+      // u_info: this.u_info
+    })
     this.setData({
       type: e.detail.value,
+      userInfo:this.data.userInfo
       // typeString : workers[e.detail.value].name
     })
     // this.setData({
@@ -171,8 +139,11 @@ Page({
   bindSchoolChange:function(e){
     let that = this;
     console.log(that.data.schools);
+    this.data.userInfo.school_id = this.data.schools[e.detail.value].id
     this.setData({
-      select_school:e.detail.value
+      select_school: e.detail.value,
+      userInfo:this.data.userInfo
+      // u_info: this.u_info
     })
     this.getGradeList(e.detail.value);
   },
@@ -686,6 +657,13 @@ console.log(this.u_info)
             duration: 1000
           })
         }
+        if(that.data.isworkers&&info.href==null){
+          wx.showToast({
+            title: '请录入人脸数据！',
+            icon: 'loading',
+            duration: 1000
+          })
+        }
         if(that.data.type==1&&info.class_id==0){
           wx.showToast({
             title: '请先选择班级！',
@@ -693,61 +671,26 @@ console.log(this.u_info)
             duration: 1000
           })
         }
-        user_info.user_id = Number(user_info.user_id)
-        user_info.user_openid = app.globalData.opnID
-
-
-        user_info.date3 = e.detail.formId
-        user_info.user_images1 = user_info.user_head1;
-        // user_info.user_images2 = user_info.user_head2;
-        user_info.user_images2 = '1';//弃用头像2
-        user_info.user_mail = '1'//弃用邮箱
-        user_info.date1 = user_info.department;
-        user_info.positions = user_info.positions;
-
-        console.log('提交的信息')
-        console.log(user_info)
-        if (register_type) { //注册 ----- 先注册用户再提交职工注册
-          that.ordinaryRegister(function(cb) {
-            if (cb) {
-              that.staffRegister();
-            } else {
-              wx.showToast({
-                title: '提交失败！',
-                icon: 'loading',
-                duration: 1000
-              })
-            }
-          })
-        } else { //修改信息 ----- 先修改用户再注册职工
-          if (user_info.staff_status == 0 || user_info.staff_status == 1 || user_info.staff_status == 2) {//先修改用户再修改职工
-            that.ordinaryModify(function (cb) {
-              if (cb) {
-                that.staffModify();
-                // that.teacherModify();
-              } else {
-                wx.showToast({
-                  title: '提交失败！',
-                  icon: 'loading',
-                  duration: 1000
-                })
-              }
-            })
-          } else { ///先修改用户再注册职工
-            that.ordinaryModify(function (cb) {
-              if (cb) {
-                that.staffRegister();
-              } else {
-                wx.showToast({
-                  title: '提交失败！',
-                  icon: 'loading',
-                  duration: 1000
-                })
-              }
-            })
+        let data  ={};
+        data.token = wx.getStorageSync('token');
+        data.school_id = info.school_id?info.school_id:0;
+        data.worker = info.worker;
+        data.address = info.address;
+        data.name = info.name;
+        data.phone = info.phone;
+        data.id_card = info.id_card;
+        data.sex = info.sex;
+        data.class_id = info.class_id?info.class_id:0;
+        data.href = info.href;
+        wx.request({
+          url: app.globalData.host+'/user/info',
+          data:data,
+          method:'POST',
+          success:(res)=>{
+            console.log(res)
           }
-            
-        }
+        })
+        console.log(data)
       }
     }
   },
@@ -1072,26 +1015,27 @@ console.log(this.u_info)
           duration: 10000
         })
         wx.uploadFile({
-          url: app.globalData.https + '/txUpload', 
+          url: app.globalData.apihost + '/upload', 
           filePath: res.tempImagePath,
           name: "file",
-          formData: {
-            "user": "test"
-          },
           success: function(res1) {
             console.log('头像上传成功返回')
             console.log(res1)
             wx.hideToast();
+            
+            console.log(res1)
+            console.log(res1.data)
             let data = JSON.parse(res1.data)
-            if (data.sucesss) {
-              that.u_info.user_head1 = data.sucesss
+            
+            if (res1.statusCode==200) {
+              that.data.userInfo.href = data.data
               that.setData({
-                u_info: that.u_info
+                userInfo:that.data.userInfo
               })
             } else {
               wx.showModal({
                 title: '错误提示',
-                content: data.error,
+                content: data.msg,
                 showCancel: false,
                 success: function(res) {}
               })

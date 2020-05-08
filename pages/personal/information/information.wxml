@@ -1,9 +1,8 @@
 <view class="list">
   <view class="tableviewcell" style="justify-content: flex-start;">
-    <image mode="aspectFill" class="left-icon" src="{{u_info.avatarUrl}}" style="width:120rpx;height:120rpx;" />
-    <text>{{u_info.nickname}}</text>
-    <text style="width:330rpx;text-align:right;" wx:if="{{isworkers}}">{{u_info.staff_Status == 0 ? '审核中' : u_info.staff_Status == 1  ? '审核通过' : u_info.staff_Status == 2 ? '审核不通过' : ''}}</text>
-    <text style="width:330rpx;text-align:right;" wx:if="{{isteacher}}">{{u_info.status == 1 ? '审核中' : u_info.status == 2 ? '审核通过' :  u_info.status == 0 ? '审核不通过' : ''}}</text>
+    <image mode="aspectFill" class="left-icon" src="{{userInfo.avatarUrl}}" style="width:120rpx;height:120rpx;" />
+    <text>{{userInfo.nickname}}</text>
+    <text style="width:330rpx;text-align:right;" wx:if="{{isworkers}}">{{userInfo.state == 1 ? '审核中' : userInfo.state == 2  ? '审核通过' : userInfo.state == 3 ? '审核不通过' : ''}}</text>
   </view>
 
   <view class="tableviewcell">

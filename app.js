@@ -7,7 +7,7 @@ App({
   },
   onLaunch: function() {
     let that = this;
-    that.getopenID();
+    that.getUserinfo();
     
     // that.getConfig();
     if (wx.canIUse('getUpdateManager')) {
@@ -43,7 +43,7 @@ App({
     // that.checkNotify();
     setInterval(function() {
       console.log('两个小时登录一次')
-      that.getopenID();
+      // that.getopenID();
     }, 2 * 60 * 60 * 1000) //两个小时登录一次
     // console.log(that.globalData.userInfo)
   },
@@ -116,25 +116,16 @@ App({
   // 从后台获取普通用户信息(先判别有没有openID)
   getUserinfo: function(cb) {
     let app = this;
-    if (!app.globalData.opnID){
-      console.log('没有openID，重新获取')
-      if (num > 0) {//请求超过5次就不能再请求
-        num--;
-        app.getopenID(function (data) {
-          app.getinfo(function (data1) {
-            if (data1) {
-              num = 5;//重新初始化为五次
-              typeof cb == "function" && cb(data1)
-            }
-          });
-        });
-      }
-    } else {
-      app.getinfo(function (data1) {
-        if (data1) {
-          typeof cb == "function" && cb(data1)
+    let token = wx.getStorageSync('token');
+    
+    if (token){
+      wx.request({
+        url: app.globalData.host+'/user/info?token='+token,
+        method:'GET',
+        success:(res)=>{
+          app.globalData.userInfo = res.data.data;
         }
-      });
+      })
     }
   },
   // 从后台获取普通用户信息
@@ -426,6 +417,7 @@ App({
     https1: 'https://huan.fengniaotuangou.cn', //总控线上接口地址
     // https1: 'http://192.168.1.105:8085',//总控本地接口地址
     mapKey: '33UBZ-ICQKP-W6FDW-V54Q6-OY542-IZFJ4', //腾讯地图位置服务key
-    host: 'https://school.fengniaotuangou.cn/api'
+    host: 'https://school.fengniaotuangou.cn/api',
+    apihost: 'https://api.fengniaotuangou.cn/api',
   }
 })

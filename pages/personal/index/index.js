@@ -136,20 +136,8 @@ Page({
   // 跳转我的孩子页
   openChildren: function () {
     let that = this;
-    app.getLogintype(function (type) {
-      if (type.user_card) {
-        wx.navigateTo({
-          url: '../children/index/index'
-        })
-      }else{
-        wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
-            if (res.confirm) {
-              that.openInformation();
-            }
-          }
-        })
-      }
+    wx.navigateTo({
+      url: '../children/index/index'
     })
   },
   // 跳转家庭成员页
@@ -278,12 +266,8 @@ Page({
   }, 
   // 跳转访客申请
   openFaceApplication: function(){
-    app.getLogintype(function (type) {
-      if (type) {
-        wx.navigateTo({
-          url: '../visitor/visitor'
-        })
-      }
+    wx.navigateTo({
+      url: '../visitor/visitor'
     })
   },
   // 跳转学习辅导

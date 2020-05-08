@@ -29,20 +29,20 @@ Page({
         wx.showToast({ title: '搜索中...', icon: 'loading', duration: 10000 })
         // 搜索关键字
         wx.request({
-          url: app.globalData.https + '/class_m/mohu_namemsg',
+          url: app.globalData.host + '/students',
           data: {
-            name: num
+            search: num
           },
           method: 'get',
           success: function(res) {
             console.log('搜索返回')
             console.log(res)
-            if (res.data.code == 200) {
-              that.strList = res.data.data
+            if (res.statusCode == 200) {
+              that.strList = res.data.data.data
               that.setData({
                 strList: that.strList
               })
-              if (res.data.data.length > 0){
+              if (res.data.data.data.length > 0){
                 wx.hideToast({});
               } else {
                 wx.showToast({

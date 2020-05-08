@@ -26,7 +26,8 @@
     "pages/personal/entrance-card/edit/edit",
     "pages/personal/entrance-card/record/record",
     "pages/weixin/gongzonghao/gongzonghao",
-    "pages/showh5/showh5"
+    "pages/showh5/showh5",
+    "pages/personal/visitor/visitor"
   ],
   "window": {
     "backgroundTextStyle": "light",

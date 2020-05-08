@@ -13,7 +13,12 @@ Page({
       flash: 'off',
       position: 'front'
     },
-    schools:[{"id":39,"name":"panyuschool","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"a","out_group":"b","mode":1,"created_at":"2020-05-04 08:58:54","updated_at":"2020-05-04 08:58:54"},{"id":38,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:57:33","updated_at":"2020-05-04 08:57:33"},{"id":37,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:57:17","updated_at":"2020-05-04 08:57:17"},{"id":36,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:56:28","updated_at":"2020-05-04 08:56:28"},{"id":35,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:55:59","updated_at":"2020-05-04 08:55:59"},{"id":34,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:54:23","updated_at":"2020-05-04 08:54:23"},{"id":33,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:53:27","updated_at":"2020-05-04 08:53:27"},{"id":32,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:51:25","updated_at":"2020-05-04 08:51:25"},{"id":31,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:47:47","updated_at":"2020-05-04 08:47:47"},{"id":30,"name":"\u5965\u56ed","contact":null,"address":"\u5965\u56ed\u5e7f\u573a","in_group":"aa","out_group":"ss","mode":1,"created_at":"2020-05-04 08:44:31","updated_at":"2020-05-04 08:44:31"}]
+    select_school:null,
+    select_worker:null,
+    school_id:null,
+    schools:null,
+    workers:null,
+    worker_id:null,
   },
   onLoad: function(options) {
     this.details = {}
@@ -26,6 +31,7 @@ Page({
     let that = this
     // 获取访客信息
     this.getRecord();
+    this.getSchoolsList();
   },
   onShow: function() {
 
@@ -45,26 +51,71 @@ Page({
   // 获取我的申请记录
   getRecord: function() {
     let that = this;
-    app.getVisitor(function (data) {
-      if (data) {
-        console.log('返回')
-        let info = JSON.parse(JSON.stringify(data));
-        if (info.vistior_status == 0 || info.vistior_status == 1) { //申请中或申请成功
-          console.log(info.visitor_time)
-          that.details = info
-          that.setData({
-            details: info
+    wx.request({
+      url: app.globalData.host+'/visitor',
+      data:{
+        'token':wx.getStorageSync('token')
+      },
+      method:"GET",
+      success:(res)=>{
+        console.log(res)
+        if(res.statusCode==200){
+          this.setData({
+            worker:res.data.data.worker,
+            school:res.data.data.school,
+            details:res.data.data
           })
-        }else{
-          if (info.vistior_status){
-            that.details.vistior_status = info.vistior_status
-            that.setData({
-              details: that.details
-            })
-          }
         }
       }
     })
+  },
+  getSchoolsList:function(){
+    wx.request({
+      url: app.globalData.host+'/schools?page=1&&limit=1000',
+      method:'GET',
+      success:(res)=>{
+        if(res.statusCode==200){
+          this.setData({
+            schools:res.data.data.data
+          })
+        }
+      }
+    })
+  },
+  bindSchoolChange:function(e){
+    let that = this;
+    let school_id = this.data.schools[e.detail.value].id
+    this.data.details.school_id = this.data.schools[e.detail.value].id
+    this.setData({
+      school_id:this.data.schools[e.detail.value].id,
+      select_school:e.detail.value,
+      details:this.data.details
+      // u_info: this.u_info
+    })
+    this.getworkersList(school_id);
+  },
+  getworkersList:function(school_id){
+    wx.request({
+      url: app.globalData.host+'/workers?page=1&&limit=1000&&school_id='+school_id,
+      method:'GET',
+      success:(res)=>{
+        if(res.statusCode==200){
+          this.setData({
+            workers:res.data.data.data
+          })
+        }
+      }
+    })
+  },
+  bindWorkerChange:function(e){
+    let that = this;
+    this.data.details.worker_id = this.data.workers[e.detail.value].id
+    this.setData({
+      select_worker:e.detail.value,
+      worker_id:this.data.workers[e.detail.value].id,
+      details:this.data.details
+    })
+    // this.getworkersList(school_id);
   },
   // 人脸图片上传校验
   UploadCheck: function(e) {
@@ -113,13 +164,11 @@ Page({
   },
   // 姓名输出
   nameInput: function (e) {
-    user_name = e.detail.value;
-    this.details.user_name = e.detail.value;
+    this.data.details.name = e.detail.value;
   },
   // 电话输出
   iphoneInput: function (e) {
-    user_iphone = e.detail.value;
-    this.details.user_iphone = e.detail.value;
+    this.data.details.phone = e.detail.value;
   },
   // 对接人输出
   visitnameInput: function(e) {
@@ -128,90 +177,84 @@ Page({
   },
   // 到访理由输出
   reasonInput: function(e) {
-    visitor_reason = e.detail.value;
-    this.details.visitor_reason = e.detail.value;
+    this.data.details.reason = e.detail.value;
   },
   // 提交审核
   submission: function (e) {
-
     console.log('formID:' + e.detail.formId)
-
-    let that = this;
-    if (!user_name) {
+    let details = this.data.details;
+    console.log(details)
+    if(!details.name){
       wx.showToast({
-        title: '请填写真实姓名',
+        title: '请输入姓名！',
         icon: 'loading',
         duration: 1000
       })
-      return;
-    } else if (!user_iphone) {
-      wx.showToast({
-        title: '请填写手机号',
-        icon: 'loading',
-        duration: 1000
-      })
-      return;
-    } else if (!visitor_butt) {
-      wx.showToast({
-        title: '请填写拜访人姓名',
-        icon: 'loading',
-        duration: 1000
-      })
-      return;
-    } else if (!visitor_head1) {
-      wx.showToast({
-        title: '请上传人脸头像',
-        icon: 'loading',
-        duration: 1000
-      })
-      return;
-    } else if (!visitor_reason) {
-      wx.showToast({
-        title: '请填写访客理由',
-        icon: 'loading',
-        duration: 1000
-      })
-      return;
-    } else{
-      wx.request({
-        url: app.globalData.https + '/visitor/insert_vistor',
-        data: {
-          form_id: e.detail.formId,
-          user_openid: app.globalData.opnID,
-          user_name: user_name,
-          user_iphone: user_iphone,
-          visitor_butt: visitor_butt,
-          visitor_head1: visitor_head1,
-          visitor_reason: visitor_reason
-        },
-        // header: {
-        //   "content-type": "application/x-www-form-urlencoded"
-        // },
-        method: 'post',
-        success: function (res) {
-          console.log('申请访客返回')
-          console.log(res)
-          if (res.data.sucesss) {
-            wx.showToast({
-              title: '提交成功！',
-              icon: 'success',
-              duration: 1000
-            })
-            that.getRecord();
-            setTimeout(function () {
-              wx.navigateBack({})
-            }, 1500)
-          } else {
-            wx.showModal({ title: '提示', content: res.data.error, showCancel: false, success: function (res) { } })
-            // wx.showToast({
-            //   title: res.data.error,
-            //   icon: 'loading',
-            //   duration: 1000
-            // })
-          }
-        }
-      });
+      return ;
     }
+    if(!details.phone){
+      wx.showToast({
+        title: '请输入手机号码！',
+        icon: 'loading',
+        duration: 1000
+      })
+      return ;
+    }
+    if(!details.reason){
+      wx.showToast({
+        title: '请输入访客理由！',
+        icon: 'loading',
+        duration: 1000
+      })
+      return ;
+    }
+    if(!details.worker_id){
+      wx.showToast({
+        title: '请选择拜访人！',
+        icon: 'loading',
+        duration: 1000
+      })
+      return ;
+    }
+    wx.request({
+      url: app.globalData.host + '/visitor',
+      data: {
+        form_id: e.detail.formId,
+        token: wx.getStorageSync('token'),
+        name: details.name,
+        phone: details.phone,
+        reason: details.reson,
+        worker_id: details.worker_id,
+        school_id:details.school_id,
+        href:details.href
+      },
+      // header: {
+      //   "content-type": "application/x-www-form-urlencoded"
+      // },
+      method: 'post',
+      success: function (res) {
+        console.log('申请访客返回')
+        console.log(res)
+        if (res.statusCode==200) {
+          wx.showToast({
+            title: '提交成功！',
+            icon: 'success',
+            duration: 1000
+          })
+          that.getRecord();
+          setTimeout(function () {
+            wx.navigateBack({})
+          }, 1500)
+        } else {
+          wx.showModal({ title: '提示', content: res.data.error, showCancel: false, success: function (res) { } })
+          // wx.showToast({
+          //   title: res.data.error,
+          //   icon: 'loading',
+          //   duration: 1000
+          // })
+        }
+      }
+    });
   },
 
   // 显示隐藏相机
@@ -238,29 +281,29 @@ Page({
           duration: 10000
         })
         wx.uploadFile({
-          url: app.globalData.https + '/txUpload',
+          url: app.globalData.apihost + '/upload', 
           filePath: res.tempImagePath,
           name: "file",
-          formData: {
-            "user": "test"
-          },
-          success: function (res1) {
+          success: function(res1) {
             console.log('头像上传成功返回')
             console.log(res1)
             wx.hideToast();
+            
+            console.log(res1)
+            console.log(res1.data)
             let data = JSON.parse(res1.data)
-            if (data.sucesss) {
-              visitor_head1 = data.sucesss
-              that.details.visitor_head1 = data.sucesss
+            
+            if (res1.statusCode==200) {
+              that.data.details.href = data.data
               that.setData({
-                details: that.details
+                userInfo:that.data.userInfo
               })
             } else {
               wx.showModal({
                 title: '错误提示',
-                content: data.error,
+                content: data.msg,
                 showCancel: false,
-                success: function (res) { }
+                success: function(res) {}
               })
             }
           }, fail: function (err) {
