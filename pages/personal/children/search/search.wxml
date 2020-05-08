@@ -8,8 +8,10 @@
     <!-- <text class="num">{{index + 1}}</text> -->
     <image mode='aspectFill' class="portrait" mode='aspectFill' src="{{item.cover ? item.cover : '/icon/qb.png'}}"></image>
     <view class="infoBox">
+    <text>学校： {{item.school}}</text>
       <text>姓名： {{item.name}}</text>
       <text>学号： {{item.number}}</text>
+      
       <text wx:if="{{item.grade}}">班级： {{item.grade}}年级 {{item.class}}</text>
       <text wx:else>班级： 暂无班级信息</text>
     </view>

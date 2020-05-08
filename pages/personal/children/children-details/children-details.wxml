@@ -1,11 +1,11 @@
-<view class="container" wx:if="{{info.stu_head}}">
+<view class="container" wx:if="{{info.cover}}">
   <!-- <view class="userinfo">
     <image mode="aspectFill" bindtap="bindViewTap" class="userinfo-avatar" src="{{info.stu_head}}"></image>
     <text></text>
   </view> -->
 
   <view class="userinfo" >
-    <image mode="aspectFill" class="userinfo-avatar" src="{{info.stu_head}}" bindtap='upload'></image>
+    <image mode="aspectFill" class="userinfo-avatar" src="{{info.cover}}" bindtap='upload'></image>
     <!-- <text>{{info.stu_name}}</text> -->
   </view>
   <!-- <view class="userinfo" wx:else>
@@ -13,11 +13,11 @@
     <text bindtap='upload'> 点击上传生活照 </text>
   </view> -->
 </view>
-<view class="container" wx:if="{{showFace&&!info.stu_head}}">
+<view class="container" wx:if="{{showFace&&!info.cover}}">
 
   <view class="userinfo" >
     <image mode="aspectFill" class="userinfo-avatar" src="/icon/qb.png" bindtap='upload'></image>
-    <text bindtap='upload'> 点击上传生活照 </text>
+    <text bindtap='upload'> 点击上传头像 </text>
   </view>
 </view>
 
@@ -25,21 +25,21 @@
 <view class="list">
   <image src="/icon/NO.png"></image>
   <view>
-    <input bindinput='numInput' type="number" maxlength='20' placeholder='请输入学号' value='{{info.stu_number}}'></input>
+    <input bindinput='numInput' type="number" maxlength='20' placeholder='请输入学号' value='{{info.number}}'></input>
     <text bindtap='toSearch'>检索</text>
   </view>
 </view>
 <view class="list">
   <image src="/icon/name.png"></image>
-  <view>{{info.stu_name}}</view>
+  <view>{{info.name}}</view>
 </view>
 <view class="list">
   <image src="/icon/sex.png"></image>
-  <view>{{info.stu_sex == 1 ? '男' : '女'}}</view>
+  <view>{{info.sex == 1 ? '男' : '女'}}</view>
 </view>
 <view class="list">
   <image src="/icon/age.png"></image>
-  <view>{{info.stu_age}}</view>
+  <view>{{info.age}}</view>
 </view>
 <view class="list" wx:if="{{info.class_grade}}">
   <image src="/icon/grade1.png"></image>
@@ -49,7 +49,7 @@
   <image src="/icon/class.png"></image>
   <view>{{info.class_name}}</view>
 </view>
-<view class="list" wx:if="{{open_type == 0 || open_type == 2}}">
+<view class="list" >
   <image src="/icon/record.png"></image>
   <view style="border:none;">备注</view>
 </view>
@@ -62,8 +62,8 @@
 </view>
 <view class="portrait-box" wx:if="{{showFace}}">
   <view data-type="1" bindtap='UploadCheck'>
-    <image mode="aspectFill" src="{{info.stu_images1}}"></image>
-    <image class="image" wx:if="{{!info.stu_images1}}" mode="aspectFill" src="/icon/head.png"></image>
+    <image mode="aspectFill" src="{{info.href}}"></image>
+    <image class="image" wx:if="{{!info.href}}" mode="aspectFill" src="/icon/head.png"></image>
    
   </view>
 </view>

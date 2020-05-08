@@ -56,7 +56,7 @@
       <image src="/icon/record.png" />
       <text>发帖及记录</text>
     </view> -->
-    <view wx:if="{{userInfo.whether == 1 && userInfo.status == 2}}" bindtap='openClassManagement'>
+    <view  bindtap='openClassManagement'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>

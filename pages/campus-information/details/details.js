@@ -31,9 +31,9 @@ Page({
           console.log(res.data.data)
           wx.hideToast({ })
           WxParse.wxParse('article', 'html', res.data.data.detail, that, 2);
-          that.details = res.data.data.detail;
+          that.details = res.data.data;
           that.setData({
-            details: res.data.data.detail
+            details: res.data.data
           })
         }
       }

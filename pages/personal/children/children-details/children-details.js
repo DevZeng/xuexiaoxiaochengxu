@@ -111,81 +111,21 @@ Page({
       title: '加载中',
       icon: 'loading',
       mask: true,
-      duration: 10000
+      duration: 100
     })
     console.log(stu_number)
     let that = this;
      // 获取学生信息
     wx.request({
-      url: app.globalData.https + '/class_m/select_message',
-      data: {
-        stu_number: stu_number
-      },
+      url: app.globalData.host + '/student?number='+stu_number,
       method: 'get',
       success: function(res) {
         console.log(res)
-        if (res.data.result) {
-          if (res.data.result.stu_head) { //有默认家长（有图片肯定有默认家长）
-
-            // 获取孩子的家庭成员
-            wx.request({
-              url: app.globalData.https + '/parent/select_parent',
-              data: {
-                stu_number: stu_number
-              },
-              method: 'get',
-              success: function (res) {
-                console.log('家庭成员列表返回')
-                console.log(res)
-                if (res.data.data) {
-                  let family_list = res.data.data,
-                    parentState = false;
-                  for (let i = 0; i < family_list.length; i++) {
-                    console.log(family_list[i].user_openid)
-                    console.log(app.globalData.userInfo.user_openid)
-                    if (family_list[i].user_openid == app.globalData.userInfo.user_openid) {//孩子和我是有关系的，具体是什么关系让我们一探究竟吧
-                      parentState = true;
-                      if (family_list[i].parent_status == 0) { //0审核中，什么也干不了
-                        console.log('审核中')
-                        that.open_type = 3;
-                      } else if (family_list[i].parent_status == 1) { //1审核通过，我是家长（牛逼）
-                        if (family_list[i].user_status == 0) {//0普通家庭成员，也是什么也干不了（苦逼）
-                          console.log('审核已通过（普通监护人）')
-                          that.open_type = 4;
-                        } else {//1默认家长（加粗、放大）
-                          console.log('审核已通过（默认家长）')
-                          that.open_type = 1;
-                        }
-                      } else { //2审核不通过，苦逼，只能重新提交审核
-                        console.log('审核不通过')
-                        that.open_type = 2;
-                      }
-                      break;
-                    }
-                  }
-                  if (!parentState) { //我和孩子没关系，但为了早日为所欲为，只能添加绑定家长了
-                    console.log('我和学生没有绑定任何关系')
-                    that.open_type = 2;
-                  }
-                  wx.hideToast({})
-                  that.setData({
-                    open_type: that.open_type
-                  })
-                }
-              }
-            });
-
-          } else { //无默认家长，那就去添加绑定默认家长吧
-            console.log('该学生没有绑定监护人')
-            wx.hideToast({})
-            that.open_type = 0;
-            that.setData({
-              open_type: that.open_type
-            })
-          }
-          that.info = res.data.result
+        if (res.statusCode==200) {
+          that.info = res.data.data
           that.setData({
-            info: res.data.result
+            info: res.data.data,
+            open_type:res.data.data.state
           })
         } else {
           wx.showToast({

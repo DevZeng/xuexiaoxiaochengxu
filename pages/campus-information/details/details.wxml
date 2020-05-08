@@ -1,7 +1,7 @@
 <import src="../../../wxParse/wxParse.wxml" />
 <view class="details">
 <!-- 详情  -->
-  <text class="title">{{details.details_title}}</text>
+  <text class="title">{{details.title}}</text>
   <view class="info">
     <!-- <view>
       <image src="/images/555.jpg"></image>

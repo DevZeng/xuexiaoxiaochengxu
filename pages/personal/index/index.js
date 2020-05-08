@@ -200,20 +200,8 @@ Page({
   // 跳转班级管理页
   openClassManagement: function () {
     let that = this;
-    app.getLogintype(function (type) {
-      if (type.user_card) {
-        wx.navigateTo({
-          url: '../class-management/index/index'
-        })
-      } else {
-        wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
-            if (res.confirm) {
-              that.openInformation();
-            }
-          }
-        })
-      }
+    wx.navigateTo({
+      url: '../class-management/index/index'
     })
   },
   // 跳转购买服务页
