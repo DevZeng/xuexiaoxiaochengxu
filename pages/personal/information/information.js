@@ -294,7 +294,7 @@ Page({
 
   // 监听是否为本校职工
   switchChange: function (e) {
-    console.log(e)
+    console.log(e.detail.value)
     this.isworkers = e.detail.value;
     if (e.detail.value){
       this.isteacher = !e.detail.value
@@ -308,8 +308,15 @@ Page({
 
   // 监听是否为教师
   switchChange1: function(e) {
-    console.log(e.detail.value)
+    let that = this;
+    
     if (e.detail.value) {//如果是教师
+      if(e.detail.value==false){
+        that.data.userInfo.worker = 0;
+      this.setData({
+        userInfo:that.data.userInfo
+      })
+      }
       console.log('选择了教师身份')
       if (!this.u_info.class_grade) {//有没有年级信息
         this.u_info.class_grade = '请选择年级'

@@ -12,7 +12,7 @@
       <text>姓名： {{item.name}}</text>
       <text>学号： {{item.number}}</text>
       
-      <text wx:if="{{item.grade}}">班级： {{item.grade}}年级 {{item.class}}</text>
+      <text wx:if="{{item.grade}}">班级： {{item.grade}} {{item.class}}</text>
       <text wx:else>班级： 暂无班级信息</text>
     </view>
   </view>

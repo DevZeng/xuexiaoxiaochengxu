@@ -53,44 +53,51 @@ Page({
   // 上传图片
   upload: function(e) {
     let that = this;
-    if (that.open_type == 0 || that.open_type == 1) { //只有添加默认家长和编辑孩子信息是才能更改图片
-      wx.chooseImage({
-        count: 1, //最多可以选择的图片总数  
-        sizeType: ['compressed'], // "original"原图，"compressed"压缩图，默认二者都有
-        sourceType: ['album', 'camera'], // "album"从相册选图，"camera"使用相机，默认二者都有
-        success: function(res) {
-          wx.showToast({
-            title: '头像上传中',
-            icon: 'loading',
-            duration: 10000
-          })
-          wx.uploadFile({
-            url: app.globalData.https + '/txUpload_t', //仅为示例，非真实的接口地址
-            filePath: res.tempFilePaths[0],
-            name: "file",
-            formData: {
-              "user": "test"
-            },
-            success: function(res) {
-              wx.hideToast();
-              that.info.stu_head = JSON.parse(res.data).sucesss
+    wx.chooseImage({
+      count: 1, //最多可以选择的图片总数  
+      sizeType: ['compressed'], // "original"原图，"compressed"压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // "album"从相册选图，"camera"使用相机，默认二者都有
+      success: function(res) {
+        console.log(res)
+        wx.uploadFile({
+          url: app.globalData.apihost + '/upload', 
+          filePath: res.tempFilePaths[0],
+          name: "file",
+          success: function(res1) {
+            console.log('头像上传成功返回')
+            console.log(res1)
+            wx.hideToast();
+            
+            console.log(res1)
+            console.log(res1.data)
+            let data = JSON.parse(res1.data)
+            
+            if (res1.statusCode==200) {
+              that.data.info.cover = data.data
               that.setData({
-                info: that.info
+                info:that.data.info
               })
-              console.log(that.info.stu_head)
+            } else {
+              wx.showModal({
+                title: '错误提示',
+                content: data.msg,
+                showCancel: false,
+                success: function(res) {}
+              })
             }
-          })
-        }
-      })
-    }
+          }, fail: function (err) {
+            console.log('头像上传失败返回')
+            console.log(err)
+          }
+        })
+      }
+    })
   },
   // 人脸图片上传校验
   UploadCheck: function(e) {
-    let that = this,
-      type_ = e.currentTarget.dataset.type;
-    if (that.open_type == 0 || that.open_type == 1) { //只有添加默认家长和编辑孩子信息是才能更改图片
-      that.cameraDisable();
-    }
+    this.setData({
+      showCamera: true
+    })
   },
   // 学号输出
   numInput: function(e) {
@@ -124,8 +131,7 @@ Page({
         if (res.statusCode==200) {
           that.info = res.data.data
           that.setData({
-            info: res.data.data,
-            open_type:res.data.data.state
+            info: res.data.data
           })
         } else {
           wx.showToast({
@@ -138,142 +144,45 @@ Page({
     });
   },
   // 提交审核
-  submission: function(e) {
-    console.log('formID:' + e.detail.formId)
-
-    let that = this,
-      info = this.info;
-    if (!info.stu_number) {
+  submit: function(e) {
+    wx.showToast({
+      title: '上传中',
+      icon: 'loading',
+      mask: true,
+      duration: 10000
+    })
+    let that = this;
+    console.log(relation)
+    let data = that.data.info;
+    if(!data.number){
       wx.showToast({
-        title: '请输入学号',
+        title: '学号不正确',
         icon: 'loading',
-        duration: 1000
+        duration: 100
       })
-      return;
-    } 
-    else{
-      if (that.open_type == 0) { //绑定默认家长
-        console.log('绑定默认家长')
-        wx.request({
-          url: app.globalData.https + '/stu/insert_student',
-          data: {
-            form_id: e.detail.formId,
-            user_openid: app.globalData.opnID,
-            stu_number: info.stu_number,
-            stu_images1: info.stu_images1,
-            stu_images2: "1",
-            stu_images3: "1",
-            stu_head: info.stu_head,
-            relation: relation
-          },
-          header: {
-            "content-type": "application/x-www-form-urlencoded"
-          },
-          method: 'post',
-          success: function (res) {
-            console.log(res)
-            if (res.data.sucesss) {
-              wx.showToast({
-                title: '提交成功！',
-                icon: 'success',
-                duration: 1000
-              })
-              setTimeout(function () {
-                wx.navigateBack({
-                  delta: 2
-                })
-              }, 1000)
-            } else {
-              wx.showModal({ title: '提示', content: res.data.error, showCancel: false, success: function (res) { } })
-              // wx.showToast({
-              //   title: res.data.error,
-              //   icon: 'loading',
-              //   duration: 1000
-              // })
-            }
-          }
-        });
-      } else if (that.open_type == 1) { //编辑孩子信息
-        console.log('编辑孩子信息')
-        console.log(info.stu_number)
-        console.log(info.stu_images1)
-        console.log(info.stu_head)
-        console.log(app.globalData.opnID)
-        wx.request({
-          url: app.globalData.https + '/stu/update_images',
-          data: {
-            // form_id: e.detail.formId,
-            user_openid: app.globalData.opnID,
-            stu_number: info.stu_number,
-            stu_images1: info.stu_images1,
-            stu_images2: '1',
-            stu_images3: '1',
-            stu_head: info.stu_head
-          },
-          method: 'put',
-          header: {
-            "content-type": "application/x-www-form-urlencoded"
-          },
-          success: function (res) {
-            console.log(res)
-            if (res.data.sucesss) {
-              wx.showToast({
-                title: '保存成功！',
-                icon: 'success',
-                duration: 1000
-              })
-              setTimeout(function () {
-                wx.navigateBack({
-                  delta: 2
-                })
-              }, 1000)
-            } else {
-              wx.showModal({ title: '提示', content: res.data.error, showCancel: false, success: function (res) { } })
-            }
-          }
-        });
-      } else { //绑定家庭成员
-        console.log('绑定家庭成员')
-        console.log(app.globalData.opnID)
-        console.log(info.stu_number)
-        wx.request({
-          url: app.globalData.https + '/parent/insert_parent',
-          data: {
-            form_id: e.detail.formId,
-            user_openid: app.globalData.opnID,
-            stu_number: info.stu_number,
-            relation: relation
-          },
-          header: {
-            "content-type": "application/x-www-form-urlencoded"
-          },
-          method: 'post',
-          success: function (res) {
-            console.log('绑定家庭成员返回')
-            console.log(res)
-            if (res.data.sucesss) {
-              wx.showToast({
-                title: '提交成功！',
-                icon: 'success',
-                duration: 1000
-              })
-              setTimeout(function () {
-                wx.navigateBack({
-                  delta: 2
-                })
-              }, 1000)
-            } else {
-              wx.showModal({ title: '提示', content: res.data.error, showCancel: false, success: function (res) { } })
-              // wx.showToast({
-              //   title: res.data.error,
-              //   icon: 'loading',
-              //   duration: 1000
-              // })
-            }
-          }
-        });
-      }
     }
+    wx.request({
+      url: app.globalData.host+'/child',
+      method:"POST",
+      data:{
+        token:wx.getStorageSync('token'),
+        number:data.number,
+        remark: relation,
+        cover:data.cover,
+        face_image:data.face_image
+      },
+      success:(res)=>{
+        console.log(res)
+        wx.hideToast({})
+        if(res.statusCode==200){
+          that.data.info.state = 2;
+          this.setData({
+            info :that.data.info
+          })
+        }
+       
+      }
+    })
   },
 
 
@@ -298,31 +207,33 @@ Page({
         wx.showToast({
           title: '上传中...',
           icon: 'loading',
-          duration: 10000
+          duration: 1000
         })
         wx.uploadFile({
-          url: app.globalData.https + '/txUpload',
+          url: app.globalData.apihost + '/upload', 
           filePath: res.tempImagePath,
           name: "file",
-          formData: {
-            "user": "test"
-          },
-          success: function (res1) {
+          success: function(res1) {
             console.log('头像上传成功返回')
             console.log(res1)
             wx.hideToast();
+            
+            console.log(res1)
+            console.log(res1.data)
             let data = JSON.parse(res1.data)
-            if (data.sucesss) {
-              that.info.stu_images1 = data.sucesss
+            
+            if (res1.statusCode==200) {
+              that.data.info.face_image = data.data
               that.setData({
-                info: that.info
+                info:that.data.info,
+                showCamera:false
               })
             } else {
               wx.showModal({
                 title: '错误提示',
-                content: data.error,
+                content: data.msg,
                 showCancel: false,
-                success: function (res) { }
+                success: function(res) {}
               })
             }
           }, fail: function (err) {

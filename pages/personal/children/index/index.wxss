@@ -14,13 +14,13 @@
 
 .children-list .info .portrait {
   width: 200rpx;
-  height: 150rpx;
+  height: 200rpx;
   border-radius: 15rpx;
 }
 
 .children-list .info .content {
   width: 500rpx;
-  height: 150rpx;
+  height: 200rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,27 +1,28 @@
 <view class="children-list" wx:for="{{childrenList}}" wx:key="{{index}}">
   <view class="info">
-    <image class="portrait" data-value="{{item.stu_number}}" bindtap='toChildren_Details' mode='aspectFill' src="{{item.stu_head}}"></image>
-    <view class="content" data-value="{{item.stu_number}}" bindtap='toChildren_Details'>
+    <image class="portrait" data-value="{{item.number}}" bindtap='toChildren_Details' mode='aspectFill' src="{{item.cover?item.cover:'/icon/qb.png'}}"></image>
+    <view class="content" data-value="{{item.number}}" bindtap='toChildren_Details'>
       <view>
-        <text>{{item.stu_name}}</text>
-        <image mode='aspectFill' src="{{item.stu_sex == 1 ? '/icon/boy.png' : '/icon/girl.png'}}"></image>
-        <text>{{item.stu_age}}岁</text>
+        <text>{{item.name}}</text>
+        <image mode='aspectFill' src="{{item.sex == 1 ? '/icon/boy.png' : '/icon/girl.png'}}"></image>
+        <text>{{item.age}}岁</text>
       </view>
-      <text>学号：{{item.stu_number}}</text>
-      <text wx:if="{{item.class_grade}}">班级：{{item.class_grade}}年级{{item.class_name}}</text>
+      <text>学校：{{item.school}}</text>
+      <text>学号：{{item.number}}</text>
+      <text wx:if="{{item.class}}">班级：{{item.grade}}{{item.class}}</text>
       <text wx:else>班级：暂无录入信息</text>
     </view>
-    <view wx:if="{{item.parent_status == 1}}" class="switch" data-index="{{index}}" bindtap='change_state'>
+    <!-- <view wx:if="{{item.parent_status == 1}}" class="switch" data-index="{{index}}" bindtap='change_state'>
       <text>家庭成员</text>
       <image mode='aspectFill' src="{{item.family_state == true ? '/icon/up.png' : '/icon/down.png'}}"></image>
-    </view>
-    <view wx:elif="{{item.parent_status == 0}}" class="switch">
+    </view> -->
+    <view wx:if="{{item.state == 2}}" class="switch">
       <text>审核中</text>
     </view>
   </view>
-  <view wx:if="{{item.family_state}}" class="family ripple fadeIn" animation="{{item.animationData}}">
+  <!-- <view wx:if="{{item.family_state}}" class="family ripple fadeIn" animation="{{item.animationData}}">
 
-    <view wx:for="{{item.family}}" wx:for-item="items" wx:key="{{index}}" class="family-list" data-value="{{items}}" data-family ="{{item.family}}" data-stu_number="{{item.stu_number}}" bindtap='toFamily_Details' wx:if='{{items.parent_status != 2}}'><!-- 不通过的不显示 -->
+    <view wx:for="{{item.family}}" wx:for-item="items" wx:key="{{index}}" class="family-list" data-value="{{items}}" data-family ="{{item.family}}" data-stu_number="{{item.stu_number}}" bindtap='toFamily_Details' wx:if='{{items.parent_status != 2}}'>
       <view>
         <image mode='aspectFill' src="{{items.user_image}}"></image>
         <text wx:if="{{items.parent_status != 1}}">{{items.parent_status == 0 ? '审核中' : items.parent_status == 2 ? '不通过' : ''}}</text>
@@ -29,7 +30,7 @@
       <text class='familyName'>{{items.user_name}}</text>
     </view>
     <text wx:if="{{item.family.length == 0}}" class="notData">暂无家庭成员~</text>
-  </view>
+  </view> -->
 </view>
 <view class="add" bindtap='toSearch'>
   <!-- <view>+</view> -->
