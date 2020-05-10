@@ -18,17 +18,17 @@ Page({
   getHelpDocument: function(help_id) {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/help/select_help',
+      url: app.globalData.host + '/help/doc',
       data: {
-        help_id: help_id
+        id: help_id
       },
       method: 'get',
       success: function(res) {
-        if (res.data.result) {
+        if (res.statusCode==200) {
           wx.hideToast()
-          WxParse.wxParse('article', 'html', res.data.result.help_content, that, 5);
+          WxParse.wxParse('article', 'html', res.data.data.detail, that, 5);
           wx.setNavigationBarTitle({
-            title: res.data.result.help_name //页面标题为路由参数
+            title: res.data.data.title //页面标题为路由参数
           })
         }
       }

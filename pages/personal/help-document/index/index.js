@@ -15,15 +15,15 @@ Page({
   getDocumentList: function () {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/help/select_all_help',
+      url: app.globalData.host + '/help/docs',
       method: 'get',
       success: function (res) {
         wx.hideToast()
         console.log(res.data.data)
         if (res.data.data) {
-          that.documentList = res.data.data;
+          that.documentList = res.data.data.data;
           that.setData({
-            documentList: res.data.data
+            documentList: res.data.data.data
           })
         }
       }

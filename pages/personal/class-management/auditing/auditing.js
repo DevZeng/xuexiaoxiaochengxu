@@ -2,7 +2,8 @@
 const app = getApp()
 Page({
   data: {
-  list:[]
+  list:[],
+  page:1
   },
   onLoad: function (options) {
     this.getExamine();
@@ -14,18 +15,20 @@ Page({
   getExamine: function(){
     let that = this;
     wx.request({
-      url: app.globalData.https + '/stu/select_user_t',
+      url: app.globalData.host + '/my/students',
       data:{
-        user_openid: app.globalData.opnID
+        token: wx.getStorageSync('token'),
+        state:2,
+        page:1
       },
       method: 'get',
       success: function (res) {
         console.log('家长审核列表返回')
         console.log(res)
         if (res.data.data) {
-          that.list = res.data.data;
+          that.list = res.data.data.data;
           that.setData({
-            list: res.data.data
+            list: res.data.data.data
           })
         }
       }

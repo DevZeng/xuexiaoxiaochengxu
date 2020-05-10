@@ -17,17 +17,17 @@ Page({
   getDateils: function (stu_number){
     let that = this;
     wx.request({
-      url: app.globalData.https + '/class_m/select_message',
+      url: app.globalData.host + '/student',
       data: {
-        stu_number: stu_number
+        number: stu_number
       },
       method: 'get',
       success: function (res) {
         console.log(res)
-        if (res.data.result) {
-          that.info = res.data.result
+        if (res.statusCode==200) {
+          that.info = res.data.data
           that.setData({
-            info: res.data.result
+            info: res.data.data
           })
         }
       }

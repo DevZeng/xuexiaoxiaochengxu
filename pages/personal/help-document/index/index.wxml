@@ -1,6 +1,6 @@
 <view wx:if="{{documentList}}" class="box">
-  <view wx:for="{{documentList}}" wx:key="{{index}}" data-value="{{item.help_id}}" bindtap='openDocument' class="list">
-    <text>{{item.help_name}}</text>
+  <view wx:for="{{documentList}}" wx:key="{{index}}" data-value="{{item.id}}" bindtap='openDocument' class="list">
+    <text>{{item.title}}</text>
     <image src="/icon/right.png"></image>
   </view>
 </view>
