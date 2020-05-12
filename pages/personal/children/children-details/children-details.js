@@ -124,7 +124,7 @@ Page({
     let that = this;
      // 获取学生信息
     wx.request({
-      url: app.globalData.host + '/student?number='+stu_number,
+      url: app.globalData.host + '/student?number='+stu_number+'&token='+wx.getStorageSync('token'),
       method: 'get',
       success: function(res) {
         console.log(res)
@@ -207,10 +207,10 @@ Page({
         wx.showToast({
           title: '上传中...',
           icon: 'loading',
-          duration: 1000
+          duration: 10000
         })
         wx.uploadFile({
-          url: app.globalData.apihost + '/upload', 
+          url: app.globalData.apihost + '/upload/face', 
           filePath: res.tempImagePath,
           name: "file",
           success: function(res1) {

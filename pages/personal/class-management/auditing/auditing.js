@@ -72,23 +72,24 @@ Page({
     })
   },
   // 通过审核
-  throughAudit: function (stu_number){
+  throughAudit: function (id){
     let that = this;
-    console.log(stu_number)
+    console.log(id)
     wx.request({
-      url: app.globalData.https + '/stu/update_status1',
+      url: app.globalData.host + '/pass/user/student',
       data:{
-        user_openid: app.globalData.opnID,
-        stu_number: stu_number
+        token: wx.getStorageSync('token'),
+        state: 3,
+        id:id
       },
-      method: 'put',
+      method: 'post',
       header: {
         "content-type": "application/x-www-form-urlencoded"
       },
       success: function (res) {
         console.log('通过审核返回')
         console.log(res)
-        if (res.data.sucesss) {
+        if (res.statusCode==200) {
           wx.showToast({ title: '操作成功', icon: 'success', duration: 1000 })
           that.getExamine();
         } else {
@@ -98,22 +99,23 @@ Page({
     });
   },
   // 不通过审核
-  NotThroughAudit: function (stu_number) {
+  NotThroughAudit: function (id) {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/stu/update_status2',
+      url: app.globalData.https + '/pass/user/student',
       data: {
-        user_openid: app.globalData.opnID,
-        stu_number: stu_number
+        token: wx.getStorageSync('token'),
+        state: 4,
+        id:id
       },
-      method: 'put',
+      method: 'post',
       header: {
         "content-type": "application/x-www-form-urlencoded"
       },
       success: function (res) {
         console.log('不通过审核返回')
         console.log(res)
-        if (res.data.sucesss) {
+        if (res.statusCode==200) {
           wx.showToast({ title: '操作成功', icon: 'success', duration: 1000 })
           that.getExamine();
         }

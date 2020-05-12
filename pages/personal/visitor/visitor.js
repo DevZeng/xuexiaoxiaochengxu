@@ -1,3 +1,4 @@
+var utils = require('../../../utils/util.js')
 const app = getApp();
 let user_name,
   user_iphone,
@@ -19,22 +20,45 @@ Page({
     schools:null,
     workers:null,
     worker_id:null,
+    date:null,
+
+multiArray: [['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+ 
+['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12',
+
+  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24',
+
+  '25', '26', '27', '28', '29', '30', '31'
+
+]],
+
+multiIndex: [0, 0],
+
   },
   onLoad: function(options) {
+   
+    // this.date = new Date();
     this.details = {}
     this.mask_disable = false;
     this.showCamera = false //是否显示照相机
     this.cameraConfig = { //照相机参数配置
       flash: 'off',
-      position: 'front'
+      position: 'front',
     }
+    this.setData({
+      multiIndex : [new Date().getMonth(),new Date().getDate()-1]
+    })
+    console.log(this.data.multiIndex);
     let that = this
     // 获取访客信息
     this.getRecord();
     this.getSchoolsList();
   },
   onShow: function() {
-
+    this.setData({
+      // userInfo: info,
+      showFace :wx.getStorageSync('openFace')
+    })
   },
   // 显示隐藏设置授权弹窗
   display: function () {
@@ -60,11 +84,13 @@ Page({
       success:(res)=>{
         console.log(res)
         if(res.statusCode==200){
-          this.setData({
-            worker:res.data.data.worker,
-            school:res.data.data.school,
-            details:res.data.data
-          })
+          if(res.data.data){
+            this.setData({
+              worker:res.data.data.worker,
+              school:res.data.data.school,
+              details:res.data.data
+            })
+          }
         }
       }
     })
@@ -181,6 +207,7 @@ Page({
   },
   // 提交审核
   submission: function (e) {
+    let that  = this;
     console.log('formID:' + e.detail.formId)
     let details = this.data.details;
     console.log(details)
@@ -216,6 +243,22 @@ Page({
       })
       return ;
     }
+    if(!details.href){
+      wx.showToast({
+        title: '请先上传照片！',
+        icon: 'loading',
+        duration: 1000
+      })
+      return ;
+    }
+    if(that.data.multiIndex[0]<=new Date().getMonth()&&that.data.multiIndex[1]<new Date().getDate()){
+      wx.showToast({
+        title: '请选择正确的来访日期！',
+        icon: 'loading',
+        duration: 1000
+      })
+      return ;
+    }
     wx.request({
       url: app.globalData.host + '/visitor',
       data: {
@@ -223,10 +266,11 @@ Page({
         token: wx.getStorageSync('token'),
         name: details.name,
         phone: details.phone,
-        reason: details.reson,
+        reason: details.reason,
         worker_id: details.worker_id,
         school_id:details.school_id,
-        href:details.href
+        href:details.href,
+        date:new Date().getFullYear()+'-'+(that.data.multiIndex[0]+1)+'-'+(that.data.multiIndex[1]+1)
       },
       // header: {
       //   "content-type": "application/x-www-form-urlencoded"
@@ -281,7 +325,7 @@ Page({
           duration: 10000
         })
         wx.uploadFile({
-          url: app.globalData.apihost + '/upload', 
+          url: app.globalData.apihost + '/upload/face', 
           filePath: res.tempImagePath,
           name: "file",
           success: function(res1) {
@@ -292,11 +336,10 @@ Page({
             console.log(res1)
             console.log(res1.data)
             let data = JSON.parse(res1.data)
-            
             if (res1.statusCode==200) {
               that.data.details.href = data.data
               that.setData({
-                userInfo:that.data.userInfo
+                details:that.data.userInfo
               })
             } else {
               wx.showModal({
@@ -356,5 +399,45 @@ Page({
     this.setData({
       cameraConfig: this.cameraConfig
     })
-  }
+  },
+  bindMultiPickerColumnChange: function (e) {
+
+    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
+     
+    var data = {
+      multiArray: this.data.multiArray,
+      multiIndex: this.data.multiIndex
+    };
+     
+    data.multiIndex[e.detail.column] = e.detail.value;
+     
+    switch (e.detail.column){
+      case 0:
+        switch (data.multiIndex[0]) {
+          case 1:
+            data.multiArray[1] = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12',
+     
+              '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24',
+     
+              '25', '26', '27', '28', '29'
+     
+            ];
+            break;
+          default:
+            data.multiArray[1] = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12',
+     
+              '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24',
+     
+              '25', '26', '27', '28', '29', '30', '31'
+     
+            ];
+            break;
+        }
+        data.multiIndex[1] = 0;
+        data.multiIndex[2] = 0;
+        break;
+    }
+     
+    this.setData(data);
+    }
 })

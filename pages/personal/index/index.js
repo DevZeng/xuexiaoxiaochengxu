@@ -206,6 +206,12 @@ Page({
   },
   // 跳转购买服务页
   openPurchaseService: function () {
+    wx.showToast({
+      title: '暂不开放！',
+      icon: 'fail',
+      duration: 1500
+    })
+    return;
     let that = this;
     app.getLogintype(function (type) {
       if (type.user_card) {
@@ -225,6 +231,12 @@ Page({
   },
   // 跳转我的设备页
   openEquipment: function () {
+    wx.showToast({
+      title: '暂不开放！',
+      icon: 'fail',
+      duration: 1500
+    })
+    return;
     let that = this;
     app.getLogintype(function (type) {
       if (type.user_card) {
@@ -259,6 +271,12 @@ Page({
     })
   },
   openVisitorList: function(){
+    wx.showToast({
+      title: '暂不开放！',
+      icon: 'fail',
+      duration: 1500
+    })
+    return;
     wx.navigateTo({
       url: '../visitor/visitorlist/visitorlist'
     })
@@ -273,6 +291,12 @@ Page({
   },
   // 跳转成绩查询
   openInquiry: function(){
+    wx.showToast({
+      title: '暂不开放！',
+      icon: 'fail',
+      duration: 1500
+    })
+    return;
     app.getLogintype(function (type) {
       if (type.user_card) {
         wx.navigateTo({

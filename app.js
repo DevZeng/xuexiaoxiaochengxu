@@ -79,7 +79,7 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=88',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
@@ -152,7 +152,7 @@ App({
                 title:'是否接收订阅消息？',
                 success(res){
                   if(res.confirm){
-                    let link = '/pages/showh5/showh5?link=https://xiao.fengniaotuangou.cn&state=empty&school=longtouhuan&user_id='+open_id
+                    let link = '/pages/showh5/showh5?link=https://xiao.fengniaotuangou.cn&state=empty&school=all&user_id='+open_id
                     console.log(link)
                     wx.navigateTo({
                       url: link

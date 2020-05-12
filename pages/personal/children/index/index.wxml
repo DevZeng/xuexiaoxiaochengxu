@@ -19,6 +19,9 @@
     <view wx:if="{{item.state == 2}}" class="switch">
       <text>审核中</text>
     </view>
+    <view wx:if="{{item.state == 4}}" class="switch">
+      <text>审核不通过</text>
+    </view>
   </view>
   <!-- <view wx:if="{{item.family_state}}" class="family ripple fadeIn" animation="{{item.animationData}}">
 

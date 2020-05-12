@@ -4,16 +4,16 @@
   <!-- 孩子信息 -->
   <view class="info">
     <view class="info-box">
-      <image class="portrait" mode="aspectFill" src="{{item.stu_head}}" />
+      <image class="portrait" mode="aspectFill" src="/icon/qb.png" />
     </view>
     <view class="info-box1">
       <view>
-        <text class="studentName">{{item.stu_name}}</text>
-        <image mode="aspectFill" src="{{item.stu_sex == 1 ? '/icon/boy.png' : '/icon/girl.png'}}" />
-        <text>{{item.stu_age}}岁</text>
+        <text class="studentName">{{item.name}}</text>
+        <image mode="aspectFill" src="{{item.sex == 1 ? '/icon/boy.png' : '/icon/girl.png'}}" />
+        <text>{{item.age}}岁</text>
       </view>
-      <text>学号：{{item.stu_number}}</text>
-      <text style="margin:0;" wx:if="{{item.class_grade}}">班级：{{item.class_grade}}年级{{item.class_name}}</text>
+      <text>学号：{{item.number}}</text>
+      <text style="margin:0;" wx:if="{{item.grade}}">班级：{{item.grade}}{{item.class}}</text>
       <text style="margin:0;" wx:else>班级：暂无录入信息</text>
     </view>
   </view>

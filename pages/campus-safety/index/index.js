@@ -553,10 +553,7 @@ Page({
     let that = this;
    
     wx.request({
-      url: app.globalData.https + '/security/select_save',
-      data: {
-        user_openid: app.globalData.opnID
-      },
+      url: app.globalData.host + '/children?token='+wx.getStorageSync('token')+'&state=3',
       method: 'get',
       success: function(res) {
         console.log('孩子列表')
@@ -865,21 +862,7 @@ Page({
   toRecord: function(e) {
     let data = e.currentTarget.dataset.value
     // 判断会员信息
-    if (app.globalData.memberInfo) {
-      if (app.globalData.memberInfo.time_status == 1) {//是有效的会员
-        wx.navigateTo({ url: '../record/record?stu_number=' + data.stu_number + '&device_id=' + data.device_id})
-      } else {//未购买或无效，则跳转购买页面
-        wx.navigateTo({ url: '../../personal/purchase-service/index/index' })
-      }
-    } else {
-      app.getMemberTime(function (memberinfo) {
-        if (memberinfo.time_status == 1) {//是有效的会员
-          wx.navigateTo({ url: '../record/record?stu_number=' + data.stu_number + '&device_id=' + data.device_id })
-        } else {//未购买或无效，则跳转购买页面
-          wx.navigateTo({ url: '../../personal/purchase-service/index/index' })
-        }
-      })
-    }
+    wx.navigateTo({ url: '../record/record?stu_number=' + data.stu_number + '&device_id=' + data.device_id})
   },
   // 日历选择(显示日历)
   calendar: function(e) {

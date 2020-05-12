@@ -51,28 +51,29 @@ Page({
   },
 
   onLoad: function(options) {
-    console.log('data');
+    // console.log('data');
     // 初始化
     // console.log('openFace'+app.globalData.openFace);
     register_type = true;
-    let info = app.globalData.userInfo;
+    // let info = app.globalData.userInfo;
     this.showCamera = false //是否显示照相机
     this.cameraConfig = { //照相机参数配置
       flash: 'off',
       position: 'front'
     }
-    let isworker = info.worker ==0?false:true;
+    // let isworker = info.worker ==0?false:true;
     this.setData({
       isteacher: false,
-      isworkers: isworker,
+      // isworkers: isworker,
       mask_disable: false,
-      userInfo: info,
+      // userInfo: info,
       showFace :wx.getStorageSync('openFace')
     })
     // wx.showToast({title: '加载中',icon: 'loading', mask: true,duration: 10000})
   },
 
   onShow: function() {
+    this.getMyinfo();
     this.getSchoolsList();
     this.setData({
       showFace :wx.getStorageSync('openFace')
@@ -85,14 +86,33 @@ Page({
   onHide: function() {
 
   },
+  getMyinfo:function(){
+    console.log('getMyinfo');
+    wx.request({
+      url: app.globalData.host+'/user/info?token='+wx.getStorageSync('token'),
+      method:'GET',
+      success:(res)=>{
+        console.log(res)
+        if(res.statusCode==200){
+          this.setData({
+            userInfo:res.data.data,
+            
+          })
+        }
+      }
+    })
+  },
   getSchoolsList:function(){
     wx.request({
       url: app.globalData.host+'/schools?page=1&&limit=1000',
       method:'GET',
       success:(res)=>{
+        console.log(res)
         if(res.statusCode==200){
+          console.log(res.data)
           this.setData({
-            schools:res.data.data.data
+            userInfo:res.data.data,
+            isworkers:res.data.data.worker==0?false:true
           })
         }
       }
@@ -121,11 +141,7 @@ Page({
     console.log('picker发送选择改变，携带值为', e.detail.value)
     // console.log('picker发送选择改变，携带值为', this.workers[e.detail.value].type)
     this.data.userInfo.worker = this.data.workers[e.detail.value].type
-    this.setData({
-      select_school: e.detail.value,
-      
-      // u_info: this.u_info
-    })
+    this.data.userInfo.worker_type = this.data.workers[e.detail.value].name
     this.setData({
       type: e.detail.value,
       userInfo:this.data.userInfo
@@ -213,9 +229,9 @@ Page({
   },
 
   // 身份证输入
-  cardInput: function(e) {
-    this.data.userInfo.id_card = e.detail.value;
-  },
+  // cardInput: function(e) {
+  //   this.data.userInfo.id_card = e.detail.value;
+  // },
 
   // 地址输入
   addressInput: function(e) {
@@ -294,16 +310,27 @@ Page({
 
   // 监听是否为本校职工
   switchChange: function (e) {
-    console.log(e.detail.value)
+    this.data.userInfo.state = 0;
     this.isworkers = e.detail.value;
     if (e.detail.value){
+      this.setData({
+        userInfo: this.data.userInfo,
+        isworkers: e.detail.value,
+        // isteacher: this.isteacher,
+        // u_info: this.u_info
+      })
       this.isteacher = !e.detail.value
+    }else{
+      console.log(e.detail.value)
+      this.data.userInfo.worker = 0;
+        this.setData({
+          userInfo: this.data.userInfo,
+          isworkers: e.detail.value,
+          // isteacher: this.isteacher,
+          // u_info: this.u_info
+        })
     }
-    this.setData({
-      isworkers: e.detail.value,
-      // isteacher: this.isteacher,
-      // u_info: this.u_info
-    })
+    
   },
 
   // 监听是否为教师
@@ -358,10 +385,10 @@ Page({
     let that = this;
 
     // console.log(that.grade_array[e.detail.value])
-    that.u_info.grade_id = that.data.grades[e.detail.value].id
+    // that.userInfo.grade_id = that.data.grades[e.detail.value].id
     // that.u_info.class_name = '请选择班级'
     that.setData({
-      u_info: that.u_info,
+      // userInfo: that.userInfo,
       select_grade:e.detail.value
     })
     that.getClassList(e.detail.value);
@@ -629,14 +656,7 @@ console.log(this.u_info)
         duration: 1000
       })
       return;
-    } else if (!info.id_card) {
-      wx.showToast({
-        title: '请输入身份证',
-        icon: 'loading',
-        duration: 1000
-      })
-      return;
-    } else if (!info.address) {
+    }  else if (!info.address) {
       wx.showToast({
         title: '请输入地址',
         icon: 'loading',
@@ -694,7 +714,13 @@ console.log(this.u_info)
           data:data,
           method:'POST',
           success:(res)=>{
-            console.log(res)
+            if(res.statusCode==200){
+              wx.showToast({
+                title: '提交成功！',
+                icon: 'loading',
+                duration: 500
+              })
+              }
           }
         })
         console.log(data)
@@ -1019,10 +1045,10 @@ console.log(this.u_info)
         wx.showToast({
           title: '上传中...',
           icon: 'loading',
-          duration: 10000
+          duration: 100000
         })
         wx.uploadFile({
-          url: app.globalData.apihost + '/upload', 
+          url: app.globalData.apihost + '/upload/face', 
           filePath: res.tempImagePath,
           name: "file",
           success: function(res1) {

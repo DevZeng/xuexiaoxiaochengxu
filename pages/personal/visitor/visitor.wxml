@@ -1,13 +1,13 @@
-<view class="userinfo">
-  <view class="portrait-box">
+<view class="userinfo"  wx:if="{{showFace}}">
+  <view class="portrait-box" >
     <view style="border:5rpx solid #999;">
       <image mode="aspectFill" src="{{details.href}}"></image>
       <image class="image" wx:if="{{!details.href}}" bindtap='cameraDisable' mode="aspectFill" src="/icon/head.png"></image>
       <!-- <text bindtap='UploadCheck' wx:if="{{!visitor_head1}}">点击上传</text> -->
     </view>
   </view>
-  <text class="text" wx:if="{{details.vistior_status != 0 && details.vistior_status != 1}}" bindtap='upload'> 人脸信息采集 </text>
-  <text class="text" wx:if="{{details.vistior_status == 1}}">有效截止日期：{{details.vistor_times}}</text>
+  <text class="text" wx:if="{{details.state != 0 && details.state != 1}}" bindtap='upload'> 人脸信息采集 </text>
+  <!-- <text class="text" wx:if="{{details.state == 1}}">有效截止日期：{{details.vistor_times}}</text> -->
 </view>
 <view>
   <!-- <view class="list">
@@ -35,6 +35,14 @@
     
   </view>
   <view class="list">
+    <image src="/icon/handover.png"></image>
+    <text>来访日期</text>
+    <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+        <input bindblur='visitnameInput'  placeholder='请选择日期' disabled='true' value='{{multiArray[0][multiIndex[0]]}}月{{multiArray[1][multiIndex[1]]}}日'></input>
+  </picker>
+    
+  </view>
+  <view class="list">
     <image src="/icon/my1.png" />
     <text>真实姓名</text>
     <input class="input" bindblur='nameInput' type="text" maxlength='10' placeholder='请输入' disabled='{{details.visitor_butt}}' value='{{details.name}}'></input>
@@ -51,7 +59,7 @@
   </view>
 </view>
 
-<textarea placeholder='请填写访客理由' bindblur='reasonInput' disabled='{{details.reason}}' value="{{details.reason}}"></textarea>
+<textarea placeholder='请填写访客理由' bindinput='reasonInput' disabled='{{details.reason}}' value="{{details.reason}}"></textarea>
 
 <button wx:if="{{details.state == 1}}" disabled='true' bindtap='submission'>审核中</button>
 <form wx:if="{{details.state != 1 &&details.state != 2}}" bindsubmit="submission" report-submit="true">

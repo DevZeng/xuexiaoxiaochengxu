@@ -10,7 +10,7 @@
         <text class="children">{{item.name}}</text>
       </view>
     </view>
-    <button wx:if="{{item.state == 2}}" data-value="{{item.number}}" bindtap='toExamine'>去审核</button>
+    <button wx:if="{{item.state == 2}}" data-value="{{item.user_student}}" bindtap='toExamine'>去审核</button>
     <button wx:else disabled='true'>已审核</button> 
   </view>
   <view wx:if="{{list.length == 0}}" class="notData">暂无家长审核~</view>

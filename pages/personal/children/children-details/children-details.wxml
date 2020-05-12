@@ -13,13 +13,13 @@
     <text bindtap='upload'> 点击上传生活照 </text>
   </view> -->
 </view>
-<view class="container" wx:if="{{showFace&&!info.cover}}">
+<!-- <view class="container" wx:if="{{showFace&&!info.cover}}">
 
   <view class="userinfo" >
     <image mode="aspectFill" class="userinfo-avatar" src="/icon/qb.png" bindtap='upload'></image>
     <text bindtap='upload'> 点击上传头像 </text>
   </view>
-</view>
+</view> -->
 
 
 <view class="list">
@@ -58,7 +58,7 @@
   <view style="border:none;" >备注</view>
 </view>
 <view class="portrait-box" >
-  <textarea bindblur="relationInput" placeholder="请填写您与孩子的关系，通过率更高喔~" />
+  <textarea bindblur="relationInput" value="{{info.remark}}" placeholder="请填写您与孩子的关系，通过率更高喔~" />
 </view>
 <view class="list" style="border:none;" wx:if="{{showFace}}">
   <image src="/icon/recognition.png"></image>

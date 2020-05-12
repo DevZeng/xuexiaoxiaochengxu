@@ -2,7 +2,7 @@
   <view class="tableviewcell" style="justify-content: flex-start;">
     <image mode="aspectFill" class="left-icon" src="{{userInfo.avatarUrl}}" style="width:120rpx;height:120rpx;" />
     <text>{{userInfo.nickname}}</text>
-    <text style="width:330rpx;text-align:right;" wx:if="{{isworkers}}">{{userInfo.state == 1 ? '审核中' : userInfo.state == 2  ? '审核通过' : userInfo.state == 3 ? '审核不通过' : ''}}</text>
+    <text style="width:330rpx;text-align:right;" wx:if="{{isworkers}}">{{userInfo.state == 2  ? '审核通过' : userInfo.state == 3 ? '审核不通过' : ''}}</text>
   </view>
 
   <view class="tableviewcell">
@@ -32,11 +32,11 @@
     <text>邮箱</text>
     <input class="input" bindblur='mailInput' type="text" placeholder='请输入' value='{{u_info.user_mail}}'></input>
   </view> -->
-  <view class="tableviewcell"  wx:if="{{showFace}}">
+  <!-- <view class="tableviewcell"  wx:if="{{showFace}}">
     <image class="left-icon" src="/icon/ID.png" />
     <text>身份证</text>
     <input class="input" bindblur='cardInput' type="idcard" maxlength='18' placeholder='请输入' value='{{userInfo.id_card}}'></input>
-  </view>
+  </view> -->
   
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/address.png" />
@@ -76,7 +76,7 @@
     <view class="tableviewcell">
       <image class="left-icon" src="/icon/subject.png" />
       <text >所在学校</text>
-    <picker disabled="{userInfo.school}" bindchange="bindSchoolChange" value="{{index}}" range-key="name" range="{{schools}}">
+    <picker bindchange="bindSchoolChange" value="{{index}}" range-key="name" range="{{schools}}">
     <input class="input" placeholder='请选择' value='{{userInfo.school?userInfo.school:schools[select_school].name}}' disabled="true"></input>
   </picker>
     </view>
@@ -112,7 +112,7 @@
     </view> -->
   </block>
   
-  <block wx:if="{{isteacher || isworkers}}">
+  <block wx:if="{{isworkers&&showFace}}">
     <!-- 人脸 -->
     <view class="tableviewcell" style="border:none;justify-content: flex-start; ">
       <image class="left-icon" src="/icon/recognition.png"></image>
