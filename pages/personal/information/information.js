@@ -1,4 +1,31 @@
 // pages/personal/information/information.js
+const qiniuUploader = require("../../../utils/qiniuUploader");
+
+function initQiniu() {
+  var options = {
+      // bucket所在区域，这里是华北区。ECN, SCN, NCN, NA, ASG，分别对应七牛云的：华东，华南，华北，北美，新加坡 5 个区域
+      region: 'SCN',
+
+      // 获取uptoken方法三选一即可，执行优先级为：uptoken > uptokenURL > uptokenFunc。三选一，剩下两个置空。推荐使用uptokenURL，详情请见 README.md
+      // 由其他程序生成七牛云uptoken，然后直接写入uptoken
+      uptoken: '',
+      // 从指定 url 通过 HTTP GET 获取 uptoken，返回的格式必须是 json 且包含 uptoken 字段，例如： {"uptoken": "0MLvWPnyy..."}
+      uptokenURL: 'https://api.fengniaotuangou.cn/api/upload/token',
+      // uptokenFunc 这个属性的值可以是一个用来生成uptoken的函数，详情请见 README.md
+      uptokenFunc: function () { },
+
+      // bucket 外链域名，下载资源时用到。如果设置，会在 success callback 的 res 参数加上可以直接使用的 fileURL 字段。否则需要自己拼接
+      domain: 'https://tu.fengniaotuangou.cn',
+      // qiniuShouldUseQiniuFileName 如果是 true，则文件的 key 由 qiniu 服务器分配（全局去重）。如果是 false，则文件的 key 使用微信自动生成的 filename。出于初代sdk用户升级后兼容问题的考虑，默认是 false。
+      // 微信自动生成的 filename较长，导致fileURL较长。推荐使用{qiniuShouldUseQiniuFileName: true} + "通过fileURL下载文件时，自定义下载名" 的组合方式。
+      // 自定义上传key 需要两个条件：1. 此处shouldUseQiniuFileName值为false。 2. 通过修改qiniuUploader.upload方法传入的options参数，可以进行自定义key。（请不要直接在sdk中修改options参数，修改方法请见demo的index.js）
+      // 通过fileURL下载文件时，自定义下载名，请参考：七牛云“对象存储 > 产品手册 > 下载资源 > 下载设置 > 自定义资源下载名”（https://developer.qiniu.com/kodo/manual/1659/download-setting）。本sdk在README.md的"常见问题"板块中，有"通过fileURL下载文件时，自定义下载名"使用样例。
+      shouldUseQiniuFileName: false
+  };
+  // 将七牛云相关配置初始化进本sdk
+  qiniuUploader.init(options);
+}
+
 const app = getApp(),
   mail_reg = new RegExp('^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$'), //邮箱正则
   iphone_reg = /^[1][3,4,5,7,8][0-9]{9}$/, //手机号码正则
@@ -47,7 +74,8 @@ Page({
       'name':'安保员','type':3
     }],
     schools:[],
-    type:null
+    type:null,
+    showSubmit:false
   },
 
   onLoad: function(options) {
@@ -69,16 +97,17 @@ Page({
       // userInfo: info,
       showFace :wx.getStorageSync('openFace')
     })
-    // wx.showToast({title: '加载中',icon: 'loading', mask: true,duration: 10000})
-  },
-
-  onShow: function() {
     this.getMyinfo();
     this.getSchoolsList();
     this.setData({
       showFace :wx.getStorageSync('openFace')
       // showFace = app.globalData.openFace
     })
+    // wx.showToast({title: '加载中',icon: 'loading', mask: true,duration: 10000})
+  },
+
+  onShow: function() {
+    
     // console.log("this.showFace".this.showFace);
     // console.log()
     // this.showFace = app.globalData.openFace==1?true:false;
@@ -96,7 +125,8 @@ Page({
         if(res.statusCode==200){
           this.setData({
             userInfo:res.data.data,
-            
+            showSubmit:res.data.data.state?false:true,
+            isworkers: res.data.data.worker?res.data.data.worker==0?false:true:false,
           })
         }
       }
@@ -111,8 +141,8 @@ Page({
         if(res.statusCode==200){
           console.log(res.data)
           this.setData({
-            userInfo:res.data.data,
-            isworkers:res.data.data.worker==0?false:true
+            schools:res.data.data.data,
+            // isworkers:res.data.data.worker==0?false:true
           })
         }
       }
@@ -122,7 +152,7 @@ Page({
     let that = this;
     console.log(that.data.schools)
     wx.request({
-      url: app.globalData.host+'/grades?page=1&&limit=1000&&school_id='+that.data.schools[select_school].id,
+      url: app.globalData.host+'/grades?page=1&&limit=1000&&school_id='+select_school,
       method:'GET',
       success:(res)=>{
         if(res.statusCode==200){
@@ -142,6 +172,9 @@ Page({
     // console.log('picker发送选择改变，携带值为', this.workers[e.detail.value].type)
     this.data.userInfo.worker = this.data.workers[e.detail.value].type
     this.data.userInfo.worker_type = this.data.workers[e.detail.value].name
+    if(this.data.grades.length==0&&this.data.userInfo.school_id!=0&&e.detail.value==1){
+      this.getGradeList(this.data.userInfo.school_id);
+    }
     this.setData({
       type: e.detail.value,
       userInfo:this.data.userInfo
@@ -156,12 +189,13 @@ Page({
     let that = this;
     console.log(that.data.schools);
     this.data.userInfo.school_id = this.data.schools[e.detail.value].id
+    this.data.userInfo.school = this.data.schools[e.detail.value].name
     this.setData({
       select_school: e.detail.value,
       userInfo:this.data.userInfo
       // u_info: this.u_info
     })
-    this.getGradeList(e.detail.value);
+    this.getGradeList(this.data.schools[e.detail.value].id);
   },
 
 
@@ -207,6 +241,11 @@ Page({
   nameInput: function(e) {
     this.data.userInfo.name = e.detail.value;
   },
+  changeSubmit:function(e){
+    this.setData({
+      showSubmit:true
+    })
+  },
 
   // 性别输入
   user_sex: function(e) {
@@ -242,13 +281,18 @@ Page({
   map: function(e) {
     let that = this;
     // return;
+    // that.setData({
+    //   // userInfo: that.data.userInfo,
+    //   showSubmit:true
+    // })
     wx.chooseLocation({
       success: function(res) {
         console.log('选择的地址')
         console.log(res.address)
         that.data.userInfo.address = res.address
           that.setData({
-            userInfo: that.data.userInfo
+            userInfo: that.data.userInfo,
+            showSubmit:true
           })
       },
       fail: function(err) {
@@ -262,6 +306,11 @@ Page({
             }
           }
         })
+      },complete:function(){
+        // that.setData({
+        //   //   // userInfo: that.data.userInfo,
+        //     showSubmit:true
+        //   })
       }
     })
   },
@@ -316,6 +365,7 @@ Page({
       this.setData({
         userInfo: this.data.userInfo,
         isworkers: e.detail.value,
+        showSubmit:true
         // isteacher: this.isteacher,
         // u_info: this.u_info
       })
@@ -326,6 +376,7 @@ Page({
         this.setData({
           userInfo: this.data.userInfo,
           isworkers: e.detail.value,
+          showSubmit:true
           // isteacher: this.isteacher,
           // u_info: this.u_info
         })
@@ -637,8 +688,8 @@ console.log(this.u_info)
   //职工提交审核
   Submission2: function(e) {
     console.log("SUBmittiso2n")
-    console.log('formID:' + e.detail.formId)
-    
+    // console.log('formID:' + e.detail.formId)
+   
     let that = this;
     let info = that.data.userInfo;
     console.log(info)
@@ -670,61 +721,77 @@ console.log(this.u_info)
       // user_info.user_alias = user_info.user_alias.replace(regStr, ""); //过滤emoji表情
       // console.log('昵称过滤后：' + user_info.user_alias)
 
-      if (!iphone_reg.test(info.phone)) {
+      if(that.data.isworkers&&that.data.select_school==null){
         wx.showToast({
-          title: '手机不正确！',
+          title: '请先选择学校！',
           icon: 'loading',
           duration: 1000
         })
-      } else {
-        if(that.data.isworkers&&that.data.select_school==null){
-          wx.showToast({
-            title: '请先选择学校！',
-            icon: 'loading',
-            duration: 1000
-          })
-        }
-        if(that.data.isworkers&&info.href==null){
-          wx.showToast({
-            title: '请录入人脸数据！',
-            icon: 'loading',
-            duration: 1000
-          })
-        }
-        if(that.data.type==1&&info.class_id==0){
-          wx.showToast({
-            title: '请先选择班级！',
-            icon: 'loading',
-            duration: 1000
-          })
-        }
-        let data  ={};
-        data.token = wx.getStorageSync('token');
-        data.school_id = info.school_id?info.school_id:0;
-        data.worker = info.worker;
-        data.address = info.address;
-        data.name = info.name;
-        data.phone = info.phone;
-        data.id_card = info.id_card;
-        data.sex = info.sex;
-        data.class_id = info.class_id?info.class_id:0;
-        data.href = info.href;
-        wx.request({
-          url: app.globalData.host+'/user/info',
-          data:data,
-          method:'POST',
-          success:(res)=>{
-            if(res.statusCode==200){
-              wx.showToast({
-                title: '提交成功！',
-                icon: 'loading',
-                duration: 500
-              })
-              }
-          }
-        })
-        console.log(data)
+        return;
       }
+      
+      if(info.school_id&&info.worker==0){
+        wx.showToast({
+          title: '请选择职位！',
+          icon: 'loading',
+          duration: 1000
+        })
+        return;
+      }
+      if(info.school_id&&info.href.length==0){
+        wx.showToast({
+          title: '请录入人脸数据！',
+          icon: 'loading',
+          duration: 1000
+        })
+        return;
+      }
+      if(that.data.type==1&&info.class_id==0){
+        wx.showToast({
+          title: '请先选择班级！',
+          icon: 'loading',
+          duration: 1000
+        })
+        return;
+      }
+      // let form_id = '';
+      wx.requestSubscribeMessage({
+        tmplIds: ['WzOYkFYMmW67J3wxeLzcrlSJEyngFP1uIpxI9W4tbEQ'],
+        success(res){
+          // if(res.WzOYkFYMmW67J3wxeLzcrlSJEyngFP1uIpxI9W4tbEQ)
+        },fail(res){
+          console.log(res)
+        }
+      })
+      let data  ={};
+      data.token = wx.getStorageSync('token');
+      data.school_id = info.school_id?info.school_id:0;
+      data.worker = info.worker;
+      data.address = info.address;
+      data.name = info.name;
+      data.phone = info.phone;
+      data.id_card = info.id_card;
+      data.sex = info.sex;
+      data.class_id = info.class_id?info.class_id:0;
+      data.href = info.href;
+      wx.request({
+        url: app.globalData.host+'/user/info',
+        data:data,
+        method:'POST',
+        success:(res)=>{
+          if(res.statusCode==200){
+            wx.showToast({
+              title: '提交成功！',
+              icon: 'loading',
+              duration: 500
+            })
+            that.setData({
+              showSubmit : false
+            })
+            }
+        }
+      })
+      console.log(data)
     }
   },
   // 用户注册
@@ -1035,6 +1102,7 @@ console.log(this.u_info)
   takePhoto: function (e) {
     console.log('点击拍照')
     let that = this
+    initQiniu();
     const ctx = wx.createCameraContext()
     ctx.takePhoto({
       quality: 'normal',
@@ -1047,37 +1115,102 @@ console.log(this.u_info)
           icon: 'loading',
           duration: 100000
         })
-        wx.uploadFile({
-          url: app.globalData.apihost + '/upload/face', 
-          filePath: res.tempImagePath,
-          name: "file",
-          success: function(res1) {
-            console.log('头像上传成功返回')
-            console.log(res1)
-            wx.hideToast();
+        qiniuUploader.upload(res.tempImagePath, (res) => {
+          // console.log(res)
+          // that.setData({
+          //     'imageObject': res
+          // });
+          console.log('check/face');
+          wx.request({
+            url: app.globalData.apihost+'/check/face',
+            method:'POST',
+            data:{
+              href:res.fileURL
+            },success:(checkres)=>{
+              wx.hideToast();
+              if(checkres.statusCode==200){
+                that.data.userInfo.href = res.fileURL
+                      that.setData({
+                        userInfo:that.data.userInfo})
+              }else{
+                wx.showModal({
+                  title: '检测失败',
+                  content: checkres.data.msg,
+                  success (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
+            },
+          })
+          console.log('提示: wx.chooseImage 目前微信官方尚未开放获取原图片名功能(2020.4.22)');
+          console.log('file url is: ' + res.fileURL);
+      }, (error) => {
+        wx.showModal({
+                  title: '错误提示',
+                  content: '上传失败！',
+                  showCancel: false,
+                  success: function(res) {}
+                })
+          console.error('error: ' + JSON.stringify(error));
+      },
+      // 此项为qiniuUploader.upload的第四个参数options。若想在单个方法中变更七牛云相关配置，可以使用上述参数。如果不需要在单个方法中变更七牛云相关配置，则可使用 null 作为参数占位符。推荐填写initQiniu()中的七牛云相关参数，然后此处使用null做占位符。
+      // 若想自定义上传key，请把自定义key写入此处options的key值。如果在使用自定义key后，其它七牛云配置参数想维持全局配置，请把此处options除key以外的属性值置空。
+      // 启用options参数请记得删除null占位符
+      // {
+      //   region: 'NCN', // 华北区
+      //   uptokenURL: 'https://[yourserver.com]/api/uptoken',
+      //   domain: 'http://[yourBucketId].bkt.clouddn.com',
+      //   shouldUseQiniuFileName: false,
+      //   key: 'testKeyNameLSAKDKASJDHKAS',
+      //   uptokenURL: 'myServer.com/api/uptoken'
+      // },
+      null,
+      (progress) => {
+          // that.setData({
+          //     'imageProgress': progress
+          // });
+          console.log('上传进度', progress.progress);
+          console.log('已经上传的数据长度', progress.totalBytesSent);
+          console.log('预期需要上传的数据总长度', progress.totalBytesExpectedToSend);
+      }, cancelTask => {}
+      );
+        // qiniuUploader.upload()
+        // wx.uploadFile({
+        //   url: app.globalData.apihost + '/upload/face', 
+        //   filePath: res.tempImagePath,
+        //   name: "file",
+        //   success: function(res1) {
+        //     console.log('头像上传成功返回')
+        //     console.log(res1)
+        //     wx.hideToast();
             
-            console.log(res1)
-            console.log(res1.data)
-            let data = JSON.parse(res1.data)
+        //     console.log(res1)
+        //     console.log(res1.data)
+        //     let data = JSON.parse(res1.data)
             
-            if (res1.statusCode==200) {
-              that.data.userInfo.href = data.data
-              that.setData({
-                userInfo:that.data.userInfo
-              })
-            } else {
-              wx.showModal({
-                title: '错误提示',
-                content: data.msg,
-                showCancel: false,
-                success: function(res) {}
-              })
-            }
-          }, fail: function (err) {
-            console.log('头像上传失败返回')
-            console.log(err)
-          }
-        })
+        //     if (res1.statusCode==200) {
+        //       that.data.userInfo.href = data.data
+        //       that.setData({
+        //         userInfo:that.data.userInfo
+        //       })
+        //     } else {
+        //       wx.showModal({
+        //         title: '错误提示',
+        //         content: data.msg,
+        //         showCancel: false,
+        //         success: function(res) {}
+        //       })
+        //     }
+        //   }, fail: function (err) {
+        //     console.log('头像上传失败返回')
+        //     console.log(err)
+        //   }
+        // })
       }, fail: (err) => {
         console.log('拍照错误')
         console.log(err)

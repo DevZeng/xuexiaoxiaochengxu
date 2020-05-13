@@ -1,3 +1,31 @@
+
+const qiniuUploader = require("../../../utils/qiniuUploader");
+
+function initQiniu() {
+  var options = {
+      // bucket所在区域，这里是华北区。ECN, SCN, NCN, NA, ASG，分别对应七牛云的：华东，华南，华北，北美，新加坡 5 个区域
+      region: 'SCN',
+
+      // 获取uptoken方法三选一即可，执行优先级为：uptoken > uptokenURL > uptokenFunc。三选一，剩下两个置空。推荐使用uptokenURL，详情请见 README.md
+      // 由其他程序生成七牛云uptoken，然后直接写入uptoken
+      uptoken: '',
+      // 从指定 url 通过 HTTP GET 获取 uptoken，返回的格式必须是 json 且包含 uptoken 字段，例如： {"uptoken": "0MLvWPnyy..."}
+      uptokenURL: 'https://api.fengniaotuangou.cn/api/upload/token',
+      // uptokenFunc 这个属性的值可以是一个用来生成uptoken的函数，详情请见 README.md
+      uptokenFunc: function () { },
+
+      // bucket 外链域名，下载资源时用到。如果设置，会在 success callback 的 res 参数加上可以直接使用的 fileURL 字段。否则需要自己拼接
+      domain: 'https://tu.fengniaotuangou.cn',
+      // qiniuShouldUseQiniuFileName 如果是 true，则文件的 key 由 qiniu 服务器分配（全局去重）。如果是 false，则文件的 key 使用微信自动生成的 filename。出于初代sdk用户升级后兼容问题的考虑，默认是 false。
+      // 微信自动生成的 filename较长，导致fileURL较长。推荐使用{qiniuShouldUseQiniuFileName: true} + "通过fileURL下载文件时，自定义下载名" 的组合方式。
+      // 自定义上传key 需要两个条件：1. 此处shouldUseQiniuFileName值为false。 2. 通过修改qiniuUploader.upload方法传入的options参数，可以进行自定义key。（请不要直接在sdk中修改options参数，修改方法请见demo的index.js）
+      // 通过fileURL下载文件时，自定义下载名，请参考：七牛云“对象存储 > 产品手册 > 下载资源 > 下载设置 > 自定义资源下载名”（https://developer.qiniu.com/kodo/manual/1659/download-setting）。本sdk在README.md的"常见问题"板块中，有"通过fileURL下载文件时，自定义下载名"使用样例。
+      shouldUseQiniuFileName: false
+  };
+  // 将七牛云相关配置初始化进本sdk
+  qiniuUploader.init(options);
+}
+
 var utils = require('../../../utils/util.js')
 const app = getApp();
 let user_name,
@@ -251,14 +279,32 @@ multiIndex: [0, 0],
       })
       return ;
     }
-    if(that.data.multiIndex[0]<=new Date().getMonth()&&that.data.multiIndex[1]<new Date().getDate()){
-      wx.showToast({
-        title: '请选择正确的来访日期！',
-        icon: 'loading',
-        duration: 1000
+    if(that.data.multiIndex[0]<=new Date().getMonth()&&that.data.multiIndex[1]<new Date().getDate()-1){
+      console.log(that.data.multiIndex[0])
+      console.log(new Date().getMonth())
+      console.log(that.data.multiIndex[1])
+      console.log(new Date().getDate())
+      wx.showModal({
+        title: '提示',
+        content: '来访日期不正确！',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
       })
       return ;
     }
+    wx.requestSubscribeMessage({
+      tmplIds: ['WzOYkFYMmW67J3wxeLzcrlSJEyngFP1uIpxI9W4tbEQ'],
+      success(res){
+        // if(res.WzOYkFYMmW67J3wxeLzcrlSJEyngFP1uIpxI9W4tbEQ)
+      },fail(res){
+        console.log(res)
+      }
+    })
     wx.request({
       url: app.globalData.host + '/visitor',
       data: {
@@ -312,6 +358,7 @@ multiIndex: [0, 0],
   takePhoto: function (e) {
     console.log('点击拍照')
     let that = this
+    initQiniu();
     const ctx = wx.createCameraContext()
     ctx.takePhoto({
       quality: 'normal',
@@ -324,36 +371,100 @@ multiIndex: [0, 0],
           icon: 'loading',
           duration: 10000
         })
-        wx.uploadFile({
-          url: app.globalData.apihost + '/upload/face', 
-          filePath: res.tempImagePath,
-          name: "file",
-          success: function(res1) {
-            console.log('头像上传成功返回')
-            console.log(res1)
-            wx.hideToast();
-            
-            console.log(res1)
-            console.log(res1.data)
-            let data = JSON.parse(res1.data)
-            if (res1.statusCode==200) {
-              that.data.details.href = data.data
+        qiniuUploader.upload(res.tempImagePath, (res) => {
+          // console.log(res)
+          // that.setData({
+          //     'imageObject': res
+          // });
+          wx.request({
+            url: app.globalData.apihost+'/check/face',
+            method:'POST',
+            data:{
+              href:res.fileURL
+            },success:(checkres)=>{
+              wx.hideToast();
+              if(checkres.statusCode==200){
+                           that.data.details.href = res.fileURL
               that.setData({
-                details:that.data.userInfo
+                details: that.data.details
               })
-            } else {
-              wx.showModal({
-                title: '错误提示',
-                content: data.msg,
-                showCancel: false,
-                success: function(res) {}
-              })
+              }else{
+                wx.showModal({
+                  title: '检测失败',
+                  content: checkres.data.msg,
+                  success (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
             }
-          }, fail: function (err) {
-            console.log('头像上传失败返回')
-            console.log(err)
-          }
-        })
+          })
+          console.log('提示: wx.chooseImage 目前微信官方尚未开放获取原图片名功能(2020.4.22)');
+          console.log('file url is: ' + res.fileURL);
+      }, (error) => {
+        wx.showModal({
+                  title: '错误提示',
+                  content: '上传失败！',
+                  showCancel: false,
+                  success: function(res) {}
+                })
+          console.error('error: ' + JSON.stringify(error));
+      },
+      // 此项为qiniuUploader.upload的第四个参数options。若想在单个方法中变更七牛云相关配置，可以使用上述参数。如果不需要在单个方法中变更七牛云相关配置，则可使用 null 作为参数占位符。推荐填写initQiniu()中的七牛云相关参数，然后此处使用null做占位符。
+      // 若想自定义上传key，请把自定义key写入此处options的key值。如果在使用自定义key后，其它七牛云配置参数想维持全局配置，请把此处options除key以外的属性值置空。
+      // 启用options参数请记得删除null占位符
+      // {
+      //   region: 'NCN', // 华北区
+      //   uptokenURL: 'https://[yourserver.com]/api/uptoken',
+      //   domain: 'http://[yourBucketId].bkt.clouddn.com',
+      //   shouldUseQiniuFileName: false,
+      //   key: 'testKeyNameLSAKDKASJDHKAS',
+      //   uptokenURL: 'myServer.com/api/uptoken'
+      // },
+      null,
+      (progress) => {
+          // that.setData({
+          //     'imageProgress': progress
+          // });
+          console.log('上传进度', progress.progress);
+          console.log('已经上传的数据长度', progress.totalBytesSent);
+          console.log('预期需要上传的数据总长度', progress.totalBytesExpectedToSend);
+      }, cancelTask => {}
+      );
+        // wx.uploadFile({
+        //   url: app.globalData.apihost + '/upload/face', 
+        //   filePath: res.tempImagePath,
+        //   name: "file",
+        //   success: function(res1) {
+        //     console.log('头像上传成功返回')
+        //     console.log(res1)
+        //     wx.hideToast();
+            
+        //     console.log(res1)
+        //     console.log(res1.data)
+        //     let data = JSON.parse(res1.data)
+        //     if (res1.statusCode==200) {
+        //       that.data.details.href = data.data
+        //       that.setData({
+        //         details:that.data.userInfo
+        //       })
+        //     } else {
+        //       wx.showModal({
+        //         title: '错误提示',
+        //         content: data.msg,
+        //         showCancel: false,
+        //         success: function(res) {}
+        //       })
+        //     }
+        //   }, fail: function (err) {
+        //     console.log('头像上传失败返回')
+        //     console.log(err)
+        //   }
+        // })
       }, fail: (err) => {
         console.log('拍照错误')
         console.log(err)

@@ -56,7 +56,7 @@
       <image src="/icon/record.png" />
       <text>发帖及记录</text>
     </view> -->
-    <view  bindtap='openClassManagement'>
+    <view  bindtap='openClassManagement' wx:if="{{userInfo.worker==2}}">
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
@@ -75,7 +75,7 @@
     <image src="/icon/visitor.png" />
     <text>访客申请</text>
   </view> 
-   <view  bindtap='openVisitorList'>
+   <view  bindtap='openVisitorList' wx:if="{{userInfo.worker==3}}">
    <button formType="submit" class="formBtu"></button>
     <image src="/icon/visitor.png" />
     <text>访客管理</text>

@@ -27,17 +27,17 @@ Page({
         showFace:wx.getStorageSync('openFace')
       });
     }else{
-      app.getUserinfo(function (info) {
-        console.log('用户信息')
-        console.log(info)
-        if (info) {
-          that.userInfo = info;
-          that.setData({
-            userInfo: info,
-            showFace:wx.getStorageSync('openFace')
-          });
-        }
-      })
+      // app.getUserinfo(function (info) {
+      //   console.log('用户信息')
+      //   console.log(info)
+      //   if (info) {
+      //     that.userInfo = info;
+      //     that.setData({
+      //       userInfo: info,
+      //       showFace:wx.getStorageSync('openFace')
+      //     });
+      //   }
+      // })
     }
     // 会员信息
     if (app.globalData.memberInfo && app.globalData.memberInfo.time_status == 1){

@@ -101,7 +101,7 @@ Page({
   getChildrenList: function() {
     let that = this;
     wx.request({
-      url: app.globalData.host + '/children',
+      url: app.globalData.host + '/children?state=0',
       data: {
         token: wx.getStorageSync('token')
       },

@@ -102,7 +102,7 @@ Page({
   NotThroughAudit: function (id) {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/pass/user/student',
+      url: app.globalData.host + '/pass/user/student',
       data: {
         token: wx.getStorageSync('token'),
         state: 4,

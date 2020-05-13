@@ -2,18 +2,18 @@
   <view class="tableviewcell" style="justify-content: flex-start;">
     <image mode="aspectFill" class="left-icon" src="{{userInfo.avatarUrl}}" style="width:120rpx;height:120rpx;" />
     <text>{{userInfo.nickname}}</text>
-    <text style="width:330rpx;text-align:right;" wx:if="{{isworkers}}">{{userInfo.state == 2  ? '审核通过' : userInfo.state == 3 ? '审核不通过' : ''}}</text>
+
   </view>
 
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/my1.png" />
     <text>姓名</text>
-    <input class="input" bindblur='nameInput' type="text" maxlength='10' placeholder='请输入' value='{{userInfo.name}}'></input>
+    <input class="input" bindblur='nameInput' bindfocus="changeSubmit" type="text" maxlength='10' placeholder='请输入' value='{{userInfo.name}}'></input>
   </view>
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/sex1.png" />
     <text>性别</text>
-    <radio-group bindchange="user_sex" class="sex-box">
+    <radio-group bindchange="user_sex" bindtap="changeSubmit" class="sex-box">
       <radio value="1" checked="{{userInfo.sex== 1?'true':''}}" />男
       <radio value="2" checked="{{userInfo.sex== 2?'true':''}}" />女</radio-group>
   </view>
@@ -25,7 +25,7 @@
   <view class="tableviewcell"  wx:if="{{showFace}}">
     <image class="left-icon" src="/icon/iphone.png" />
     <text>手机</text>
-    <input class="input" bindblur='iphoneInput' type="number" maxlength='11' placeholder='请输入' value='{{userInfo.phone}}'></input>
+    <input class="input" bindblur='iphoneInput' bindfocus="changeSubmit" type="number" maxlength='11' placeholder='请输入' value='{{userInfo.phone}}'></input>
   </view>
   <!-- <view class="tableviewcell">
     <image class="left-icon" src="/icon/mailbox.png" />
@@ -42,8 +42,8 @@
     <image class="left-icon" src="/icon/address.png" />
     <text style="width:130rpx;">地址</text>
     <view class="box2">
-      <input bindblur='addressInput' class="input" type="text" placeholder='点击图标选择地址' value="{{userInfo.address}}"></input>
-      <image bindtap='map' class="right-icon" src="/icon/address.png"></image>
+      <input bindblur='addressInput' bindfocus="changeSubmit" class="input" type="text" placeholder='点击图标选择地址' value="{{userInfo.address}}"></input>
+      <image bindtap='map'  class="right-icon" src="/icon/address.png"></image>
     </view>
   </view>
   
@@ -56,7 +56,7 @@
     <image class="left-icon" src="/icon/authentication.png" />
     <text>是否教职工</text>
     <view>
-      <switch checked='{{isworkers}}' bindchange="switchChange" />
+      <switch checked='{{isworkers}}' bindchange="switchChange"  />
     </view>
   </view>
   
@@ -131,8 +131,8 @@
       </view> -->
     </view>
   </block>
-  <form bindsubmit="Submission2" report-submit="true">
-    <button formType="submit">提交</button>
+  <form report-submit="true" bindtap="Submission2" wx:if="{{showSubmit}}">
+    <button formType="submit" open-type="submit">提交</button>
   </form>
 </view>
 
