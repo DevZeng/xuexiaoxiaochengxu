@@ -9,7 +9,13 @@ Page({
     this.getExamine();
   },
   onShow: function () {
-  
+    wx.showToast({
+      title: '加载中',
+      icon: 'loading',
+      mask: true,
+      duration: 10000
+    })
+
   },
   // 获取家长审核列表
   getExamine: function(){
@@ -23,6 +29,7 @@ Page({
       },
       method: 'get',
       success: function (res) {
+        wx.hideToast()
         console.log('家长审核列表返回')
         console.log(res)
         if (res.data.data) {
