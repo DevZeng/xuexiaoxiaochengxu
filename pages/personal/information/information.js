@@ -129,6 +129,21 @@ Page({
             isworkers: res.data.data.worker?res.data.data.worker==0?false:true:false,
           })
         }
+        if(res.statusCode==403){
+          wx.showToast({
+            title: '请先登陆！',
+            icon: 'loading',
+            mask: true,
+            duration: 1000,
+            
+          })
+          setTimeout(function () {
+            //要延时执行的代码
+            wx.navigateBack()
+           }, 1000) //
+          console.log('go')
+         
+        }
       }
     })
   },
@@ -375,6 +390,7 @@ Page({
     }else{
       console.log(e.detail.value)
       this.data.userInfo.worker = 0;
+      this.data.userInfo.school_id = 0;
         this.setData({
           userInfo: this.data.userInfo,
           isworkers: e.detail.value,
@@ -440,8 +456,9 @@ Page({
     // console.log(that.grade_array[e.detail.value])
     // that.userInfo.grade_id = that.data.grades[e.detail.value].id
     // that.u_info.class_name = '请选择班级'
+    that.data.userInfo.grade = that.data.grades[e.detail.value].title
     that.setData({
-      // userInfo: that.userInfo,
+      userInfo: that.data.userInfo,
       select_grade:e.detail.value,
       showSubmit:true
     })
@@ -459,6 +476,7 @@ Page({
   classChange: function(e) {
     console.log('班级选择')
     this.data.userInfo.class_id = this.data.classes[e.detail.value].id
+    this.data.userInfo.class = this.data.classes[e.detail.value].title
     this.setData({
       select_class: e.detail.value,
       userInfo:this.data.userInfo,

@@ -88,12 +88,12 @@
   </picker>
     </view>
   </block>
-  <block wx:if="{{type==1}}">
+  <block wx:if="{{isworkers}}">
     <view class="tableviewcell">
       <image class="left-icon" src="/icon/grade.png" />
       <text>年级</text>
       <picker bindchange="gradeChange"  value="{{select_grade}}" range-key="title" range="{{grades}}">
-        <text class="input">{{grades[select_grade].title}}</text>
+        <text class="input">{{userInfo.grade}}</text>
         <!-- <input class="input" type="text" placeholder='请选择' value='{{u_info.class_grade}}'></input> -->
       </picker>
     </view>
@@ -101,7 +101,7 @@
       <image class="left-icon" src="/icon/class1.png" />
       <text>班级</text>
       <picker bindchange="classChange"  value="{{select_class}}" range-key="title" range="{{classes}}">
-        <text class="input">{{classes[select_class].title}}</text>
+        <text class="input">{{userInfo.class}}</text>
         <!-- <input class="input" type="text" placeholder='请选择' value='{{u_info.class_name}}'></input> -->
       </picker>
     </view>

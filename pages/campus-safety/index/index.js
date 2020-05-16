@@ -521,13 +521,7 @@ Page({
   onShow: function() {
     lock = true
     let that = this
-    if (app.globalData.opnID) {
-      that.getChildrenList();
-    }else{
-      app.getopenID(function (data) {
-        that.getChildrenList();
-      });
-    }
+    that.getChildrenList();
     // 判断会员信息
     // if (app.globalData.memberInfo) {
     //   if (app.globalData.memberInfo.time_status == 1) {

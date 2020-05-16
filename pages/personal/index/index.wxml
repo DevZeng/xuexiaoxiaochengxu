@@ -21,7 +21,7 @@
       <image src="/icon/information.png" />
       <text>个人信息</text>
     </view>
-    <view bindtap='openChildren' wx:if="{{showFace}}">
+    <view bindtap='openChildren' >
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
@@ -70,12 +70,12 @@
       <image src="/icon/file.png" />
       <text>帮助文档</text>
     </view>
-    <view wx:if="{{showFace}}" bindtap='openFaceApplication'>
+    <view  bindtap='openFaceApplication'>
    <button formType="submit" class="formBtu"></button>
     <image src="/icon/visitor.png" />
     <text>访客申请</text>
   </view> 
-   <view  bindtap='openVisitorList' wx:if="{{userInfo.worker==3}}">
+   <view  bindtap='openVisitorList' wx:if="{{userInfo.worker!=0}}">
    <button formType="submit" class="formBtu"></button>
     <image src="/icon/visitor.png" />
     <text>访客管理</text>
@@ -115,4 +115,4 @@
   </view>
 </view>
 <!-- <official-account></official-account> -->
-<view class="supportText">图巴诺科技提供技术支持v1.0.3</view>
+<view class="supportText">图巴诺科技提供技术支持v1.0.5</view>

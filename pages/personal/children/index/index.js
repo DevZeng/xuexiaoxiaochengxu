@@ -160,6 +160,7 @@ Page({
       success: function(res) {
         console.log('我的孩子列表返回')
         console.log(res)
+        wx.hideToast()
         if (res.statusCode==200) {
           let children_list = res.data.data;
           // for (let i = 0; i < children_list.length; i++) {
@@ -167,11 +168,26 @@ Page({
           //   children_list[i].family_state = false;
           // }
           // console.log(children_list)
-          wx.hideToast()
+          
           that.childrenList = children_list;
           that.setData({
             childrenList: children_list
           })
+        }
+        if(res.statusCode==403){
+          wx.showToast({
+            title: '请先登陆！',
+            icon: 'loading',
+            mask: true,
+            duration: 1000,
+            
+          })
+          setTimeout(function () {
+            //要延时执行的代码
+            wx.navigateBack()
+           }, 1000) //
+          console.log('go')
+         
         }
       }
     });

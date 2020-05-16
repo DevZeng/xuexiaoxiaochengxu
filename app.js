@@ -50,26 +50,26 @@ App({
 
   // -------------------------------------------------------------------------数据获取----------------------------------------------------------
   // 获取openID
-  getopenID: function (cb) {
-    let app = this;
-    wx.login({
-      success: res => {
-        console.log(res.code)
-        // return true;
-        wx.request({
-          url: app.globalData.https + '/login/wx_login?js_code=' + res.code,
-          method: 'POST',
-          success: function(res) {
-            console.log(res)
-            app.globalData.opnID = res.data.awen;
-            console.log('这是openID---' + app.globalData.opnID)
-            app.getUserinfo();
-            typeof cb == "function" && cb(app.globalData.opnID)
-          }
-        });
-      }
-    })
-  },
+  // getopenID: function (cb) {
+  //   let app = this;
+  //   wx.login({
+  //     success: res => {
+  //       console.log(res.code)
+  //       // return true;
+  //       wx.request({
+  //         url: app.globalData.https + '/login/wx_login?js_code=' + res.code,
+  //         method: 'POST',
+  //         success: function(res) {
+  //           console.log(res)
+  //           app.globalData.opnID = res.data.awen;
+  //           console.log('这是openID---' + app.globalData.opnID)
+  //           app.getUserinfo();
+  //           typeof cb == "function" && cb(app.globalData.opnID)
+  //         }
+  //       });
+  //     }
+  //   })
+  // },
   checkNotify:function(cb){
     let app = this;
     console.log('CheckNotify');
@@ -79,7 +79,7 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=889',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=1992',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
@@ -123,7 +123,12 @@ App({
         url: app.globalData.host+'/user/info?token='+token,
         method:'GET',
         success:(res)=>{
-          app.globalData.userInfo = res.data.data;
+          if(res.statusCode==200){
+            app.globalData.userInfo = res.data.data;
+          }
+          if(res.statusCode==403){
+            wx.removeStorageSync('token')
+          }
         }
       })
     }
