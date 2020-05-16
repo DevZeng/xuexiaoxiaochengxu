@@ -9,25 +9,11 @@ Page({
     memberTime:null,
   },
   onLoad: function () {
-    this.getMyinfo()
+    
   },
   onShow: function () {
     // 个人信息
-    let that = this;
-    if (app.globalData.userInfo) {
-      console.log(app.globalData.userInfo)
-      that.userInfo = app.globalData.userInfo
-      // let showFace = wx.getStorage({
-      //   key: 'openFace',
-      // })
-      // console.log(wx.getStorage({
-      //   key: 'openFace',
-      // }))
-      that.setData({
-        userInfo: that.userInfo,
-        showFace:wx.getStorageSync('openFace')
-      });
-    }else{
+    this.getMyinfo()
       // app.getUserinfo(function (info) {
       //   console.log('用户信息')
       //   console.log(info)
@@ -39,14 +25,9 @@ Page({
       //     });
       //   }
       // })
-    }
+    
     // 会员信息
-    if (app.globalData.memberInfo && app.globalData.memberInfo.time_status == 1){
-      this.memberTime = app.globalData.memberInfo.use_time.slice(0,11);
-      this.setData({
-        memberTime: app.globalData.memberInfo.use_time.slice(0, 11)
-      })
-    }
+    
     
     // console.log(showFace)
   },
@@ -60,6 +41,10 @@ Page({
         if(res.statusCode==200){
           this.setData({
             userInfo:res.data.data
+          })
+        }else{
+          this.setData({
+            userInfo:null
           })
         }
       }
@@ -86,7 +71,8 @@ Page({
                   'encryptedData':res.encryptedData
                 },
                 success (res) {
-                  var data = res.data.data;
+                  if(res.statusCode==200){
+                    var data = res.data.data;
                   wx.setStorage({
                     data: data.token,
                     key: 'token',
@@ -97,6 +83,16 @@ Page({
                   app.globalData.userInfo = data.user
                   that.setData({
                     userInfo:data.user
+                  })
+                  }else{
+                    that.setData({
+                      userInfo:{}
+                    })
+                  }
+                },
+                fail:(res)=>{
+                  that.setData({
+                    userInfo:{}
                   })
                 }
               })
