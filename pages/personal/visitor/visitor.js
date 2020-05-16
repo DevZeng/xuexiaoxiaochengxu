@@ -135,6 +135,21 @@ multiIndex: [0, 0],
           console.log('go')
          
         }
+        if(res.statusCode==401){
+          wx.showToast({
+            title: '请先登陆！',
+            icon: 'loading',
+            mask: true,
+            duration: 1000,
+            
+          })
+          setTimeout(function () {
+            //要延时执行的代码
+            wx.navigateBack()
+           }, 1000) //
+          console.log('go')
+         
+        }
       }
     })
   },
