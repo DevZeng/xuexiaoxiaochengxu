@@ -9,6 +9,7 @@ Page({
     memberTime:null,
   },
   onLoad: function () {
+    this.getMyinfo()
   },
   onShow: function () {
     // 个人信息
@@ -48,6 +49,21 @@ Page({
     }
     
     // console.log(showFace)
+  },
+  getMyinfo:function(){
+    console.log('getMyinfo');
+    wx.request({
+      url: app.globalData.host+'/user/info?token='+wx.getStorageSync('token'),
+      method:'GET',
+      success:(res)=>{
+        console.log(res)
+        if(res.statusCode==200){
+          this.setData({
+            userInfo:res.data.data
+          })
+        }
+      }
+    })
   },
   // 获取微信信息授权
   getUserInfo: function (e) {
@@ -271,12 +287,6 @@ Page({
     })
   },
   openVisitorList: function(){
-    wx.showToast({
-      title: '暂不开放！',
-      icon: 'fail',
-      duration: 1500
-    })
-    return;
     wx.navigateTo({
       url: '../visitor/visitorlist/visitorlist'
     })

@@ -53,6 +53,13 @@
   <image src="/icon/class.png"></image>
   <view>{{info.class}}</view>
 </view>
+  <view class="list" wx:if="{{showFace}}">
+  <image src="/icon/recognition.png"></image>
+    <view>
+    <view style="border:none;">只允许自由进校</view>
+      <switch checked='{{onlyIn}}' bindchange="switchChange"  />
+    </view>
+  </view>
 <view class="list" >
   <image src="/icon/record.png"></image>
   <view style="border:none;" >备注</view>

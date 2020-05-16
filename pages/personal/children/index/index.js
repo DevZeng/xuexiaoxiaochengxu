@@ -11,6 +11,57 @@ Page({
       duration: 10000
     })
   },
+  letout:function(e){
+    console.log(e.currentTarget.dataset.value)
+    wx.request({
+      url: app.globalData.host+'/student/out',
+      method:"POST",
+      data:{
+        token:wx.getStorageSync('token'),
+        number: e.currentTarget.dataset.value
+      },
+      success:(res)=>{
+        if(res.statusCode==200){
+          wx.showModal({
+            title: '提示',
+            content: '本次进出权限30分钟后失效',
+            success (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: '系统错误！',
+            success (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+      },
+      fail:(res)=>{
+        wx.showModal({
+          title: '提示',
+          content: '系统错误！',
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      }
+    })
+  },
   onShow: function() {
     this.getChildrenList(); //获取我的孩子的列表
     var animation = wx.createAnimation({

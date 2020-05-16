@@ -177,7 +177,8 @@ Page({
     }
     this.setData({
       type: e.detail.value,
-      userInfo:this.data.userInfo
+      userInfo:this.data.userInfo,
+      showSubmit:true
       // typeString : workers[e.detail.value].name
     })
     // this.setData({
@@ -192,7 +193,8 @@ Page({
     this.data.userInfo.school = this.data.schools[e.detail.value].name
     this.setData({
       select_school: e.detail.value,
-      userInfo:this.data.userInfo
+      userInfo:this.data.userInfo,
+      showSubmit:true
       // u_info: this.u_info
     })
     this.getGradeList(this.data.schools[e.detail.value].id);
@@ -440,7 +442,8 @@ Page({
     // that.u_info.class_name = '请选择班级'
     that.setData({
       // userInfo: that.userInfo,
-      select_grade:e.detail.value
+      select_grade:e.detail.value,
+      showSubmit:true
     })
     that.getClassList(e.detail.value);
     console.log(e.detail.value)
@@ -458,7 +461,8 @@ Page({
     this.data.userInfo.class_id = this.data.classes[e.detail.value].id
     this.setData({
       select_class: e.detail.value,
-      userInfo:this.data.userInfo
+      userInfo:this.data.userInfo,
+      showSubmit:true
       // u_info: this.u_info
     })
   },
@@ -549,7 +553,8 @@ Page({
         if (res.statusCode==200) {
           console.log(res.data.data.data)
           that.setData({
-            classes: res.data.data.data
+            classes: res.data.data.data,
+            showSubmit:true
           })
         }
       }
@@ -721,7 +726,7 @@ console.log(this.u_info)
       // user_info.user_alias = user_info.user_alias.replace(regStr, ""); //过滤emoji表情
       // console.log('昵称过滤后：' + user_info.user_alias)
 
-      if(that.data.isworkers&&that.data.select_school==null){
+      if(that.data.isworkers&&!info.school_id){
         wx.showToast({
           title: '请先选择学校！',
           icon: 'loading',
@@ -783,7 +788,7 @@ console.log(this.u_info)
             wx.showToast({
               title: '提交成功！',
               icon: 'loading',
-              duration: 500
+              duration: 1000
             })
             that.setData({
               showSubmit : false

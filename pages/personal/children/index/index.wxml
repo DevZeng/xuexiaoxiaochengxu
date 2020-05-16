@@ -1,7 +1,7 @@
 <view class="children-list" wx:for="{{childrenList}}" wx:key="{{index}}">
   <view class="info">
-    <image class="portrait" data-value="{{item.number}}" bindtap='toChildren_Details' mode='aspectFill' src="{{item.cover?item.cover:'/icon/qb.png'}}"></image>
-    <view class="content" data-value="{{item.number}}" bindtap='toChildren_Details'>
+    <image class="portrait" data-value="{{item.id}}" bindtap='toChildren_Details' mode='aspectFill' src="{{item.cover?item.cover:'/icon/qb.png'}}"></image>
+    <view class="content" data-value="{{item.id}}" bindtap='toChildren_Details'>
       <view>
         <text>{{item.name}}</text>
         <image mode='aspectFill' src="{{item.sex == 1 ? '/icon/boy.png' : '/icon/girl.png'}}"></image>
@@ -21,6 +21,9 @@
     </view>
     <view wx:if="{{item.state == 4}}" class="switch">
       <text>审核不通过</text>
+    </view>
+    <view wx:if="{{item.state == 3&&item.only_in==1}}"  >
+          <button  data-value="{{item.number}}" style="font-size: 28rpx;" bindtap='letout' class="switch">临时出校</button>
     </view>
   </view>
   <!-- <view wx:if="{{item.family_state}}" class="family ripple fadeIn" animation="{{item.animationData}}">

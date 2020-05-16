@@ -19,7 +19,7 @@ Page({
     wx.request({
       url: app.globalData.host + '/student',
       data: {
-        number: stu_number
+        id: stu_number
       },
       method: 'get',
       success: function (res) {

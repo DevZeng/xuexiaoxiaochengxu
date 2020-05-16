@@ -38,7 +38,8 @@ Page({
     cameraConfig: {
       flash: 'off',
       position: 'front'
-    }
+    },
+    onlyIn:false
   },
   onLoad: function(options) {
     this.mask_disable = false;
@@ -58,7 +59,13 @@ Page({
   onShow: function() {
 
   },
-
+  switchChange:function(e){
+    this.setData({
+      onlyIn: e.detail.value,
+      // isteacher: this.isteacher,
+      // u_info: this.u_info
+    })
+  },
   // 跳转门禁卡设置
   toEntranceCard: function (e) {
     let that = this
@@ -152,14 +159,15 @@ Page({
     let that = this;
      // 获取学生信息
     wx.request({
-      url: app.globalData.host + '/student?number='+stu_number+'&token='+wx.getStorageSync('token'),
+      url: app.globalData.host + '/student?id='+stu_number+'&token='+wx.getStorageSync('token'),
       method: 'get',
       success: function(res) {
         console.log(res)
         if (res.statusCode==200) {
           that.info = res.data.data
           that.setData({
-            info: res.data.data
+            info: res.data.data,
+            onlyIn:res.data.data.only_in==1?true:false
           })
         } else {
           wx.showToast({
@@ -186,8 +194,17 @@ Page({
       wx.showToast({
         title: '学号不正确',
         icon: 'loading',
-        duration: 100
+        duration: 1000
       })
+      return ;
+    }
+    if(!data.face_image){
+      wx.showToast({
+        title: '请先录入人脸',
+        icon: 'loading',
+        duration: 1000
+      })
+      return ;
     }
     if(that.data.info.state!=2){
       wx.requestSubscribeMessage({
@@ -196,32 +213,43 @@ Page({
           // if(res.WzOYkFYMmW67J3wxeLzcrlSJEyngFP1uIpxI9W4tbEQ)
         },fail(res){
           console.log(res)
+        },
+        complete(res){
+          wx.request({
+            url: app.globalData.host+'/child',
+            method:"POST",
+            data:{
+              token:wx.getStorageSync('token'),
+              number:data.number,
+              remark: relation,
+              cover:data.cover,
+              face_image:data.face_image,
+              only_in:that.data.onlyIn==true?1:2,
+              id:data.id
+            },
+            success:(res)=>{
+              console.log(res)
+              wx.hideToast({})
+              if(res.statusCode==200){
+                that.data.info.state = 2;
+                that.data.info.remark = relation;
+                that.setData({
+                  info :that.data.info
+                })
+              }else{
+                wx.showToast({
+                  title: res.data.msg,
+                  icon: 'loading',
+                  duration: 1000
+                })
+              }
+             
+            }
+          })
         }
       })
     }
-    wx.request({
-      url: app.globalData.host+'/child',
-      method:"POST",
-      data:{
-        token:wx.getStorageSync('token'),
-        number:data.number,
-        remark: relation,
-        cover:data.cover,
-        face_image:data.face_image
-      },
-      success:(res)=>{
-        console.log(res)
-        wx.hideToast({})
-        if(res.statusCode==200){
-          that.data.info.state = 2;
-          that.data.info.remark = relation;
-          this.setData({
-            info :that.data.info
-          })
-        }
-       
-      }
-    })
+    
   },
 
 

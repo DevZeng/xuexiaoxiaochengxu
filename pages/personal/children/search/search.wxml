@@ -4,7 +4,7 @@
 </view>
 <text wx:if="{{strList && strList.length == 0}}" class="notData">暂无搜索数据~</text>
 <view class="dateCelebrityBox">
-  <view wx:for="{{strList}}" wx:key="{{index}}" data-id="{{item.number}}" bindtap='toDetails' class="dateCelebrity" style="border:{{ strList.length == index + 1 ? 'none !important': ''}}" wx:if="{{item.swifi.length != 0}}">
+  <view wx:for="{{strList}}" wx:key="{{index}}" data-id="{{item.id}}" bindtap='toDetails' class="dateCelebrity" style="border:{{ strList.length == index + 1 ? 'none !important': ''}}" wx:if="{{item.swifi.length != 0}}">
     <!-- <text class="num">{{index + 1}}</text> -->
     <image mode='aspectFill' class="portrait" mode='aspectFill' src="{{item.cover ? item.cover : '/icon/qb.png'}}"></image>
     <view class="infoBox">

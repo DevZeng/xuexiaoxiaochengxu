@@ -1,20 +1,43 @@
 // pages/personal/visitor/visitorlist/visitorlist.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    visitors:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getVisitors()
   },
-
+  getVisitors:function(){
+    wx.request({
+      url: app.globalData.host+'/visitors',
+      method:'GET',
+      data:{
+        limit:1000,
+        token:wx.getStorageSync('token')
+      },
+      success:(res)=>{
+        if(res.statusCode==200){
+          this.setData({
+            visitors:res.data.data.data
+          })
+        }
+      }
+    })
+  },
+  toDetail:function(e){
+    wx.navigateTo({
+      url: '../visitordetail/visitordetail?id=' + e.currentTarget.dataset.id
+    })
+    console.log(e)
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -26,7 +49,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getVisitors()
   },
 
   /**

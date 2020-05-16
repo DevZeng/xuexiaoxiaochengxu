@@ -50,7 +50,7 @@
   <view class="list">
     <image src="/icon/iphone.png" />
     <text>手机</text>
-    <input class="input" bindblur='iphoneInput' type="number" maxlength='11' placeholder='请输入' disabled='{{details.visitor_butt}}' value='{{details.phone}}'></input>
+    <input class="input" bindblur='iphoneInput' type="number" maxlength='11' placeholder='请输入' value='{{details.phone}}'></input>
   </view>
   
   <view class="list">
@@ -59,10 +59,11 @@
   </view>
 </view>
 
-<textarea placeholder='请填写访客理由' bindinput='reasonInput' disabled='{{details.reason}}' value="{{details.reason}}"></textarea>
-
+<textarea placeholder='请填写访客理由' bindinput='reasonInput'  value="{{details.reason}}"></textarea>
+<button wx:if="{{!details.state}}"  bindtap='submission'>提交审核</button>
 <button wx:if="{{details.state == 1}}" disabled='true' bindtap='submission'>审核中</button>
-<form wx:if="{{details.state != 1 &&details.state != 2}}" bindsubmit="submission" report-submit="true">
+<button wx:if="{{details.state == 2}}" disabled='true' bindtap='submission'>审核通过</button>
+<form wx:if="{{details.state > 2}}" bindsubmit="submission" report-submit="true">
   <button formType="submit">{{details.state == 3 ? '申请失败，重新申请' : details.state == 4 ? '身份过期，重新申请' : '提交审核'}}</button>
 </form>
 <!-- <button wx:if="{{vistior_status != 0 && vistior_status != 1}}" bindtap='submission'>提交审核</button> -->

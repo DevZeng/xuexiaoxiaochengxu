@@ -1,9 +1,9 @@
-<view class="container">
+<!-- <view class="container">
   <view class="userinfo">
     <image mode="aspectFill" class="userinfo-avatar" src="{{info.cover?info.cover:'/icon/qb.png'}}"></image>
-    <!-- <text>{{info.stu_name}}</text> -->
+    <text>{{info.stu_name}}</text>
   </view>
-</view>
+</view> -->
 
 
 <view class="list">

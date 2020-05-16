@@ -5,7 +5,7 @@
         <image src="/icon/parent.png"></image>
         <text class="guardian">{{item.parent.name}}</text>
       </view>
-      <view data-stu_number="{{item.number}}" bindtap='toChildrenDetails'>
+      <view data-stu_number="{{item.id}}" bindtap='toChildrenDetails'>
         <image src="/icon/children2.png"></image>
         <text class="children">{{item.name}}</text>
       </view>
