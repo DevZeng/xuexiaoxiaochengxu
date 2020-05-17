@@ -182,7 +182,7 @@ Page({
   // 提交审核
   submit: function(e) {
     wx.showToast({
-      title: '上传中',
+      title: '正在提交。。。',
       icon: 'loading',
       mask: true,
       duration: 10000
@@ -215,37 +215,38 @@ Page({
           console.log(res)
         },
         complete(res){
-          wx.request({
-            url: app.globalData.host+'/child',
-            method:"POST",
-            data:{
-              token:wx.getStorageSync('token'),
-              number:data.number,
-              remark: relation,
-              cover:data.cover,
-              face_image:data.face_image,
-              only_in:that.data.onlyIn==true?1:2,
-              id:data.id
-            },
-            success:(res)=>{
-              console.log(res)
-              wx.hideToast({})
-              if(res.statusCode==200){
-                that.data.info.state = 2;
-                that.data.info.remark = relation;
-                that.setData({
-                  info :that.data.info
-                })
-              }else{
-                wx.showToast({
-                  title: res.data.msg,
-                  icon: 'loading',
-                  duration: 1000
-                })
-              }
-             
-            }
-          })
+          
+        }
+      })
+      wx.request({
+        url: app.globalData.host+'/child',
+        method:"POST",
+        data:{
+          token:wx.getStorageSync('token'),
+          number:data.number,
+          remark: relation,
+          cover:data.cover,
+          face_image:data.face_image,
+          only_in:that.data.onlyIn==true?1:2,
+          id:data.id
+        },
+        success:(res)=>{
+          console.log(res)
+          wx.hideToast({})
+          if(res.statusCode==200){
+            that.data.info.state = 2;
+            that.data.info.remark = relation;
+            that.setData({
+              info :that.data.info
+            })
+          }else{
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'loading',
+              duration: 1000
+            })
+          }
+         
         }
       })
     }
@@ -282,49 +283,55 @@ Page({
           // that.setData({
           //     'imageObject': res
           // });
-          console.log('checkFace');
-          wx.request({
-            url: app.globalData.apihost+'/check/face',
-            method:'POST',
-            data:{
-              href:res.fileURL
-            }
-            ,success:(checkres)=>{
-              console.log(checkres)
-              wx.hideToast();
-              if(checkres.statusCode==200){
-                      that.data.info.face_image = res.fileURL
+          wx.hideToast();
+          that.data.info.face_image = res.fileURL
               that.setData({
                 info:that.data.info,
                 showCamera:false
               })
-              }else{
-                console.log(checkres)
-                wx.showModal({
-                  title: '检测失败',
-                  content: checkres.data.msg,
-                  success (res) {
-                    if (res.confirm) {
-                      console.log('用户点击确定')
-                    } else if (res.cancel) {
-                      console.log('用户点击取消')
-                    }
-                  }
-                })
-              }
-            }
-            ,fail:(res)=>{
-              console.log(res)
-              wx.showModal({
-                title: '错误提示',
-                content: checkres.msg,
-                showCancel: false,
-                success: function(res) {}
-              })
-            },complete:(res)=>{
-              console.log(res)
-            }
-          })
+          console.log('checkFace');
+          // wx.request({
+          //   url: app.globalData.apihost+'/check/face',
+          //   method:'POST',
+          //   data:{
+          //     href:res.fileURL
+          //   }
+          //   ,success:(checkres)=>{
+          //     console.log(checkres)
+          //     wx.hideToast();
+          //     if(checkres.statusCode==200){
+          //             that.data.info.face_image = res.fileURL
+          //     that.setData({
+          //       info:that.data.info,
+          //       showCamera:false
+          //     })
+          //     }else{
+          //       console.log(checkres)
+          //       wx.showModal({
+          //         title: '检测失败',
+          //         content: checkres.data.msg,
+          //         success (res) {
+          //           if (res.confirm) {
+          //             console.log('用户点击确定')
+          //           } else if (res.cancel) {
+          //             console.log('用户点击取消')
+          //           }
+          //         }
+          //       })
+          //     }
+          //   }
+          //   ,fail:(res)=>{
+          //     console.log(res)
+          //     wx.showModal({
+          //       title: '错误提示',
+          //       content: checkres.msg,
+          //       showCancel: false,
+          //       success: function(res) {}
+          //     })
+          //   },complete:(res)=>{
+          //     console.log(res)
+          //   }
+          // })
           console.log('提示: wx.chooseImage 目前微信官方尚未开放获取原图片名功能(2020.4.22)');
           console.log('file url is: ' + res.fileURL);
       }, (error) => {

@@ -79,7 +79,7 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=1993',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=777',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
