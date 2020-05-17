@@ -218,38 +218,39 @@ Page({
           
         }
       })
-      wx.request({
-        url: app.globalData.host+'/child',
-        method:"POST",
-        data:{
-          token:wx.getStorageSync('token'),
-          number:data.number,
-          remark: relation,
-          cover:data.cover,
-          face_image:data.face_image,
-          only_in:that.data.onlyIn==true?1:2,
-          id:data.id
-        },
-        success:(res)=>{
-          console.log(res)
-          wx.hideToast({})
-          if(res.statusCode==200){
-            that.data.info.state = 2;
-            that.data.info.remark = relation;
-            that.setData({
-              info :that.data.info
-            })
-          }else{
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'loading',
-              duration: 1000
-            })
-          }
-         
-        }
-      })
+      
     }
+    wx.request({
+      url: app.globalData.host+'/child',
+      method:"POST",
+      data:{
+        token:wx.getStorageSync('token'),
+        number:data.number,
+        remark: relation,
+        cover:data.cover,
+        face_image:data.face_image,
+        only_in:that.data.onlyIn==true?1:2,
+        id:data.id
+      },
+      success:(res)=>{
+        console.log(res)
+        wx.hideToast({})
+        if(res.statusCode==200){
+          that.data.info.state = 2;
+          that.data.info.remark = relation;
+          that.setData({
+            info :that.data.info
+          })
+        }else{
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'loading',
+            duration: 1000
+          })
+        }
+       
+      }
+    })
     
   },
 
