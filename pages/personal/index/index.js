@@ -148,6 +148,13 @@ Page({
   // 跳转我的孩子页
   openChildren: function () {
     let that = this;
+    if(!this.data.userInfo.phone){
+      wx.showModal({
+        title:'提示',
+        content:"请先完善个人信息"
+      })
+      return;
+    }
     wx.navigateTo({
       url: '../children/index/index'
     })

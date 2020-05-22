@@ -55,6 +55,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  top: 80rpx;
+}
+.children-list .info .switch2 {
+  position: absolute;
+  right:20rpx;
+  bottom:20rpx;
+  width:170rpx;
+  height:60rpx;
+  border-radius: 15rpx;
+  background-color:#2a9f93;
+  color:#fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* top: 80rpx; */
+}
+.children-list .info .switch2 image{
+  width:25rpx;
+  height:25rpx;
+  margin:0 10rpx;
 }
 .children-list .info .switch image{
   width:25rpx;

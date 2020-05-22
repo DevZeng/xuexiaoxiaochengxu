@@ -18,7 +18,7 @@ Page({
       method:"POST",
       data:{
         token:wx.getStorageSync('token'),
-        number: e.currentTarget.dataset.value
+        id: e.currentTarget.dataset.value
       },
       success:(res)=>{
         if(res.statusCode==200){
@@ -74,30 +74,53 @@ Page({
   },
   // 显示和隐藏家庭成员
   change_state: function(e) {
+    console.log(e)
     let that = this,
       list = this.childrenList,
+      id =  e.currentTarget.dataset.value,
       num = e.currentTarget.dataset.index;
     list[num].family_state = !list[num].family_state;
     if (list[num].family_state) { //显示家庭成员
-      // 获取孩子的家庭成员
       wx.request({
-        url: app.globalData.https + '/parent/select_parent',
-        data: {
-          stu_number: list[num].stu_number
+        url: app.globalData.host+'/invite',
+        method:'POST',
+        data:{
+          token:wx.getStorageSync('token'),
+          user_student:id,
         },
-        method: 'get',
-        success: function(res) {
-          console.log('家庭成员列表返回')
-          console.log(res)
-          if (res.data.data) {
-            list[num].family = res.data.data;
+        success:(res)=>{
+          if(res.statusCode==200){
+            // invite_id = 
+            list[num].invite_id = res.data.data;
             that.childrenList = list
             that.setData({
               childrenList: list
             })
+          }else{
+            wx.showModal({
+              title:'提示',
+              content:res.data.msg
+            })
           }
-        }
-      });
+          console.log(res)
+        },
+      })
+      // 获取孩子的家庭成员
+      // wx.request({
+      //   url: app.globalData.https + '/parent/select_parent',
+      //   data: {
+      //     stu_number: list[num].stu_number
+      //   },
+      //   method: 'get',
+      //   success: function(res) {
+      //     console.log('家庭成员列表返回')
+      //     console.log(res)
+      //     if (res.data.data) {
+            // list[num].family = res.data.data;
+            
+      //     }
+      //   }
+      // });
     } else { //隐藏家庭成员
       that.childrenList = list
       that.setData({
@@ -108,29 +131,29 @@ Page({
 
   // 跳转家长信息页
   toFamily_Details: function(e) {
-    console.log(e.currentTarget.dataset)
-    let data = e.currentTarget.dataset.value;
-    let family = e.currentTarget.dataset.family;
-    let stu_number = e.currentTarget.dataset.stu_number;
+    // console.log(e.currentTarget.dataset)
+    // let data = e.currentTarget.dataset.value;
+    // let family = e.currentTarget.dataset.family;
+    // let stu_number = e.currentTarget.dataset.stu_number;
 
-    if (data.parent_status == 0) { //判断该家长是否审核中（这个函数是2018-8-20加的）
-      for (let i = 0; i < family.length; i++) {
-        if (family[i].user_openid == app.globalData.userInfo.user_openid && family[i].user_status != 1) { //如果我不是默认家长则不给去审核
-          return;
-        }
-      }
-    }
-    // 隐藏家庭成员
-    let list = this.childrenList
-    for (let i = 0; i < list.length; i++) {
-      list[i].family_state = false;
-    }
-    this.childrenList = list
-    this.setData({
-      childrenList: list
-    })
+    // if (data.parent_status == 0) { //判断该家长是否审核中（这个函数是2018-8-20加的）
+    //   for (let i = 0; i < family.length; i++) {
+    //     if (family[i].user_openid == app.globalData.userInfo.user_openid && family[i].user_status != 1) { //如果我不是默认家长则不给去审核
+    //       return;
+    //     }
+    //   }
+    // }
+    // // 隐藏家庭成员
+    // let list = this.childrenList
+    // for (let i = 0; i < list.length; i++) {
+    //   list[i].family_state = false;
+    // }
+    // this.childrenList = list
+    // this.setData({
+    //   childrenList: list
+    // })
     wx.navigateTo({
-      url: '../family-details/family-details?data=' + JSON.stringify(e.currentTarget.dataset.value) + '&stu_number=' + stu_number
+      url: '../family-details/family-details?data=' + JSON.stringify(e.currentTarget.dataset.value)
     })
 
 
@@ -142,6 +165,10 @@ Page({
       url: '../children-details/children-details?stu_number=' + e.currentTarget.dataset.value
     })
   },
+  addFamily: function(e) {
+    console.log(e.currentTarget.dataset.value)
+    
+  },
   // 跳转搜索添加孩子
   toSearch: function() {
     wx.navigateTo({
@@ -152,7 +179,7 @@ Page({
   getChildrenList: function() {
     let that = this;
     wx.request({
-      url: app.globalData.host + '/children?state=0',
+      url: app.globalData.host + '/children?type=2',
       data: {
         token: wx.getStorageSync('token')
       },
@@ -206,5 +233,28 @@ Page({
         }
       }
     });
+  },
+  onShareAppMessage:(e)=>{
+    console.log(e)
+    let invite_id = e.target.dataset.value;
+    
+    if(invite_id!=0){
+      return {
+        title:'邀请加入',
+        path:'pages/index/index?invite='+invite_id,
+        imageUrl: "http://babihu2018-1256705913.cos.ap-guangzhou.myqcloud.com/bbh/2018/153544840170971.jpg"
+      }
+    }else{
+      
+      wx.showModal({
+        title:"提示",
+        content:"系统异常！"
+      })
+      return {
+        title: "图巴诺安全中心",
+        // cnontent: this.data.summer_theme,
+        imageUrl: "http://babihu2018-1256705913.cos.ap-guangzhou.myqcloud.com/bbh/2018/153544840170971.jpg"
+      }
+    }
   }
 })

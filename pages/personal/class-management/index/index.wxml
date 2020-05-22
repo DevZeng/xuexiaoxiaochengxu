@@ -1,9 +1,9 @@
 <view class="list">
-  <!-- <view bindtap="toManage" class="tableviewcell">
+  <view bindtap="toManage" class="tableviewcell">
     <image class="left-icon" src="/icon/seat2.png" />
     <text>在校信息</text>
     <image class="right-icon" src="/icon/right.png" />
-  </view> -->
+  </view>
   <view bindtap="toAudition" class="tableviewcell">
     <image class="left-icon" src="/icon/examine.png" />
     <text>学生审核</text>

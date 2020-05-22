@@ -39,7 +39,7 @@ Page({
       flash: 'off',
       position: 'front'
     },
-    onlyIn:false
+    onlyIn:true
   },
   onLoad: function(options) {
     this.mask_disable = false;
@@ -49,7 +49,7 @@ Page({
       position: 'front'
     }
     this.setData({
-     
+      onlyIn:true,
       showFace :wx.getStorageSync('openFace')
       // showFace = app.globalData.openFace
     })
@@ -167,7 +167,7 @@ Page({
           that.info = res.data.data
           that.setData({
             info: res.data.data,
-            onlyIn:res.data.data.only_in==1?true:false
+            onlyIn:res.data.data.state==1?true:res.data.data.only_in==1?true:false
           })
         } else {
           wx.showToast({
@@ -242,10 +242,16 @@ Page({
             info :that.data.info
           })
         }else{
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'loading',
-            duration: 1000
+          wx.showModal({
+            title: '提示',
+            content: res.data.msg,
+            success (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
           })
         }
        

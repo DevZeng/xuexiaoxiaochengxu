@@ -8,11 +8,44 @@ Page({
     classFication: [], //分类列表
     information: [], //资讯列表
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    console.log(options)
     wx.showToast({ title: '加载中', icon: 'loading', mask: true, duration: 10000 })
     this.information = []
     this.getBanner();
     this.getClassFication();
+    if(options.invite){
+      wx.showModal({
+        title:"提示",
+        content:"是否接受邀请",
+        success(res){
+          if(res.confirm){
+            wx.request({
+              url: app.globalData.host+'/accept/invite',
+              method:'POST',
+              data:{
+                token:wx.getStorageSync('token'),
+                invite:options.invite
+              },
+              success:(res)=>{
+                console.log(res)
+                if(res.statusCode==200){
+                  wx.showToast({
+                    title: '已接受',
+                    duration:1000
+                  })
+                }else{
+                  wx.showToast({
+                    title: '系统异常',
+                    duration:1000
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+    }
     
     
   },

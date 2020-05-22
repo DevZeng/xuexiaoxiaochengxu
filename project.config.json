@@ -60,7 +60,15 @@
 					"id": -1,
 					"name": "pages/index/index",
 					"pathName": "pages/index/index",
+					"query": "",
 					"scene": 1047
+				},
+				{
+					"id": -1,
+					"name": "yaoqing",
+					"pathName": "pages/index/index",
+					"query": "invite=2",
+					"scene": null
 				}
 			]
 		}

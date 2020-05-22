@@ -1,18 +1,18 @@
 <view class="list">
   <view class="tableviewcell" style="justify-content: flex-start;">
-    <image mode="aspectFill" class="left-icon" src="{{info.user_image}}" style="width:120rpx;height:120rpx;" />
+    <image mode="aspectFill" class="left-icon" src="{{info.user.avatarUrl}}" style="width:120rpx;height:120rpx;" />
     <!-- <text>{{info.user_alias}}</text> -->
   </view>
 
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/my1.png" />
     <text>真实姓名</text>
-    <text class="value">{{info.user_name}}</text>
+    <text class="value">{{info.info.name}}</text>
   </view>
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/sex1.png" />
     <text>性别</text>
-    <text class="value">{{info.user_sex == 1 ? '男' : '女'}}</text>
+    <text class="value">{{info.info.sex == 1 ? '男' : '女'}}</text>
   </view>
   <!-- <view class="tableviewcell">
     <image class="left-icon" src="/icon/age.png" />
@@ -22,29 +22,29 @@
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/iphone.png" />
     <text>手机</text>
-    <text class="value">{{info.user_iphone}}</text>
+    <text class="value">{{info.info.phone}}</text>
   </view>
   <!-- <view class="tableviewcell">
     <image class="left-icon" src="/icon/mailbox.png" />
     <text>邮箱</text>
     <text class="value">{{info.user_mail}}</text>
   </view> -->
-  <view class="tableviewcell">
+  <!-- <view class="tableviewcell">
     <image class="left-icon" src="/icon/ID.png" />
     <text>身份证</text>
     <text class="value">{{info.user_card}}</text>
-  </view>
+  </view> -->
   <view class="tableviewcell">
     <image class="left-icon" src="/icon/address.png" />
     <text>地址</text>
-    <text class="value">{{info.user_address}}</text>
+    <text class="value">{{info.info.address}}</text>
   </view>
-  <view class="tableviewcell">
+  <!-- <view class="tableviewcell">
     <image class="left-icon" src="/icon/record.png" />
     <text>备注信息</text>
     <text class="value" wx:if="{{info.relation}}">{{info.relation}}</text>
     <text class="value" wx:else>无</text>
-  </view>
+  </view> -->
 </view>
 <view class="btn-box" wx:if="{{info.parent_status == 0}}">
     <button class="adopt" bindtap='through'>通过</button>

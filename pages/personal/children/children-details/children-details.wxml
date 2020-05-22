@@ -56,7 +56,7 @@
   <view class="list" wx:if="{{showFace}}">
   <image src="/icon/recognition.png"></image>
     <view>
-    <view style="border:none;">只允许自由进校</view>
+    <view style="border:none;">只允许进校</view>
       <switch checked='{{onlyIn}}' bindchange="switchChange"  />
     </view>
   </view>
