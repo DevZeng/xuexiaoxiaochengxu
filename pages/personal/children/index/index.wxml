@@ -11,7 +11,7 @@
       <text wx:if="{{item.student.class_id}}">班级：{{item.student.grade}}{{item.student.class}}</text>
       <text wx:else>班级：暂无录入信息</text>
     </view>
-    <view wx:if="{{item.student.state == 3}}" class="switch2" data-index="{{index}}" data-value="{{item.id}}" bindtap='change_state'>
+    <view wx:if="{{item.student.state == 3&&item.master==1}}" class="switch2" data-index="{{index}}" data-value="{{item.id}}" bindtap='change_state'>
       <text>家庭成员</text>
       <image mode='aspectFill' src="{{item.family_state == true ? '/icon/up.png' : '/icon/down.png'}}"></image>
     </view>
