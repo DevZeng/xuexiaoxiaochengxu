@@ -2,35 +2,35 @@
 <official-account></official-account>
 
 <scroll-view scroll-y lower-threshold="50" bindscrolltolower="scroll">
-  <!-- <form bindsubmit="getFormID" report-submit="true">
+	<!-- <form bindsubmit="getFormID" report-submit="true">
     <button formType="submit"></button>
   </form> -->
-  <view class="box">
-    <view class="header">
-      <swiper class="swiper" circular="true" autoplay="true" interval="5000" duration="1000">    
-        <block wx:for="{{banner}}" wx:key="{{index}}">    
-          <swiper-item>    
-            <image mode="aspectFill" src="{{item.href}}" class="slide-image"/>    
-          </swiper-item>    
-        </block>    
-      </swiper>
-    </view>
-    <view class="classification">
-      <view wx:for="{{classFication}}" wx:key="{{index}}" data-id="{{item.id}}" bindtap='openClassification'>
-        <form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
-        <image mode='aspectFill' src="{{item.href}}" />
-        <text>{{item.title}}</text>
-      </view> 
-    </view> 
-    <view class="activity-box">
-      <view wx:for="{{information}}" wx:key="{{index}}" class="activity-list" data-index="{{index}}" data-id="{{item.id}}" bindtap='openDetals'>
-        <image mode="aspectFill" src="{{item.cover}}"/>
-        <text class="title">{{item.title}}</text>
-        <view class="read-num">
-          <image class="icon" src="/icon/browse.png"></image>
-          <text> {{item.details_browse}}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+	<view class="box">
+		<view class="header">
+			<swiper class="swiper" circular="true" autoplay="true" interval="5000" duration="1000">
+				<block wx:for="{{banner}}" wx:key="{{index}}">
+					<swiper-item>
+						<image mode="aspectFill" src="{{item.href}}" class="slide-image" />
+					</swiper-item>
+				</block>
+			</swiper>
+		</view>
+		<view class="classification">
+			<view wx:for="{{classFication}}" wx:key="{{index}}" data-id="{{item.id}}" bindtap='openClassification'>
+				<form bindsubmit="getFormID" report-submit="true"><button formType="submit" class="formBtu"></button></form>
+				<image mode='aspectFill' src="{{item.href}}" />
+				<text>{{item.title}}</text>
+			</view>
+		</view>
+		<view class="activity-box">
+			<view wx:for="{{information}}" wx:key="{{index}}" class="activity-list" data-index="{{index}}" data-id="{{item.id}}" bindtap='openDetals'>
+				<image mode="aspectFill" src="{{item.cover}}" />
+				<text class="title">{{item.title}}</text>
+				<view class="read-num">
+					<image class="icon" src="/icon/browse.png"></image>
+					<text> {{item.details_browse}}</text>
+				</view>
+			</view>
+		</view>
+	</view>
 </scroll-view>

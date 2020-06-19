@@ -167,9 +167,8 @@ Page({
       url: app.globalData.host+'/schools?page=1&&limit=1000',
       method:'GET',
       success:(res)=>{
-        console.log(res)
         if(res.statusCode==200){
-          console.log(res.data)
+          console.log(12345,res.data)
           this.setData({
             schools:res.data.data.data,
             // isworkers:res.data.data.worker==0?false:true
@@ -326,6 +325,7 @@ Page({
             userInfo: that.data.userInfo,
             showSubmit:true
           })
+          console.log(1111,that.data.userInfo)
       },
       fail: function(err) {
         console.log(err)
@@ -1287,6 +1287,7 @@ console.log(this.u_info)
   },
   // 切换前后置摄像头
   positionChange: function () {
+    console.log(111)
     switch (this.cameraConfig.position) {
       case 'front': this.cameraConfig.position = 'back'; break;
       case 'back': this.cameraConfig.position = 'front'; break;
