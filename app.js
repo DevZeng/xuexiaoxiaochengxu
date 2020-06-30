@@ -79,10 +79,11 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2001',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2002',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
+        
         let data = res.data.data;
         if(data.key=='open'){
           app.globalData.openFace = data.value==1?true:false;
