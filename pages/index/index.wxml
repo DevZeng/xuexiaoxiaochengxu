@@ -1,5 +1,11 @@
 <!--index.wxml-->
 <official-account></official-account>
+<view class="choose-banner" wx:if="{{schoolList.length > 1}}">
+	<text>选择学校：</text>
+	<picker bindchange="schoolChange" range="{{schoolList}}" range-key="name" value="{{index}}">
+		<input class="input" disabled="true" placeholder="请选择孩子所在的学校" value="{{school? school : schoolList[is_school].name}}"></input>
+	</picker>
+</view>
 
 <scroll-view scroll-y lower-threshold="50" bindscrolltolower="scroll">
 	<!-- <form bindsubmit="getFormID" report-submit="true">

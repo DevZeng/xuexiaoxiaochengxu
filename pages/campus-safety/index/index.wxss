@@ -129,11 +129,13 @@ box-shadow: 0rpx 2rpx 15rpx #bbb;
 }
 .locate-information .record .record-box .record-list{
   width:380rpx;
-  height:50rpx;
-  max-height:50rpx;
-  display: flex;
+  margin-top: 10rpx;
+
+  /* height:50rpx; */
+  /* max-height:50rpx; */
+  /* display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: center; */
   /* background-color:red;  */
 }
 .locate-information .record .record-list image{
@@ -143,9 +145,9 @@ box-shadow: 0rpx 2rpx 15rpx #bbb;
   /* background-color:red; */
 }
 .locate-information .record .record-list text{
-  height:50rpx;
+  /* height:50rpx; */
   width:300rpx;
-  line-height:50rpx;
+  /* line-height:50rpx; */
   /* border-bottom:2rpx solid #e9e9e9; */
 }
 

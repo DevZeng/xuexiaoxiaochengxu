@@ -1,0 +1,17 @@
+.history-box {
+    display: flex;
+    justify-content: center;
+    padding: 10rpx;
+}
+
+.history-box  .item {
+    width: 100%;
+    padding: 10rpx;
+    border-bottom: solid 1rpx #ccc;
+    font-size: 28rpx;
+}
+
+.history-box  .item-image {
+    width: 100rpx;
+    height: 100rpx;
+}

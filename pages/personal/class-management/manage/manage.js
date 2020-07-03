@@ -2,31 +2,32 @@
 const app = getApp()
 Page({
   data: {
-  childrenList:[]
+    childrenList: []
   },
   onLoad: function (options) {
     this.getChildrenList();
   },
 
   onShow: function () {
-  
+
   },
   // 获取学生在校列表
-  getChildrenList: function(){
+  getChildrenList: function () {
     let that = this;
+    wx.showToast({
+      icon: 'loading',
+      title: '加载中',
+    })
     wx.request({
-      url: app.globalData.https + '/stu/at_school?user_openid=' + app.globalData.opnID,
+      url: app.globalData.host + '/class/students?token=' + wx.getStorageSync('token') + '&page=' + 1 + '&limit=' + 4,
       method: 'get',
       success: function (res) {
         console.log('班级学生在校列表')
         console.log(res)
-        if (res.data.data) {
-          
-          that.childrenList = res.data.data;
+        if (res.data.data.data.data) {
           that.setData({
-            childrenList: res.data.data
+            childrenList: res.data.data.data.data
           })
-
         }
       }
     });

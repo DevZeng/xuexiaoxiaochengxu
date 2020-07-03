@@ -111,3 +111,22 @@ page{
   height:35rpx;
   margin:0 10rpx 0 0 !important;
 }
+
+
+/* 选择学校出现轮播图 */
+.choose-banner {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* padding: 20rpx 0; */
+  background-color: #fff;
+}
+
+.choose-banner .input {
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+
+  padding: 10rpx;
+  background-color: #fff;
+
+}

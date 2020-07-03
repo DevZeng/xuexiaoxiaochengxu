@@ -1,6 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp();
+var DATE = require('../../../utils/util.js');
+
 
 let today, num, lock = true, interval;
 
@@ -475,6 +477,7 @@ var Lunar = {
 Page({
   data: {
     childrenlist: [],
+    recordsList: [], // 进出
     currentIndex: 0,
     cardRightIn: false,
     cardLeftIn: false,
@@ -484,6 +487,7 @@ Page({
     longitude: longitudeNum,
     //标记位置
     markers: markersArray,
+    showCalendar: false, // 显示日历
     //圆
     // circles: [{
     // latitude: 22.93791,
@@ -541,7 +545,7 @@ Page({
 
   },
   // 获取我的孩子列表
-  getChildrenList: function() {
+  getChildrenList: function(e) {
     let that = this;
    
     wx.request({
@@ -573,6 +577,7 @@ Page({
             that.setData({
               childrenlist: data
             })
+
             // 获取进出记录和定位信息
             that.toGet();
           }
@@ -620,31 +625,27 @@ Page({
     console.log(this.childrenlist[this.currentIndex])
     let that = this,
       gregorian = that.childrenlist[that.currentIndex].gregorian;
+    // var date = new Date(gregorian.year + '-' + gregorian.month + '-' + gregorian.date) 
+    // let time_stamp= date.getTime(date)/1000 + 86400;
+    // console.log(DATE.formatTime(time_stamp, "Y-M-D"))
     wx.request({
-      url: app.globalData.https + '/security/select_time_school',
+      url: app.globalData.host + '/user/student/faceLogs',
       data: {
-        date: gregorian.year + '-' + gregorian.month + '-' + gregorian.date,
-        stu_number: that.childrenlist[that.currentIndex].stu_number
+        time: gregorian.year + '-' + gregorian.month + '-' + gregorian.date,
+        // school_id: 43,
+        //         id: 3949
+        school_id: that.childrenlist[that.currentIndex].school_id,
+        id: that.childrenlist[that.currentIndex].id
       },
       method: 'get',
       success: function(res) {
         console.log('历史记录')
-        if (res.data.length > 0) {
-          console.log(1)
-          for (let i = 0; i < res.data.length; i++){
-            res.data[i].imex_time = res.data[i].imex_time.slice(10,16)
-          }
-          console.log(3)
-          console.log(that.childrenlist)
-          that.childrenlist[that.currentIndex].recordsList = res.data;
+        console.log(333,res)
+        console.log(333,res.data.data.data)
+
+        if (res.data.data.data.length > 0) {
           that.setData({
-            childrenlist: that.childrenlist
-          })
-        }else{
-          console.log(2)
-          that.childrenlist[that.currentIndex].recordsList = null;
-          that.setData({
-            childrenlist: that.childrenlist
+            recordsList: res.data.data.data
           })
         }
       }
@@ -851,16 +852,27 @@ Page({
 
 
   // 跳转记录
+  // toRecord: function(e) {
+  //   let data = e.currentTarget.dataset.value;
+  //   console.log(111,e)
+  //   // 判断会员信息
+  //   wx.navigateTo({ url: '../record/record?stu_number=' + data.number + '&device_id=' + data.face_id})
+  // },
+  // 跳转历史记录
   toRecord: function(e) {
-    let data = e.currentTarget.dataset.value
-    // 判断会员信息
-    wx.navigateTo({ url: '../record/record?stu_number=' + data.stu_number + '&device_id=' + data.device_id})
+    let data = e.currentTarget.dataset.value;
+    wx.navigateTo({ url: '../history/history?school_id=' + data.school_id + '&id=' + data.id})
   },
+
+
   // 日历选择(显示日历)
   calendar: function(e) {
-    console.log(e.currentTarget.dataset.index)
+    console.log(1111, e)
+    this.currentIndex = e.currentTarget.dataset.index;
     let data = this.childrenlist;
+    console.log(this.currentIndex)
     data[this.currentIndex].calendar_state = true;
+    console.log(data[this.currentIndex].calendar_state)
     this.childrenlist = data;
     this.setData({
       childrenlist: data
@@ -880,6 +892,7 @@ Page({
   },
   // 隐藏日历遮罩弹框
   hideMask: function(){
+    console.log(this.currentIndex);
     this.childrenlist[this.currentIndex].calendar_state = false;
     this.setData({
       childrenlist: this.childrenlist

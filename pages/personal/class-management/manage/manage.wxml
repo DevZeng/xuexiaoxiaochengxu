@@ -1,21 +1,28 @@
 <view class="title">
-  <text style="color:red;">*</text>
-  <text>学生在校信息（{{childrenList[0].class_grade}}年级{{childrenList[0].class_name}}）：</text>
+	<text style="color:red;">*</text>
+	<text>学生在校信息（{{childrenList[0].class_grade}}年级{{childrenList[0].class_name}}）：</text>
 </view>
-<view class="box">
-  <view wx:for="{{childrenList}}" wx:key="{{index}}" class="list">
-    <image src="{{item.at_status == 1 ? '/icon/seat1.png' : '/icon/seat.png'}}"></image>
-    <text>{{item.stu_name}}</text>
-  </view>
-  
-</view>
+<!-- <view class="box">
+	<view wx:for="{{childrenList}}" wx:key="{{index}}" class="list">
+		<image src="{{item.at_status == 1 ? '/icon/seat1.png' : '/icon/seat.png'}}"></image>
+		<text>{{item.stu_name}}</text>
+	</view>
+
+</view> -->
 <view class="box1">
-  <view>
-  <image src="/icon/seat1.png"></image>
-  <text>在校学生</text>
-  </view>
-  <view>
-  <image src="/icon/seat.png"></image>
-  <text>离校学生</text>
-  </view>
+	<view>
+		<image src="/icon/seat1.png"></image>
+		<text>在校学生</text>
+	</view>
+	<view>
+		<image src="/icon/seat.png"></image>
+		<text>离校学生</text>
+	</view>
+</view>
+
+<view class="table" >
+	<view class="seat" wx:for="{{childrenList}}" wx:key="{{index}}">
+		<image src="{{item.device.direction == 'in' ? '/icon/seat1.png' : '/icon/seat.png'}}"></image>
+		<text>{{item.face.name}}</text>
+	</view>
 </view>
