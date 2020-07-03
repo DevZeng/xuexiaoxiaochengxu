@@ -22,7 +22,7 @@
 
 <view class="table" >
 	<view class="seat" wx:for="{{childrenList}}" wx:key="{{index}}">
-		<image src="{{item.device.direction == 'in' ? '/icon/seat1.png' : '/icon/seat.png'}}"></image>
-		<text>{{item.face.name}}</text>
+		<image src="{{item.direction.direction == 1 ? '/icon/seat1.png' : '/icon/seat.png'}}"></image>
+		<text>{{item.name}}</text>
 	</view>
 </view>

@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/personal/class-management/manage/manage",
     "pages/index/index",
     "pages/campus-information/classification/classification",
     "pages/campus-information/details/details",
@@ -14,7 +13,7 @@
     "pages/personal/children/children-details/children-details",
     "pages/personal/children/family-details/family-details",
     "pages/personal/class-management/index/index",
-
+    "pages/personal/class-management/manage/manage",
     "pages/personal/class-management/auditing/auditing",
     "pages/personal/class-management/children-details/children-details",
     "pages/personal/class-management/family-details/family-details",
