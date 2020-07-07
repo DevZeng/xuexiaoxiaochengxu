@@ -7,19 +7,20 @@ Page({
         school_id: '',
         id: ''
     },
-    onLoad: function (option) {
-        this.getRecords();
+    onLoad: function (options) {
         this.setData({
-            school_id: option.school_id,
-            id: option.id
+            school_id: options.school_id,
+            id: options.id
         })
+        this.getRecords();
+
     },
     // 历史记录
     getRecords: function () {
         let that = this
             // gregorian = that.childrenlist[that.currentIndex].gregorian;
         wx.request({
-            url: app.globalData.host + '/user/student/faceLogs',
+            url: app.globalData.host + '/user/student/faceLogs?token='+wx.getStorageSync('token'),
             data: {
                 school_id: that.data.school_id,
                 id: that.data.id,

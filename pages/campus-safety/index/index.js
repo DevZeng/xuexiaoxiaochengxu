@@ -629,7 +629,7 @@ Page({
     // let time_stamp= date.getTime(date)/1000 + 86400;
     // console.log(DATE.formatTime(time_stamp, "Y-M-D"))
     wx.request({
-      url: app.globalData.host + '/user/student/faceLogs',
+      url: app.globalData.host + '/user/student/faceLogs?token='+wx.getStorageSync('token'),
       data: {
         time: gregorian.year + '-' + gregorian.month + '-' + gregorian.date,
         // school_id: 43,
@@ -860,8 +860,8 @@ Page({
   // },
   // 跳转历史记录
   toRecord: function(e) {
-    let data = e.currentTarget.dataset.value;
-    wx.navigateTo({ url: '../history/history?school_id=' + data.school_id + '&id=' + data.id})
+    let history_data = e.currentTarget.dataset.value;
+    wx.navigateTo({ url: '../history/history?school_id=' + history_data.school_id + '&id=' + history_data.id})
   },
 
 

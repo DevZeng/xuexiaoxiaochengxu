@@ -13,7 +13,7 @@ Page({
     school: ''
   },
   onLoad: function (options) {
-    this.getSchool();
+    // this.getSchool();
 
     console.log(options)
     wx.showToast({
@@ -72,14 +72,14 @@ Page({
     // if (lock) {
     //   lock = !lock;
     //   wx.showToast({ title: '加载中', icon: 'loading' })
-    this.getInformation();
+    // this.getInformation();
     // }
   },
   // 获取轮播图
   getBanner: function () {
     let that = this;
     wx.request({
-      url: app.globalData.host + '/banners',
+      url: app.globalData.host + '/banners?token=' + wx.getStorageSync('token'),
       method: 'get',
       success: function (res) {
         console.log('首页轮播图列表')
@@ -96,7 +96,7 @@ Page({
   getClassFication: function () {
     let that = this;
     wx.request({
-      url: app.globalData.host + '/document/types',
+      url: app.globalData.host + '/document/types?token=' + wx.getStorageSync('token'),
       method: 'get',
       success: function (res) {
         console.log(res)
@@ -124,7 +124,7 @@ Page({
     console.log('去获取资讯')
     console.log('页码' + num)
     wx.request({
-      url: app.globalData.host + '/documents',
+      url: app.globalData.host + '/documents?token=' + wx.getStorageSync('token'),
       data: {
         page: num
       },
@@ -187,81 +187,203 @@ Page({
   // 获取学校列表
   getSchool(e) {
     let that = this;
-    wx.request({
-      url: app.globalData.host + '/user/schools',
-      data: {},
-      method: 'get',
-      success: function (res) {
-        wx.hideToast()
-        console.log('资讯列表返回')
-        console.log(res)
-        if (res.statusCode == 200) {
-          let data = res.data.data;
-          console.log(11, data)
-          that.setData({
-            schoolList: data
-          })
-          // 轮播图
-          wx.request({
-            url: app.globalData.host + '/banners',
-            data: {
-              school_id: that.data.schoolList[0].id
-            },
-            method: 'get',
-            success: function (res) {
-              wx.hideToast()
-              console.log('资讯列表返回')
-              console.log(res)
-              if (res.statusCode == 200) {
-                let data = res.data.data.data;
-                console.log(res.data.data)
-                that.setData({
-                  banner: data
-                })
-
-              }
-            }
-          });
-          // 资讯分类
-          wx.request({
-            url: app.globalData.host + '/document/types',
-            data: {
-              school_id: that.data.schoolList[0].id
-            },
-            method: 'get',
-            success: function (res) {
-              wx.hideToast()
-              console.log('资讯列表返回')
-              console.log(res)
-              if (res.statusCode == 200) {
-                that.classFication = res.data.data.data;
-                that.setData({
-                  classFication: res.data.data.data
-                })
-              }
-            }
-          });
-          // 资讯列表
-          wx.request({
-            url: app.globalData.host + '/documents',
-            data: {
-              page: 1,
-              school_id: that.data.schoolList[0].id
-            },
-            method: 'get',
-            success: function (res) {
-              wx.hideToast()
-              if (res.statusCode == 200) {
-                let data = res.data.data.data;
-                that.setData({
-                  information: data
-                })
-              }
-            }
-          });
+    if (!wx.getStorageSync('token')) {
+      // 轮播图
+      wx.request({
+        url: app.globalData.host + '/banners?token=' + wx.getStorageSync('token'),
+        // data: {
+        //   school_id: that.data.schoolList[0].id
+        // },
+        method: 'get',
+        success: function (res) {
+          wx.hideToast()
+          console.log('资讯列表返回')
+          console.log(res)
+          if (res.statusCode == 200) {
+            let data = res.data.data.data;
+            console.log(res.data.data)
+            that.setData({
+              banner: data
+            })
+          }
         }
-      }
-    });
+      });
+      // 资讯分类
+      wx.request({
+        url: app.globalData.host + '/document/types?token=' + wx.getStorageSync('token'),
+        // data: {
+        //   school_id: that.data.schoolList[0].id
+        // },
+        method: 'get',
+        success: function (res) {
+          wx.hideToast()
+          console.log('资讯列表返回')
+          console.log(res)
+          if (res.statusCode == 200) {
+            that.classFication = res.data.data.data;
+            that.setData({
+              classFication: res.data.data.data
+            })
+          }
+        }
+      });
+      // 资讯列表
+      wx.request({
+        url: app.globalData.host + '/documents?token=' + wx.getStorageSync('token'),
+        // data: {
+        //   page: 1,
+        //   school_id: that.data.schoolList[0].id
+        // },
+        method: 'get',
+        success: function (res) {
+          wx.hideToast()
+          if (res.statusCode == 200) {
+            let data = res.data.data.data;
+            that.setData({
+              information: data
+            })
+          }
+        }
+      });
+    } else {
+      wx.request({
+        url: app.globalData.host + '/user/schools?token=' + wx.getStorageSync('token'),
+        data: {},
+        method: 'get',
+        success: function (res) {
+          wx.hideToast()
+          console.log('资讯列表返回')
+          console.log(res)
+          if (res.statusCode == 200) {
+            let data = res.data.data;
+            console.log(11, data)
+            that.setData({
+              schoolList: data
+            })
+            if (data.length > 0) {
+              // 轮播图
+              wx.request({
+                url: app.globalData.host + '/banners?token=' + wx.getStorageSync('token'),
+                data: {
+                  school_id: that.data.schoolList[0].id
+                },
+                method: 'get',
+                success: function (res) {
+                  wx.hideToast()
+                  console.log('资讯列表返回')
+                  console.log(res)
+                  if (res.statusCode == 200) {
+                    let data = res.data.data.data;
+                    console.log(res.data.data)
+                    that.setData({
+                      banner: data
+                    })
+
+                  }
+                }
+              });
+              // 资讯分类
+              wx.request({
+                url: app.globalData.host + '/document/types?token=' + wx.getStorageSync('token'),
+                data: {
+                  school_id: that.data.schoolList[0].id
+                },
+                method: 'get',
+                success: function (res) {
+                  wx.hideToast()
+                  console.log('资讯列表返回')
+                  console.log(res)
+                  if (res.statusCode == 200) {
+                    that.classFication = res.data.data.data;
+                    that.setData({
+                      classFication: res.data.data.data
+                    })
+                  }
+                }
+              });
+              // 资讯列表
+              wx.request({
+                url: app.globalData.host + '/documents?token=' + wx.getStorageSync('token'),
+                data: {
+                  page: 1,
+                  school_id: that.data.schoolList[0].id
+                },
+                method: 'get',
+                success: function (res) {
+                  wx.hideToast()
+                  if (res.statusCode == 200) {
+                    let data = res.data.data.data;
+                    that.setData({
+                      information: data
+                    })
+                  }
+                }
+              });
+            } else {
+              // 轮播图
+              wx.request({
+                url: app.globalData.host + '/banners?token=' + wx.getStorageSync('token'),
+                // data: {
+                //   school_id: that.data.schoolList[0].id
+                // },
+                method: 'get',
+                success: function (res) {
+                  wx.hideToast()
+                  console.log('资讯列表返回')
+                  console.log(res)
+                  if (res.statusCode == 200) {
+                    let data = res.data.data.data;
+                    console.log(res.data.data)
+                    that.setData({
+                      banner: data
+                    })
+                  }
+                }
+              });
+              // 资讯分类
+              wx.request({
+                url: app.globalData.host + '/document/types?token=' + wx.getStorageSync('token'),
+                // data: {
+                //   school_id: that.data.schoolList[0].id
+                // },
+                method: 'get',
+                success: function (res) {
+                  wx.hideToast()
+                  console.log('资讯列表返回')
+                  console.log(res)
+                  if (res.statusCode == 200) {
+                    that.classFication = res.data.data.data;
+                    that.setData({
+                      classFication: res.data.data.data
+                    })
+                  }
+                }
+              });
+              // 资讯列表
+              wx.request({
+                url: app.globalData.host + '/documents?token=' + wx.getStorageSync('token'),
+                // data: {
+                //   page: 1,
+                //   school_id: that.data.schoolList[0].id
+                // },
+                method: 'get',
+                success: function (res) {
+                  wx.hideToast()
+                  if (res.statusCode == 200) {
+                    let data = res.data.data.data;
+                    that.setData({
+                      information: data
+                    })
+                  }
+                }
+              });
+            }
+
+          }
+        }
+      });
+    }
+
 
   },
   schoolChange(e) {
@@ -281,7 +403,7 @@ Page({
   getSchoolBanner(val) {
     let that = this;
     wx.request({
-      url: app.globalData.host + '/banners',
+      url: app.globalData.host + '/banners?token=' + wx.getStorageSync('token'),
       data: {
         school_id: val
       },
@@ -305,7 +427,7 @@ Page({
   getSchoolType(val) {
     let that = this;
     wx.request({
-      url: app.globalData.host + '/document/types',
+      url: app.globalData.host + '/document/types?token=' + wx.getStorageSync('token'),
       data: {
         school_id: val
       },
@@ -339,7 +461,7 @@ Page({
     console.log('去获取资讯')
     console.log('页码' + num)
     wx.request({
-      url: app.globalData.host + '/documents',
+      url: app.globalData.host + '/documents?token=' + wx.getStorageSync('token'),
       data: {
         page: num,
         school_id: val
