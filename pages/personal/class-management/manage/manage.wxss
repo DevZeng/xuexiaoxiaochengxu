@@ -61,9 +61,9 @@ page {
 .table {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  padding: 10rpx 25rpx;
+  padding: 10rpx 6rpx;
 
 }
 
@@ -72,8 +72,8 @@ page {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  width: 30vw;
-  border: 1rpx #ccc solid;
+  width: 28vw;
+  /* border: 1rpx #ccc solid; */
   padding: 10rpx 0;
   font-size: 28rpx;
 

@@ -635,17 +635,17 @@ Page({
         // school_id: 43,
         //         id: 3949
         school_id: that.childrenlist[that.currentIndex].school_id,
-        id: that.childrenlist[that.currentIndex].id
+        number: that.childrenlist[that.currentIndex].number
       },
       method: 'get',
       success: function(res) {
         console.log('历史记录')
         console.log(333,res)
-        console.log(333,res.data.data.data)
+        console.log(333,res.data.data.direction)
 
-        if (res.data.data.data.length > 0) {
+        if (res.data.data.direction.length > 0) {
           that.setData({
-            recordsList: res.data.data.data
+            recordsList: res.data.data.direction
           })
         }
       }
@@ -861,7 +861,7 @@ Page({
   // 跳转历史记录
   toRecord: function(e) {
     let history_data = e.currentTarget.dataset.value;
-    wx.navigateTo({ url: '../history/history?school_id=' + history_data.school_id + '&id=' + history_data.id})
+    wx.navigateTo({ url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number})
   },
 
 

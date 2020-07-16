@@ -1,78 +1,88 @@
-page{
+page {
   background-color: #eee;
 }
-.box{
-  max-height:100vh;
+
+.box {
+  max-height: 100vh;
 }
 
 /* banner图 */
-.header{
-  position:relative;
-  width:100vw;
-  height:56.25vw;
+.header {
+  position: relative;
+  width: 100vw;
+  height: 56.25vw;
 }
 
-.header .swiper{
-  width:100vw;
-  height:56.25vw;
+.header .swiper {
+  width: 100vw;
+  height: 56.25vw;
 }
-.header .swiper .slide-image{
-  width:100vw;
-  height:56.25vw;
+
+.header .swiper .slide-image {
+  width: 100vw;
+  height: 56.25vw;
 }
+
 /* 导航分类 */
-.classification{
+.classification {
   /* width:100vw; */
-  height:190rpx;
-  padding:0 37rpx 0 12rpx;
-  overflow-x: auto; 
-  background-color:#f8f8f8; 
+  height: 190rpx;
+  padding: 0 37rpx 0 12rpx;
+  overflow-x: auto;
+  background-color: #f8f8f8;
 
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-.classification view{
-  position: relative;/* formID按钮父元素 */
-  background-color:#fff;
+
+.classification view {
+  position: relative;
+  /* formID按钮父元素 */
+  background-color: #fff;
   border-radius: 10rpx;
-  box-shadow:-2rpx 2rpx 8rpx #bbb;
-  min-width:150rpx;
-  height:150rpx;
-  margin-left:25rpx;
+  box-shadow: -2rpx 2rpx 8rpx #bbb;
+  min-width: 150rpx;
+  height: 150rpx;
+  margin-left: 25rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.classification image{
-  width:65rpx;
-  height:65rpx;
+
+.classification image {
+  width: 65rpx;
+  height: 65rpx;
   /* border-radius: 70rpx; */
 }
-.classification text{
+
+.classification text {
   font-weight: bold;
-  width:150rpx;
-  height:50rpx;
-  line-height:50rpx;
-  margin:5rpx 0 0 0;
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin: 5rpx 0 0 0;
   font-size: 28rpx;
   text-align: center;
-  color:#2a9f93;
+  color: #2a9f93;
   /* background-color:red; */
 }
+
 /* 活动列表 */
-.activity-box{
+.activity-box {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.activity-list{
-  position: relative;/* formID按钮父元素 */
-  width:48vw;
-  padding:14rpx 0.5vw;
-  margin:0 0.5vw 10rpx 0.5vw;
-  background-color:#fff;
+
+.activity-list {
+  position: relative;
+  /* formID按钮父元素 */
+  width: 48vw;
+  padding: 14rpx 0.5vw;
+  margin: 0 0.5vw 10rpx 0.5vw;
+  background-color: #fff;
   font-size: 28rpx;
   border-radius: 10rpx;
 
@@ -80,36 +90,40 @@ page{
   flex-direction: column;
   align-items: stretch;
 }
-.activity-list image{
-  width:46vw;
-  height:230rpx;
+
+.activity-list image {
+  width: 46vw;
+  height: 230rpx;
   margin-left: 1vw;
 }
-.activity-list .title{
-  display: block;
-  width:46vw;
-  height:80rpx;
-  line-height:40rpx;
-  color:#666;
-  margin:10rpx 1.4vw;
 
-  display: -webkit-box; 
-  -webkit-box-orient: vertical; 
-  -webkit-line-clamp: 2; 
-  text-overflow: ellipsis; 
+.activity-list .title {
+  display: block;
+  width: 46vw;
+  height: 80rpx;
+  line-height: 40rpx;
+  color: #666;
+  margin: 10rpx 1.4vw;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
- .activity-list .read-num{
-  color:#999;
+
+.activity-list .read-num {
+  color: #999;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-right: 2vw;
-} 
-.read-num .icon{
-  width:35rpx;
-  height:35rpx;
-  margin:0 10rpx 0 0 !important;
+}
+
+.read-num .icon {
+  width: 35rpx;
+  height: 35rpx;
+  margin: 0 10rpx 0 0 !important;
 }
 
 
@@ -118,15 +132,43 @@ page{
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  /* padding: 20rpx 0; */
+  padding: 5rpx 0;
   background-color: #fff;
 }
 
+.choose-banner text {
+  font-size: 26rpx;
+}
+
 .choose-banner .input {
+  width: 450rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 26rpx;
   border: 1rpx solid #ccc;
   border-radius: 10rpx;
-
   padding: 10rpx;
+  margin-right: 10rpx;
   background-color: #fff;
+}
 
+.choose-banner button {
+  position: relative;
+  width: 160rpx;
+  /* height: 44rpx; */
+  line-height: 44rpx;
+  font-size: 26rpx;
+  padding: 10rpx;
+  border-radius: 10rpx;
+  background-color: #2a9f93;
+  color: #fff;
+}
+
+.choose-banner image {
+  position: absolute;
+  top: 22%;
+  right: 0;
+  width: 40rpx;
+  height: 40rpx;
+  transform: rotate(90deg);
 }

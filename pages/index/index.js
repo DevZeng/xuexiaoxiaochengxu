@@ -253,12 +253,14 @@ Page({
         success: function (res) {
           wx.hideToast()
           console.log('资讯列表返回')
+          
           console.log(res)
           if (res.statusCode == 200) {
             let data = res.data.data;
             console.log(11, data)
             that.setData({
-              schoolList: data
+              schoolList: data,
+              school: data[0].name
             })
             if (data.length > 0) {
               // 轮播图
@@ -389,7 +391,8 @@ Page({
   schoolChange(e) {
     console.log(e)
     this.setData({
-      is_school: e.detail.value
+      is_school: e.detail.value,
+      school: ''
     })
     console.log(112, this.data.schoolList[e.detail.value].id)
     this.getSchoolBanner(this.data.schoolList[e.detail.value].id)

@@ -39,7 +39,7 @@
 			<view class="record-box">
 				<view wx:for="{{recordsList}}" wx:for-item="items" wx:key="{{index}}" class="record-list">
 					<!-- <image src="{{item.device.direction == 'out' ? '/icon/out.png' : '/icon/enter.png'}}" /> -->
-					<text>{{items.face.name}}于 {{items.time}} {{items.device.direction == 'in' ? '进入':'离开'}}了学校</text>
+					<text>{{items.name}}于 {{items.time}} {{items.direction == 1 ? '进入':'离开'}}了学校</text>
 				</view>
 				<text wx:if="{{recordsList.length == 0}}" class="notData">暂无数据~</text>
 			</view>

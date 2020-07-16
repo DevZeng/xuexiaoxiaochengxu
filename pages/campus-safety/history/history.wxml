@@ -1,6 +1,6 @@
 <view class="history-box" wx:for="{{recordsList}}" wx:for-item="items" wx:key="{{index}}">
-	<view class="item"><text>{{index + 1}}</text> <text style="color: green">{{items.face.name}}</text> 于 <text style="color: red">{{items.time}}</text> {{items.device.direction == 'in' ? '进入':'离开'}}了学校</view>
-	<image class="item-image" mode="aspectFill" src="https://tu.fengniaotuangou.cn/31581E23-4F53-4739-99EB-F4E59BF689EE.jpg"></image>
+	<view class="item"><text>{{index + 1}}</text> <text style="color: green">{{items.name}}</text> 于 <text style="color: red">{{items.time}}</text> {{items.direction == 1 ? '进入':'离开'}}了学校</view>
+	<image class="item-image" mode="aspectFill" src="{{items.image}}"></image>
 </view>
 
         <text wx:if="{{recordsList.length == 0}}" class="notData">暂无数据~</text>

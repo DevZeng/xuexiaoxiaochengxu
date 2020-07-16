@@ -42,13 +42,13 @@
       <image src="/icon/setUp.png" />
       <text>我的设备</text>
     </view>
-    <!--<view bindtap='openNtice'>
+    <!-- <view bindtap='openNtice'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
       <image src="/icon/news3.png" />
       <text>班级公告</text>
-    </view>-->
+    </view> -->
     <!-- <view bindtap='openPostRecord'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
@@ -62,6 +62,14 @@
       </form>
       <image src="/icon/classManagement.png" />
       <text>班级管理</text>
+    </view>
+    <!-- 绑定孩子的用户可看班级公告 -->
+    <view  bindtap='openClassNotice' wx:if="{{notice_childList.length > 0}}">
+      <form bindsubmit="getFormID" report-submit="true">
+        <button formType="submit" class="formBtu"></button>
+      </form>
+      <image src="/icon/news3.png" />
+      <text>班级公告</text>
     </view>
     <view bindtap='openHelpDocument'>
       <form bindsubmit="getFormID" report-submit="true">
@@ -115,4 +123,4 @@
   </view>
 </view>
 <!-- <official-account></official-account> -->
-<view class="supportText">图巴诺科技提供技术支持v1.0.13</view>
+<view class="supportText">图巴诺科技提供技术支持v1.0.15</view>

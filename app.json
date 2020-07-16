@@ -17,6 +17,11 @@
     "pages/personal/class-management/auditing/auditing",
     "pages/personal/class-management/children-details/children-details",
     "pages/personal/class-management/family-details/family-details",
+    "pages/personal/class-management/notice/notice",
+    "pages/personal/class-management/notice/notice-child/notice-child",
+    "pages/personal/class-management/notice/notice-detail/notice-detail",
+    "pages/personal/class-management/notice/notice-list/notice-list",
+
     "pages/personal/purchase-service/index/index",
     "pages/personal/purchase-service/record/record",
     "pages/personal/equipment/index/index",

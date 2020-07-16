@@ -1,9 +1,12 @@
 <!--index.wxml-->
 <official-account></official-account>
 <view class="choose-banner" wx:if="{{schoolList.length > 1}}">
-	<text>选择学校：</text>
-	<picker bindchange="schoolChange" range="{{schoolList}}" range-key="name" value="{{index}}">
-		<input class="input" disabled="true" placeholder="请选择孩子所在的学校" value="{{school? school : schoolList[is_school].name}}"></input>
+	<!-- <text></text> -->
+	<input class="input" disabled="true" placeholder="请选择孩子所在的学校" value="当前学校:{{school? school : schoolList[is_school].name}}"></input>
+
+	<picker bindchange="schoolChange" range="{{schoolList}}" range-key="name" value="{{index}}" class="picker">
+		<button>切换学校</button>
+		<!-- <image src="/icon/right.png"></image> -->
 	</picker>
 </view>
 
@@ -19,6 +22,9 @@
 						<image mode="aspectFill" src="{{item.href}}" class="slide-image" />
 					</swiper-item>
 				</block>
+				<swiper-item wx:if="{{banner.length == 0}}">
+					<image mode="aspectFill" src="/icon/no-image.png" class="slide-image" />
+				</swiper-item>
 			</swiper>
 		</view>
 		<view class="classification">
@@ -27,6 +33,8 @@
 				<image mode='aspectFill' src="{{item.href}}" />
 				<text>{{item.title}}</text>
 			</view>
+			<text wx:if="{{classFication.length == 0}}" class="notData">暂无数据~</text>
+
 		</view>
 		<view class="activity-box">
 			<view wx:for="{{information}}" wx:key="{{index}}" class="activity-list" data-index="{{index}}" data-id="{{item.id}}" bindtap='openDetals'>
@@ -37,6 +45,8 @@
 					<text> {{item.details_browse}}</text>
 				</view>
 			</view>
+			<text wx:if="{{information.length == 0}}" class="notData">暂无数据~</text>
+
 		</view>
 	</view>
 </scroll-view>

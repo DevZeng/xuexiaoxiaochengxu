@@ -1,0 +1,10 @@
+<view class="title">
+	<editor id="editorTitle" class="editor-title" placeholder="输入公告标题" bindready="onEditorTitleReady" bindinput="onEditorTitleInput" value="{{title}}">
+	</editor>
+	<button class="button" size="mini" bindtap="sendNotice">发布</button>
+</view>
+
+<view class="container">
+	<editor id="editorContent" class="editor-content" placeholder="输入公告内容" bindready="onEditorContentReady" bindinput="onEditorContentInput" value="{{content}}">
+	</editor>
+</view>

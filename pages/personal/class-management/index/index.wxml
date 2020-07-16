@@ -9,4 +9,14 @@
     <text>学生审核</text>
     <image class="right-icon" src="/icon/right.png" />
   </view>
+  <view bindtap="toNotice" class="tableviewcell">
+    <image class="left-icon" src="/icon/news3.png" />
+    <text>发布公告</text>
+    <image class="right-icon" src="/icon/right.png" />
+  </view>
+   <view bindtap="toManageNotice" class="tableviewcell">
+    <image class="left-icon" src="/icon/classManagement.png" />
+    <text>公告管理</text>
+    <image class="right-icon" src="/icon/right.png" />
+  </view>
 </view>

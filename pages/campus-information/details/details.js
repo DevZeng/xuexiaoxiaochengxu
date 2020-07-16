@@ -32,6 +32,7 @@ Page({
           wx.hideToast({ })
           WxParse.wxParse('article', 'html', res.data.data.detail, that, 2);
           that.details = res.data.data;
+          console.log(111111,res.data.data.detail)
           that.setData({
             details: res.data.data
           })

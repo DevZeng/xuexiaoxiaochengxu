@@ -1,0 +1,8 @@
+<view class="title">
+	<rich-text nodes="{{title}}" space="nbsp"></rich-text>
+	<view class="time">发布时间：{{time}}</view>
+</view>
+<view class="content">
+	<rich-text nodes="{{content}}" space="nbsp"></rich-text>
+
+</view>

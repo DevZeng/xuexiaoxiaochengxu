@@ -7,6 +7,8 @@ Page({
     showFace:false,
     userInfo: null,
     memberTime:null,
+    notice_childList: null,
+    class_id: null
   },
   onLoad: function () {
     
@@ -14,22 +16,8 @@ Page({
   onShow: function () {
     // 个人信息
     this.getMyinfo()
-      // app.getUserinfo(function (info) {
-      //   console.log('用户信息')
-      //   console.log(info)
-      //   if (info) {
-      //     that.userInfo = info;
-      //     that.setData({
-      //       userInfo: info,
-      //       showFace:wx.getStorageSync('openFace')
-      //     });
-      //   }
-      // })
-    
-    // 会员信息
-    
-    
-    // console.log(showFace)
+    this.getNoticeChild()
+
   },
   getMyinfo:function(){
     console.log('getMyinfo');
@@ -40,13 +28,26 @@ Page({
         console.log(res)
         if(res.statusCode==200){
           this.setData({
-            userInfo:res.data.data
+            userInfo: res.data.data,
+            class_id: res.data.data.class_id
           })
         }else{
           this.setData({
             userInfo:null
           })
         }
+      }
+    })
+  },
+  getNoticeChild() {
+    var self = this;
+    wx.request({
+      url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
+      method: 'GET',
+      success: function(res) {
+        self.setData({
+          notice_childList: res.data.data
+        })
       }
     })
   },
@@ -84,6 +85,8 @@ Page({
                   that.setData({
                     userInfo:data.user
                   })
+                  that.getNoticeChild()
+
                   }else{
                     that.setData({
                       userInfo:{}
@@ -181,11 +184,12 @@ Page({
   // 跳转公告信息页
   openNtice: function () {
     let that = this;
+    wx.navigateTo({
+      url: '../notice/index/index'
+    })
     app.getLogintype(function (type) {
       if (type.user_card) {
-        wx.navigateTo({
-          url: '../notice/index/index'
-        })
+       
       } else {
         wx.showModal({
           title: '提示', content: '请补充完整注册信息', success: function (res) {
@@ -220,7 +224,14 @@ Page({
   openClassManagement: function () {
     let that = this;
     wx.navigateTo({
-      url: '../class-management/index/index'
+      url: '../class-management/index/index?class_id=' + that.data.class_id
+    })
+  },
+  // 跳转班级公告
+  openClassNotice() {
+    let that = this;
+    wx.navigateTo({
+      url: '../class-management/notice/notice-child/notice-child'
     })
   },
   // 跳转购买服务页

@@ -1,0 +1,10 @@
+<!-- 家长已绑定的学生 -->
+<view class="list" wx:for="{{notice_childList}}" wx:key="index">
+  <view bindtap="toNotice" data-classid="{{item.class_id}}"  class="tableviewcell">
+    <image class="left-icon" src="/icon/children.png" />
+    <text>{{item.name}}({{item.number}})</text>
+    <image class="right-icon" src="/icon/right.png" />
+  </view>
+</view>
+
+			<text wx:if="{{notice_childList.length == 0}}" class="notData">暂无数据~</text>
