@@ -1,0 +1,27 @@
+.detail {
+    padding: 10rpx;
+}
+.title {
+    font-size: 36rpx;
+}
+
+.title, .expire, .item {
+    margin: 10rpx;
+}
+
+.item {
+    display: flex;
+    justify-content: space-around;
+    padding: 10rpx 0;
+    border-bottom: 1rpx solid #ccc;
+    font-size: 28rpx;
+}
+
+.item .name {
+    width: 300rpx;
+}
+
+.item .time {
+    display: flex;
+    justify-content: space-between;
+}

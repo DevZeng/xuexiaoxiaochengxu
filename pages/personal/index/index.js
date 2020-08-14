@@ -4,36 +4,71 @@ const app = getApp()
 const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig; //匹配emoji表情正则
 Page({
   data: {
-    showFace:false,
+    showFace: false,
     userInfo: null,
-    memberTime:null,
+    memberTime: null,
     notice_childList: null,
-    class_id: null
+    class_id: null,
+    serviceList: [] // 服务列表
   },
   onLoad: function () {
-    
+    this.setData({
+      showBuy: app.globalData.showBuy
+    })
+    if(wx.getStorageSync('token')) {
+      this.getSchool()
+    }
   },
   onShow: function () {
     // 个人信息
     this.getMyinfo()
     this.getNoticeChild()
-
+    this.getSevice()
+    this.setData({
+      showBuy: app.globalData.showBuy
+    })
   },
-  getMyinfo:function(){
+  getSchool() {
+    var self = this;
+    wx.request({
+      url: app.globalData.host + '/user/schools?token=' + wx.getStorageSync('token'),
+      data: {},
+      method: 'get',
+      success: function (res) {
+        let data = res.data.data;
+        // app.globalData.school_id = data[0].id
+        // if (data[0].mode == 2 && app.globalData.userInfo.worker == 0) {
+        //   app.globalData.showBuy = true;
+        //   self.setData({
+        //     showBuy: app.globalData.showBuy
+        //   })
+        // };
+        data.forEach(item => {
+          if (item.mode == 2 && app.globalData.userInfo.worker == 0) {
+            app.globalData.showBuy = true;
+            self.setData({
+              showBuy: app.globalData.showBuy
+            })
+          }
+        })
+      }
+    })
+  },
+  getMyinfo: function () {
     console.log('getMyinfo');
     wx.request({
-      url: app.globalData.host+'/user/info?token='+wx.getStorageSync('token'),
-      method:'GET',
-      success:(res)=>{
+      url: app.globalData.host + '/user/info?token=' + wx.getStorageSync('token'),
+      method: 'GET',
+      success: (res) => {
         console.log(res)
-        if(res.statusCode==200){
+        if (res.statusCode == 200) {
           this.setData({
             userInfo: res.data.data,
             class_id: res.data.data.class_id
           })
-        }else{
+        } else {
           this.setData({
-            userInfo:null
+            userInfo: null
           })
         }
       }
@@ -44,7 +79,7 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
       method: 'GET',
-      success: function(res) {
+      success: function (res) {
         self.setData({
           notice_childList: res.data.data
         })
@@ -54,48 +89,54 @@ Page({
   // 获取微信信息授权
   getUserInfo: function (e) {
     let that = this,
-        u_info = e.detail.userInfo;//用户信息-从微信中获取
+      u_info = e.detail.userInfo; //用户信息-从微信中获取
     wx.login({
       success: (res) => {
-        if(res.code){
+        if (res.code) {
           let code = res.code;
           wx.getUserInfo({
             success: (res) => {
               console.log(res.encryptedData);
               console.log(res.iv);
               wx.request({
-                url: app.globalData.host+'/login',
-                method:'POST',
-                data:{
-                  'code':code,
-                  'iv':res.iv,
-                  'encryptedData':res.encryptedData
+                url: app.globalData.host + '/login',
+                method: 'POST',
+                data: {
+                  'code': code,
+                  'iv': res.iv,
+                  'encryptedData': res.encryptedData
                 },
-                success (res) {
-                  if(res.statusCode==200){
+                success(res) {
+                  if (res.statusCode == 200) {
                     var data = res.data.data;
-                  wx.setStorage({
-                    data: data.token,
-                    key: 'token',
-                    complete: (res) => {},
-                    fail: (res) => {},
-                    success: (res) => {},
-                  });
-                  app.globalData.userInfo = data.user
-                  that.setData({
-                    userInfo:data.user
-                  })
-                  that.getNoticeChild()
-
-                  }else{
+                    wx.setStorage({
+                      data: data.token,
+                      key: 'token',
+                      complete: (res) => {},
+                      fail: (res) => {},
+                      success: (res) => {},
+                    });
+                    app.globalData.userInfo = data.user
                     that.setData({
-                      userInfo:{}
+                      userInfo: data.user
+                    })
+                    that.getNoticeChild()
+                    that.getSchool();
+                    setTimeout(() => {
+                      wx.reLaunch({
+                        url: '/pages/index/index',
+                      })
+                    }, 1000);
+
+                  } else {
+                    that.setData({
+                      userInfo: {}
                     })
                   }
                 },
-                fail:(res)=>{
+                fail: (res) => {
                   that.setData({
-                    userInfo:{}
+                    userInfo: {}
                   })
                 }
               })
@@ -104,7 +145,7 @@ Page({
         }
       },
     })
-    if (u_info){//已授权获取信息
+    if (u_info) { //已授权获取信息
       // wx.navigateTo({
       //   url: '../information/information?u_info=' + JSON.stringify(u_info)
       // })
@@ -142,7 +183,7 @@ Page({
     }
   },
   // 跳转个人信息页
-  openInformation: function(){
+  openInformation: function () {
     let that = this;
     wx.navigateTo({
       url: '../information/information'
@@ -151,10 +192,10 @@ Page({
   // 跳转我的孩子页
   openChildren: function () {
     let that = this;
-    if(!this.data.userInfo.phone){
+    if (!this.data.userInfo.phone) {
       wx.showModal({
-        title:'提示',
-        content:"请先完善个人信息"
+        title: '提示',
+        content: "请先完善个人信息"
       })
       return;
     }
@@ -189,10 +230,12 @@ Page({
     })
     app.getLogintype(function (type) {
       if (type.user_card) {
-       
+
       } else {
         wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
+          title: '提示',
+          content: '请补充完整注册信息',
+          success: function (res) {
             if (res.confirm) {
               that.openInformation();
             }
@@ -211,7 +254,9 @@ Page({
         })
       } else {
         wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
+          title: '提示',
+          content: '请补充完整注册信息',
+          success: function (res) {
             if (res.confirm) {
               that.openInformation();
             }
@@ -236,28 +281,51 @@ Page({
   },
   // 跳转购买服务页
   openPurchaseService: function () {
-    wx.showToast({
-      title: '暂不开放！',
-      icon: 'fail',
-      duration: 1500
-    })
-    return;
     let that = this;
-    app.getLogintype(function (type) {
-      if (type.user_card) {
-        wx.navigateTo({
-          url: '../purchase-service/index/index'
-        })
-      } else {
-        wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
-            if (res.confirm) {
-              that.openInformation();
-            }
-          }
-        })
+    wx.request({
+      url: app.globalData.host + '/forbidden/products?token=' + wx.getStorageSync('token'),
+      method: 'get',
+      data: {
+        school_id: app.globalData.school_id
+      },
+      success: function (res) {
+        if (res.data.data == 2) {
+          wx.navigateTo({
+            url: '../purchase-service/index/index'
+          })
+        } else {
+          wx.showToast({
+            title: '您已被禁用购买服务功能',
+            icon: 'none'
+          })
+        }
       }
     })
+
+    // wx.showToast({
+    //   title: '暂不开放！',
+    //   icon: 'fail',
+    //   duration: 1500
+    // })
+    // return;
+    // let that = this;
+    // app.getLogintype(function (type) {
+    //   if (type.user_card) {
+    //     wx.navigateTo({
+    //       url: '../purchase-service/index/index'
+    //     })
+    //   } else {
+    //     wx.showModal({
+    //       title: '提示',
+    //       content: '请补充完整注册信息',
+    //       success: function (res) {
+    //         if (res.confirm) {
+    //           that.openInformation();
+    //         }
+    //       }
+    //     })
+    //   }
+    // })
   },
   // 跳转我的设备页
   openEquipment: function () {
@@ -275,7 +343,9 @@ Page({
         })
       } else {
         wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
+          title: '提示',
+          content: '请补充完整注册信息',
+          success: function (res) {
             if (res.confirm) {
               that.openInformation();
             }
@@ -293,14 +363,14 @@ Page({
         })
       }
     })
-  }, 
+  },
   // 跳转访客申请
-  openFaceApplication: function(){
+  openFaceApplication: function () {
     wx.navigateTo({
       url: '../visitor/visitor'
     })
   },
-  openVisitorList: function(){
+  openVisitorList: function () {
     wx.navigateTo({
       url: '../visitor/visitorlist/visitorlist'
     })
@@ -314,28 +384,32 @@ Page({
     })
   },
   // 跳转成绩查询
-  openInquiry: function(){
-    wx.showToast({
-      title: '暂不开放！',
-      icon: 'fail',
-      duration: 1500
+  openInquiry: function () {
+    wx.navigateTo({
+      url: '../inquiry/inquiry'
     })
-    return;
-    app.getLogintype(function (type) {
-      if (type.user_card) {
-        wx.navigateTo({
-          url: '../inquiry/inquiry'
-        })
-      } else {
-        wx.showModal({
-          title: '提示', content: '请补充完整注册信息', success: function (res) {
-            if (res.confirm) {
-              that.openInformation();
-            }
-          }
-        })
-      }
-    })
+    // wx.showToast({
+    //   title: '暂不开放！',
+    //   icon: 'fail',
+    //   duration: 1500
+    // })
+    // return app.getLogintype(function (type) {
+    //   if (type.user_card) {
+    //     wx.navigateTo({
+    //       url: '../inquiry/inquiry'
+    //     })
+    //   } else {
+    //     wx.showModal({
+    //       title: '提示',
+    //       content: '请补充完整注册信息',
+    //       success: function (res) {
+    //         if (res.confirm) {
+    //           that.openInformation();
+    //         }
+    //       }
+    //     })
+    //   }
+    // })
   },
   // 获取会员到期时间
   getMemberTime: function () {
@@ -343,7 +417,7 @@ Page({
     let that = this;
     wx.request({
       url: app.globalData.https + '/member/select_member',
-      data:{
+      data: {
         user_openid: app.globalData.opnID
       },
       method: 'get',
@@ -357,7 +431,7 @@ Page({
         }
       }
     });
-  },  
+  },
   //公众号绑定
   bindViewTap: function () {
     wx.navigateTo({
@@ -376,6 +450,32 @@ Page({
       // cnontent: this.data.summer_theme,
       imageUrl: "http://babihu2018-1256705913.cos.ap-guangzhou.myqcloud.com/bbh/2018/153544840170971.jpg"
     }
+  },
+
+  // 获取服务信息
+  getSevice() {
+    var self = this;
+    wx.request({
+      url: app.globalData.host + '/user/serves?token=' + wx.getStorageSync('token'),
+      method: 'get',
+      data: {
+        school_id: 44
+      },
+      success: function (res) {
+        if (res.statusCode == 200) {
+          self.setData({
+            serviceList: res.data.data
+          })
+        }
+      }
+    })
+  },
+  childrenChange(e) {
+    var self = this;
+    var details = JSON.stringify(self.data.serviceList[e.detail.value].details)
+    wx.navigateTo({
+      url: './service-detail/service-detail?title=' + self.data.serviceList[e.detail.value].title + '&detail=' + details + '&time=' + self.data.serviceList[e.detail.value].expireTime + '&state=' + self.data.serviceList[e.detail.value].state
+    })
   }
-  
+
 })

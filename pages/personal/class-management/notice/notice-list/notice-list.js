@@ -17,7 +17,8 @@ Page({
     onLoad: function (options) {
         this.setData({
             class_id: options.classid,
-            btn_del: options.btn_del
+            btn_del: options.btn_del,
+            student_id: options.studentid
         })
         this.getNoticeList()
     },
@@ -28,12 +29,28 @@ Page({
             method: 'GET',
             data: {
                 token: wx.getStorageSync('token'),
-                class_id: self.data.class_id
+                class_id: self.data.class_id,
+                student_id: self.data.student_id
             },
             success: function (res) {
-                self.setData({
-                    notice_List: res.data.data
-                })
+                if (res.statusCode == 200) {
+                    self.setData({
+                        notice_List: res.data.data
+                    })
+                } else {
+                    wx.showToast({
+                        title: res.data.msg,
+                        icon: 'none',
+                        success: function () {
+                            setTimeout(() => {
+                                wx.reLaunch({
+                                  url: '/pages/personal/index/index',
+                                })
+                            }, 2000);
+                        }
+                    })
+                }
+
             }
         })
     },

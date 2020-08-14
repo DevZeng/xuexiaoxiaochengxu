@@ -1,13 +1,53 @@
 page {
   background-color: #f8f8f8;
   font-size: 28rpx;
-  height:100vh;
+  height: 100vh;
+}
+
+/* 显示各科成绩 */
+.position {
+  position: absolute;
+  top: 0rpx;
+  right: 0;
+  bottom: 0rpx;
+  left: 0;
+  margin: auto;
+  width: 600rpx;
+  height: 550rpx;
+  z-index: 1000;
+  background-color: #f8f8f8;
+}
+
+.position .subjects {
+  position: relative;
+  height: 500rpx;
+  padding: 20rpx 30rpx;
+  border-radius: 10rpx;
+  background-color: #f8f8f8;
+}
+
+.position .subjects .title {
+  /* text-align: right; */
+  color: #2a9f93
+}
+
+.position .subjects .item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 20rpx;
+  border-bottom: 1rpx solid #2a9f93;
+}
+
+.position .subjects .close {
+  position: absolute;
+  bottom: 0rpx;
+  right: 50rpx;
 }
 
 /* 头部导航 */
 .nav {
   padding: 0 20rpx;
-  height:10vh;
+  height: 10vh;
   background-color: #fff;
   display: flex;
   justify-content: space-between;
@@ -16,20 +56,22 @@ page {
   margin-bottom: 15rpx;
   font-size: 32rpx;
 }
-.navbtu{
+
+.navbtu {
   height: 60rpx;
-  padding:0 20rpx;
-  min-width:150rpx;
+  padding: 0 20rpx;
+  min-width: 150rpx;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #2a9f93;
   border-radius: 60rpx;
 }
-.navbtu image{
-  width:30rpx;
-  height:30rpx;
-  margin-left:20rpx;
+
+.navbtu image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
 }
 
 
@@ -37,7 +79,7 @@ page {
 
 .details {
   width: 100vw;
-  height:100vh;
+  height: 100vh;
   overflow-y: auto;
   background-color: #fff;
 
@@ -48,42 +90,48 @@ page {
   position: relative;
   border: 0px solid darkgray;
 }
+
 .tr {
   display: flex;
   justify-content: center;
   height: 10vh;
   align-items: center;
 }
-.bg-w{
+
+.bg-w {
   position: absolute;
-  left:0;
-  top:0;
+  left: 0;
+  top: 0;
   background: snow;
 }
-.bg-g{
+
+.bg-g {
   background: #E6F3F9;
 }
-.bol{
+
+.bol {
   position: absolute;
-  left:0;
-  top:10vh;
-  height:90vh;
+  left: 0;
+  top: 10vh;
+  height: 90vh;
   overflow-x: auto;
 }
-.th{
+
+.th {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #aaa;
   height: 10vh;
-  white-space:nowrap;/*文本不换行*/
+  white-space: nowrap;
+  /*文本不换行*/
 }
-.td{
+
+.td {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 10vh;
-  white-space:nowrap;/*文本不换行*/
+  white-space: nowrap;
+  /*文本不换行*/
 }
-
-

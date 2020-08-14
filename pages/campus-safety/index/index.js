@@ -4,7 +4,8 @@ const app = getApp();
 var DATE = require('../../../utils/util.js');
 
 
-let today, num, lock = true, interval;
+let today, num, lock = true,
+  interval;
 
 let markersArray = [{
     id: 0,
@@ -242,36 +243,36 @@ var Lunar = {
     [0, 2, 9, 54560]
   ],
   //是否闰年
-  isLeapYear: function(year) {
+  isLeapYear: function (year) {
     return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
   },
   //天干地支年
-  lunarYear: function(year) {
+  lunarYear: function (year) {
     var gan = ['庚', '辛', '壬', '癸', '甲', '乙', '丙', '丁', '戊', '己'],
       zhi = ['申', '酉', '戌', '亥', '子', '丑', '寅', '卯', '辰', '巳', '午', '未'],
       str = year.toString().split("");
     return gan[str[3]] + zhi[year % 12];
   },
   //生肖年
-  zodiacYear: function(year) {
+  zodiacYear: function (year) {
     var zodiac = ['猴', '鸡', '狗', '猪', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊'];
     return zodiac[year % 12];
   },
   //公历月份天数
   //@param year 阳历-年
   //@param month 阳历-月
-  solarMonthDays: function(year, month) {
+  solarMonthDays: function (year, month) {
     var FebDays = this.isLeapYear(year) ? 29 : 28;
     var monthHash = ['', 31, FebDays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     return monthHash[month];
   },
   //农历月份天数
-  lunarMonthDays: function(year, month) {
+  lunarMonthDays: function (year, month) {
     var monthData = this.lunarMonths(year);
     return monthData[month - 1];
   },
   //农历月份天数数组
-  lunarMonths: function(year) {
+  lunarMonths: function (year) {
     var yearData = this.lunarInfo[year - this.MIN_YEAR];
     var leapMonth = yearData[0];
     var bit = (+yearData[3]).toString(2);
@@ -292,13 +293,13 @@ var Lunar = {
   },
   //农历每年的天数
   //@param year 农历年份
-  lunarYearDays: function(year) {
+  lunarYearDays: function (year) {
     var monthArray = this.lunarYearMonths(year);
     var len = monthArray.length;
     return (monthArray[len - 1] == 0 ? monthArray[len - 2] : monthArray[len - 1]);
   },
   //
-  lunarYearMonths: function(year) {
+  lunarYearMonths: function (year) {
     var monthData = this.lunarMonths(year);
     var res = [];
     var temp = 0;
@@ -315,12 +316,12 @@ var Lunar = {
   },
   //获取闰月
   //@param year 农历年份
-  leapMonth: function(year) {
+  leapMonth: function (year) {
     var yearData = this.lunarInfo[year - this.MIN_YEAR];
     return yearData[0];
   },
   //计算农历日期与正月初一相隔的天数
-  betweenLunarDays: function(year, month, day) {
+  betweenLunarDays: function (year, month, day) {
     var yearMonth = this.lunarMonths(year);
     var res = 0;
     for (var i = 1; i < month; i++) {
@@ -335,7 +336,7 @@ var Lunar = {
   //@param day
   //@param l_month 阴历正月对应的阳历月份
   //@param l_day  阴历初一对应的阳历天
-  betweenSolarDays: function(year, month, day, l_month, l_day) {
+  betweenSolarDays: function (year, month, day, l_month, l_day) {
     var time1 = new Date(year + "-" + month + "-" + day).getTime(),
       time2 = new Date(year + "-" + l_month + "-" + l_day).getTime();
     return Math.ceil((time1 - time2) / 24 / 3600 / 1000);
@@ -343,7 +344,7 @@ var Lunar = {
   //根据距离正月初一的天数计算阴历日期
   //@param year 阳历年
   //@param between 天数
-  lunarByBetween: function(year, between) {
+  lunarByBetween: function (year, between) {
     var lunarArray = [],
       yearMonth = [],
       t = 0,
@@ -382,12 +383,12 @@ var Lunar = {
     return lunarArray;
   },
   //中文月份
-  chineseMonth: function(month) {
+  chineseMonth: function (month) {
     var monthHash = ['', '正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
     return monthHash[month];
   },
   //中文日期
-  chineseNumber: function(num) {
+  chineseNumber: function (num) {
     var dateHash = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
       res;
     if (num <= 10) {
@@ -404,7 +405,7 @@ var Lunar = {
     return res;
   },
   //转换农历
-  toLunar: function(year, month, day) {
+  toLunar: function (year, month, day) {
     var yearData = this.lunarInfo[year - this.MIN_YEAR];
     if (year == this.MIN_YEAR && month <= 2 && day <= 9) {
       return [1891, 1, 1, '辛卯', '兔', '正月', '初一'];
@@ -416,7 +417,7 @@ var Lunar = {
   //@param year 阴历-年
   //@param month 阴历-月，闰月处理：例如如果当年闰五月，那么第二个五月就传六月，相当于阴历有13个月
   //@param date 阴历-日
-  toSolar: function(year, month, day) {
+  toSolar: function (year, month, day) {
     var yearData = this.lunarInfo[year - this.MIN_YEAR];
     var between = this.betweenLunarDays(year, month, day);
     var ms = new Date(year + "-" + yearData[1] + "-" + yearData[2]).getTime();
@@ -506,8 +507,8 @@ Page({
   },
   onLoad: function (option) {
     this.currentIndex = 0;
-    let data =[]
-    for(let i = 1; i < 32; i++){
+    let data = []
+    for (let i = 1; i < 32; i++) {
       data[data.length] = {
         month: 'current', //要标记的日期所属月份，有效值有prev（上个月）,current（当前月），next（下个月）
         day: i, //要标记的日期
@@ -520,7 +521,7 @@ Page({
       days_color: data
     })
   },
-  onShow: function() {
+  onShow: function () {
     lock = true
     let that = this
     that.getChildrenList();
@@ -545,17 +546,17 @@ Page({
 
   },
   // 获取我的孩子列表
-  getChildrenList: function(e) {
+  getChildrenList: function (e) {
     let that = this;
-   
+
     wx.request({
-      url: app.globalData.host + '/children?token='+wx.getStorageSync('token')+'&state=3',
+      url: app.globalData.host + '/children?token=' + wx.getStorageSync('token') + '&state=3',
       method: 'get',
-      success: function(res) {
+      success: function (res) {
         console.log('孩子列表')
         console.log(res)
         if (res.data.data) {
-          if (res.data.data.length > 0) {//有孩子
+          if (res.data.data.length > 0) { //有孩子
             let data = res.data.data
             let time = new Date();
             let year = time.getFullYear();
@@ -586,18 +587,18 @@ Page({
     });
   },
   // 去获取信息
-  toGet: function(){
+  toGet: function () {
     console.log('去获取定位信息和进出学校记录')
     let that = this;
     // 判断会员信息
     if (app.globalData.memberInfo) {
-      if (app.globalData.memberInfo.time_status == 1) {//是有效的会员
+      if (app.globalData.memberInfo.time_status == 1) { //是有效的会员
         // 获取人脸记录
         that.getRecords();
       }
     } else {
       app.getMemberTime(function (memberinfo) {
-        if (memberinfo.time_status == 1) {//是有效的会员
+        if (memberinfo.time_status == 1) { //是有效的会员
           // 获取人脸记录
           that.getRecords();
         }
@@ -612,16 +613,16 @@ Page({
         console.log('定时一分钟更新信息')
         that.getRecords();
         if (app.globalData.memberInfo) {
-          if (app.globalData.memberInfo.time_status == 1) {//是有效的会员
+          if (app.globalData.memberInfo.time_status == 1) { //是有效的会员
             // 获取人脸记录
             that.getLocation();
           }
-        } 
+        }
       }, 1 * 60 * 1000)
     }
   },
   // 根据日期获取记录列表
-  getRecords: function() {
+  getRecords: function () {
     console.log(this.childrenlist[this.currentIndex])
     let that = this,
       gregorian = that.childrenlist[that.currentIndex].gregorian;
@@ -629,32 +630,36 @@ Page({
     // let time_stamp= date.getTime(date)/1000 + 86400;
     // console.log(DATE.formatTime(time_stamp, "Y-M-D"))
     wx.request({
-      url: app.globalData.host + '/user/student/faceLogs?token='+wx.getStorageSync('token'),
+      url: app.globalData.host + '/user/student/faceLogs?token=' + wx.getStorageSync('token'),
       data: {
         time: gregorian.year + '-' + gregorian.month + '-' + gregorian.date,
         // school_id: 43,
-        //         id: 3949
+        // id: 3949,
+        student_id: that.childrenlist[that.currentIndex].id,
         school_id: that.childrenlist[that.currentIndex].school_id,
         number: that.childrenlist[that.currentIndex].number
       },
       method: 'get',
-      success: function(res) {
-        console.log('历史记录')
-        console.log(333,res)
-        console.log(333,res.data.data.direction)
-
-        if (res.data.data.direction.length > 0) {
-          that.setData({
-            recordsList: res.data.data.direction
+      success: function (res) {
+        if (res.statusCode === 200) {
+          if (res.data.data.direction.length > 0) {
+            that.setData({
+              recordsList: res.data.data.direction
+            })
+          }
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none'
           })
         }
       }
     });
   },
   // 获取孩子位置信息
-  getLocation: function() {
+  getLocation: function () {
     let that = this;
-    if (that.childrenlist[that.currentIndex].device_id){
+    if (that.childrenlist[that.currentIndex].device_id) {
       wx.request({
         url: app.globalData.https1 + '/device/select_securty',
         data: {
@@ -666,7 +671,7 @@ Page({
           console.log('定位信息')
           console.log(res)
           if (res.data.data) {
-            if(res.data.data.lag == 0){//定位器返回经纬度为0少数情况
+            if (res.data.data.lag == 0) { //定位器返回经纬度为0少数情况
               //设置默认地址显示
               that.setDefaultAddress();
               return;
@@ -710,18 +715,18 @@ Page({
           }
         }
       });
-    }else{
+    } else {
       console.log('没有设备ID，该学生没有绑定设备')
     }
-    
+
   },
 
   // 点击地图标记地点事件
-  markertap: function(){
-    
+  markertap: function () {
+
   },
   // 地址反查
-  checkAddress: function(lag, log) {
+  checkAddress: function (lag, log) {
     console.log(lag)
     console.log(log)
     let that = this;
@@ -743,7 +748,7 @@ Page({
 
   },
   //没有地址显示，则显示默认地址
-  setDefaultAddress: function(){
+  setDefaultAddress: function () {
     let that = this
     console.log('没有地址信息，那么就给他一个默认地址')
     that.markers = markersArray
@@ -759,14 +764,14 @@ Page({
   },
 
   //手指触摸动作开始 记录起点X坐标
-  touchstart: function(e) {
+  touchstart: function (e) {
     this.setData({
       startX: e.changedTouches[0].clientX,
       startY: e.changedTouches[0].clientY
     })
   },
   //滑动事件处理(滑动时重复调用多次，num是为了防止重复调用)
-  touchmove: function(e) {
+  touchmove: function (e) {
     let idx = e.currentTarget.dataset.index;
     let startX = this.data.startX, //开始X坐标
       startY = this.data.startY, //开始Y坐标
@@ -787,7 +792,7 @@ Page({
     if (touchMoveX > startX) { //右滑 2——1
 
       console.log('111111111111111111111111')
-      if (this.currentIndex == 0) return;//我加的，防止
+      if (this.currentIndex == 0) return; //我加的，防止
       console.log('卡一过')
 
       console.log(this.currentIndex)
@@ -808,10 +813,10 @@ Page({
         num = idx
       }
 
-    } else {//左滑 1——2
+    } else { //左滑 1——2
 
       console.log('22222222222222222222222')
-      if (this.currentIndex == this.childrenlist.length - 1) return;//我加的
+      if (this.currentIndex == this.childrenlist.length - 1) return; //我加的
       console.log('卡二过')
 
       this.currentIndex = idx == this.data.childrenlist.length - 1 ? idx : idx + 1
@@ -842,7 +847,7 @@ Page({
    * @param {Object} start 起点坐标
    * @param {Object} end 终点坐标
    */
-  angle: function(start, end) {
+  angle: function (start, end) {
     var _X = end.X - start.X,
       _Y = end.Y - start.Y
     //返回角度 /Math.atan()返回数字的反正切值
@@ -859,14 +864,16 @@ Page({
   //   wx.navigateTo({ url: '../record/record?stu_number=' + data.number + '&device_id=' + data.face_id})
   // },
   // 跳转历史记录
-  toRecord: function(e) {
+  toRecord: function (e) {
     let history_data = e.currentTarget.dataset.value;
-    wx.navigateTo({ url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number})
+    wx.navigateTo({
+      url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number
+    })
   },
 
 
   // 日历选择(显示日历)
-  calendar: function(e) {
+  calendar: function (e) {
     console.log(1111, e)
     this.currentIndex = e.currentTarget.dataset.index;
     let data = this.childrenlist;
@@ -879,19 +886,19 @@ Page({
     })
   },
   // 监听点击下个月事件
-  next: function(event) {
+  next: function (event) {
     console.log(event.detail);
   },
   // 监听点击上个月事件
-  prev: function(event) {
+  prev: function (event) {
     console.log(event.detail);
   },
   // 监听点击日历标题日期选择器事件
-  dateChange: function(event) {
+  dateChange: function (event) {
     console.log(event.detail);
   },
   // 隐藏日历遮罩弹框
-  hideMask: function(){
+  hideMask: function () {
     console.log(this.currentIndex);
     this.childrenlist[this.currentIndex].calendar_state = false;
     this.setData({
@@ -899,7 +906,7 @@ Page({
     })
   },
   // 监听点击日历具体某一天的事件
-  dayClick: function(event) {
+  dayClick: function (event) {
     console.log(event.currentTarget.dataset.index);
     console.log(event.detail);
     let data = this.childrenlist;

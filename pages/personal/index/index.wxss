@@ -118,3 +118,33 @@ button::after{
   font-size: 25rpx;
   color: #aaa;
 }
+
+/* 头部导航 */
+.nav {
+  padding: 0 20rpx;
+  height: 10vh;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 15rpx;
+  font-size: 28rpx;
+}
+
+.navbtu {
+  height: 60rpx;
+  padding: 0 20rpx;
+  min-width: 150rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2a9f93;
+  border-radius: 10rpx;
+}
+
+.navbtu image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
+}

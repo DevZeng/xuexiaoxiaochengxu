@@ -1,172 +1,262 @@
-// pages/personal/purchase-service/purchase-service.js
-// Page({
-//   data: {
-//     imgUrls: [
-//       '/image/1.jpg',
-//       '/image/1.jpg',
-//       '/image/1.jpg'
-//     ],
-//     swiperIndex: 0
-//   },
-  
-// })
-
-const app = getApp();
-let order_id;
+var app = getApp()
 Page({
-  data: {
-    navIndex: 0, //导航下标
-    goodsList: [] //商品列表
-  },
-  onLoad: function(options) {
-    this.navIndex = 0;
-    this.getGoodList();
-  },
-  onShow: function() {
 
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    goodsList: [], // 购买服务
+    page: 1,
+    pageSize: 10,
+    navIndex: 0, // nav下标
+    user_id: null,
+    areas_id: null,
+    product_id: null,
+    address_id: null,
+    price: null,
+    serviceList: [],
+    serviceIndex: 0,
+    order_id: null,
+    globalShow: null,
+
+    childList: [], // 学校列表
+    is_child: '',
+    child: '',
+    student_id: '',
+    school_id: ''
   },
-  // banner滑动
-  swiperChange(e) {
-    this.navIndex = e.detail.current
+
+
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    console.log('buy', options);
     this.setData({
-      navIndex: this.navIndex
+      areas_id: options.area_id,
+      detailedAddress_id: options.detailedAddress_id
     })
+    this.getChildrenList();
+    this.getGoodsList();
   },
-  // 获取商品列表
-  getGoodList: function() {
+
+  // 获取我的孩子列表
+  getChildrenList: function () {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/goods/select_all_goods',
+      url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
+      data: {
+        // school_id: app.globalData.school_id
+      },
       method: 'get',
-      success: function(res) {
-        console.log(res)
-        if (res.data.data.length > 0) {
-          let data = res.data.data,
-            nav_array = [],
-            goods_array = [];
-          for (let i = 0; i < data.length; i++) {
-            goods_array[i] = data[i];
-            goods_array[i].class = '';
-            data[i].priceText = Number(data[i].goods_price).toFixed(2)
-          }
-          goods_array[0].class = 'this';
-          that.goodsList = goods_array
+      success: function (res) {
+        if (res.statusCode == 200) {
+          let data = res.data.data;
+          console.log(11, data)
           that.setData({
-            goodsList: goods_array
+            childList: data,
+            child: data[0].name,
+            student_id: data[0].id,
+            school_id: data[0].school_id
           })
         }
       }
     });
   },
-  // 导航事件
-  nav: function(e) {
-    let data = this.goodsList;
-    for (let i = 0; i < data.length; i++){
-      data[i].class = '';
-      if (i == e.currentTarget.dataset.index) {
-        data[i].class = 'this';
-      }
-    }
-    this.goodsList = data;
-    this.navIndex = e.currentTarget.dataset.index
-    this.setData({
-      goodsList: data,
-      navIndex: e.currentTarget.dataset.index
-    })
-  },
-  // 立即购买
-  purchase: function () {
-    let that = this;
-    // 生成订单
-      wx.showToast({ title: '支付中', icon: 'loading', duration: 10000 })
-      wx.request({
-        url: app.globalData.https + '/order/insert_order',
-        data: {
-          goods_id: that.goodsList[that.navIndex].goods_id,
-          user_openid: app.globalData.opnID
-        },
-        header: {
-          "content-type": "application/x-www-form-urlencoded"
-        },
-        method: 'post',
-        success: function (res_) {
-          console.log(res_)
-          if (res_.data.sucesss) {
-            order_id = res_.data.sucesss;
-            // 微信支付
-            wx.request({
-              url: app.globalData.https + '/pay/get_open_payid',
-              data: {
-                order_id: order_id,
-                openid: app.globalData.opnID
-              },
-              header: {
-                "content-type": "application/x-www-form-urlencoded"
-              },
-              method: 'post',
-              success: function (res) {
-                console.log(res)
-                if (res.data.result) {
-                  // 调用微信密码支付
-                  wx.requestPayment({
-                    "timeStamp": res.data.result.timeStamp,
-                    "nonceStr": res.data.result.nonceStr,
-                    "package": "prepay_id=" + res.data.result.prepay_id,
-                    "signType": "MD5",
-                    "paySign": res.data.result.paySign,
-                    "success": function (res) {
-                      app.getMemberTime();//重新获取会员信息
-                      console.log('支付成功返回')
-                      wx.showToast({ title: '购买成功', icon: 'success', duration: 1000 })
-                      setTimeout(function () { 
-                        wx.navigateBack({});//返回
-                         }, 1500)
-                    },
-                    "fail": function (err) {
-                      console.log('支付失败返回')
-                      console.log(err)
-                      that.delorder();
-                    }
 
-                  })
-                } else {
-                  that.delorder();
-                }
-              }
-            });
-          }else{
-            wx.hideToast();
-            wx.showModal({ title: '提示', content: res_.data.error, showCancel: false, success: function (res) { if (res.confirm) { } } })
-          }
-        }
-      });
+  // 孩子选择
+  childChange(e) {
+    console.log(e)
+    this.setData({
+      is_child: e.detail.value,
+      child: ''
+    })
+    this.data.student_id = this.data.childList[e.detail.value].id;
   },
-  // 删除订单
-  delorder: function () {
-    wx.request({
-      url: app.globalData.https + '/order/detele_order?order_id=' + order_id,
-      method: 'delete',
-      success: function (res) {
-        console.log(res)
-        if (res.data.sucesss) {
-          console.log('删除订单成功')
-          wx.showToast({ title: '购买失败', icon: 'success', duration: 1000 })
-        }
-      }
-    });
-  },
-  // 跳转账单详情
-  toRecord: function(){
+
+  // 跳转账单明细
+  toBill() {
+    var self = this;
     wx.navigateTo({
       url: '../record/record'
     })
   },
-  // 显示定位器页面小程序码
-  toBuyGPS: function() {
-    console.log('跳转购买定位器')
-    let that = this
-    wx.previewImage({
-      urls: ['http://babihu2018-1256705913.cos.ap-guangzhou.myqcloud.com/bbh/2018/153293378936863.jpg?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDTpDTZdLR8g32yoCPbz6EG9QdkvU2NySv%26q-sign-time%3D1532933789%3B1534812184%26q-key-time%3D1532933789%3B1534812184%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3D559690244a04c1aceb45adf95245eb0aa6d04144'] // 需要预览的图片http链接列表
+
+
+
+  // 获取服务
+  getGoodsList() {
+    var self = this;
+    wx.request({
+      url: app.globalData.host + '/products?token=' + wx.getStorageSync('token'),
+      data: {
+        school: 44
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.statusCode == 200) {
+          var res = res.data.data
+          self.setData({
+            goodsList: res.data,
+            price: res.data[0].price,
+            serviceList: res.data[0].service,
+            product_id: res.data[0].id,
+          })
+        }
+      }
     })
+  },
+
+  // 支付
+  purchase() {
+    var self = this;
+    wx.request({
+      url: app.globalData.host + '/product/order?token=' + wx.getStorageSync('token'),
+      data: {
+        school_id: self.data.school_id,
+        user_id: app.globalData.userInfo.user_id,
+        product_id: self.data.product_id,
+        student_id: self.data.student_id,
+        price: self.data.price
+      },
+      method: 'POST',
+      success: function (res) {
+        if (res.statusCode == 200) {
+          if (res.data.data > 0) {
+            var order_id = res.data.data;
+            wx.request({
+              url: app.globalData.host + '/buy/product?token=' + wx.getStorageSync('token'),
+              data: {
+                order_id: order_id
+              },
+              method: 'POST',
+              success: function (res) {
+                if (res.statusCode == 200) {
+                  wx.requestPayment({
+                    timeStamp: res.data.data.timeStamp,
+                    nonceStr: res.data.data.nonceStr,
+                    package: res.data.data.package,
+                    signType: 'MD5',
+                    paySign: res.data.data.paySign,
+                    success(res) {
+                      console.log(111, res);
+                      wx.showToast({
+                        icon: "none",
+                        title: '购买成功'
+                      });
+                      setTimeout(function () {
+                        wx.switchTab({
+                          url: '/pages/personal/index/index',
+                        })
+                      }, 1500)
+                    },
+                    fail(res) {
+                      console.log(222, res);
+                      wx.request({
+                        url: app.globalData.host + '/pay/cancel?token=' + wx.getStorageSync('token'),
+                        data: {
+                          order_id: order_id
+                        },
+                        method: 'POST',
+                        success: function (res) {
+                          if (res.statusCode == 200) {
+                            console.log('取消支付', res);
+                            if (res.data.data > 0) {
+                              wx.showToast({
+                                icon: "none",
+                                title: '订单已取消'
+                              });
+                            }
+                          }
+                        }
+                      })
+                    }
+                  })
+                }
+              }
+            })
+          }
+        }
+      }
+    })
+  },
+
+  // 点击事件-商品nav
+  nav(e) {
+    var self = this;
+    console.log('点击事件-商品nav', e);
+    self.setData({
+      navIndex: e.currentTarget.dataset.index
+    })
+
+    // 根据商品获取包含的服务
+    wx.request({
+      url: app.globalData.host + '/products?token=' + wx.getStorageSync('token'),
+      data: {
+        school: self.data.school_id
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.statusCode == 200) {
+          var res = res.data.data
+          self.setData({
+            goodsList: res.data,
+            serviceList: res.data[self.data.navIndex].service,
+            product_id: res.data[self.data.navIndex].id,
+            price: res.data[self.data.navIndex].price
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 })

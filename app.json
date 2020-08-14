@@ -1,12 +1,14 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/personal/index/index",
+
+    "pages/personal/index/service-detail/service-detail",
     "pages/campus-information/classification/classification",
     "pages/campus-information/details/details",
     "pages/campus-safety/history/history",
     "pages/campus-safety/index/index",
     "pages/campus-safety/record/record",
-    "pages/personal/index/index",
     "pages/personal/information/information",
     "pages/personal/children/index/index",
     "pages/personal/children/search/search",
@@ -21,14 +23,16 @@
     "pages/personal/class-management/notice/notice-child/notice-child",
     "pages/personal/class-management/notice/notice-detail/notice-detail",
     "pages/personal/class-management/notice/notice-list/notice-list",
-
     "pages/personal/purchase-service/index/index",
+
     "pages/personal/purchase-service/record/record",
     "pages/personal/equipment/index/index",
     "pages/personal/equipment/details/details",
     "pages/personal/help-document/index/index",
     "pages/personal/help-document/details/details",
     "pages/personal/inquiry/inquiry",
+    
+
     "pages/personal/entrance-card/edit/edit",
     "pages/personal/entrance-card/record/record",
     "pages/weixin/gongzonghao/gongzonghao",

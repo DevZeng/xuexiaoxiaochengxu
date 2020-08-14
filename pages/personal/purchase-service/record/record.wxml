@@ -1,15 +1,17 @@
+<!--pages/personal/buy/bill/bill.wxml-->
 
 <view class="bill-list" wx:for="{{recordList}}" wx:key="{{index}}">
   <view class="title-text">
-    <text>商品：{{item.goods_name}}</text>
-    <text>{{item.creatime}}</text>
+    <text>商品：{{item.name}}</text>
+    <text>{{item.created_at}}</text>
   </view>
   <text>
-    <text class="amount">￥{{item.goods_price}}</text>
-    <text class="state">{{item.order_status == 1 ? '交易成功' : '交易关闭'}}</text>
+    <text class="amount">￥{{item.price}}</text>
+    <text class="state">{{item.status == 2 ? '交易成功' : '交易关闭'}}</text>
    </text>
 </view>
-<text wx:if="{{recordList.length == 0}}" class="notData">暂无账单~</text>
+<view wx:if="{{recordList.length == 0}}" class="notData">暂无账单~</view>
+
 
 
 

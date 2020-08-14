@@ -1,48 +1,43 @@
+<!--pages/personal/buy/buy.wxml-->
+<!-- <text>pages/personal/buy/buy.wxml</text> -->
 
-<view class='list'>
-  <swiper indicator-dots="{{true}}" autoplay="{{false}}" previous-margin="{{'140rpx'}}" next-margin="{{'140rpx'}}" bindchange="swiperChange">
-    <block wx:for="{{goodsList}}" wx:key="{{index}}">
-      <swiper-item>
-        <!-- <image src="{{item}}" class="slide-image {{navIndex == index ? 'active' : ''}}"/> -->
-        <view class="banner slide-image {{navIndex == index ? 'active' : ''}}">
-          <text class="name">{{item.goods_name}}</text>
-          <text class="price">￥{{item.priceText}}</text>
-        </view>
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
+<block>
+	<!-- wx:if="{{goodsList.length != 0}}" -->
+	<view class="header">
+		<view class="recordBox">
+			<text bindtap='toBill'>账单明细</text>
+			<image src="/icon/right.png"></image>
+		</view>
+	</view>
+	<view class="choose">
+		<input class="input" disabled="true" placeholder="请选择孩子" value="当前选中孩子:{{child? child : childList[is_child].name}}"></input>
+		<picker bindchange="childChange" range="{{childList}}" range-key="name" value="{{index}}" class="picker">
+			<text>选择孩子</text>
+		</picker>
+	</view>
 
-<view class="recordBox">
-  <text bindtap='toRecord'>账单明细>></text>
-</view>
+	<text class="title">购买商品: </text>
+	<!-- 显示开通的服务 -->
+	<view class="nav">
+		<text wx:for="{{goodsList}}" wx:key="{{index}}" data-index="{{index}}" bindtap='nav' class="{{item.class}}" class="{{index == navIndex ? 'nav_active' : ''}}">{{item.title}}</text>
+	</view>
 
-<view class="promptBox">
-  <text>注：{{goodsList[navIndex].introduce}}</text>
-  <text class="prompt">提交订单，表示您同意相关服务协议。</text>
-</view>
+	<view class="content">
+		<text class="price">￥{{goodsList[navIndex].price}}</text>
+		<!-- <text class="text">({{goodsList[navIndex].detail}})</text> -->
+		<text class="text">商品有限期: {{goodsList[navIndex].time}}天</text>
+	</view>
 
-<!-- 底部结算导航 -->
-<view class="foot">
-  <text class="total_price">总计：￥{{goodsList[navIndex].priceText}}</text>
-  <text class="settlement" bindtap='purchase'>立即支付</text>
-</view>
+	<!-- 选择需要开通的服务 -->
+	<view style="margin:20rpx 0 0 0;">
+		<text class="title">包含的服务: </text>
+		<view wx:for="{{serviceList}}" wx:key="{{index}}" class="tableviewcell">
+			<text class="text">{{item.name}}</text>
+		</view>
+	</view>
 
-<!-- <view class="recordBox">
-  <text bindtap='toRecord'>账单明细>></text>
-</view>
-<text class="title">会员购买：</text>
+	<text class="prompt">提交订单，表示您同意相关服务协议。</text>
 
-<view class="nav">
-  <text wx:for="{{goodsList}}" wx:key="{{index}}" data-index="{{index}}" bindtap='nav' class="{{item.class}}">{{item.goods_name}}</text>
-</view>
-
-<view class="content">
-  <text class="price">￥{{goodsList[navIndex].priceText}}</text>
-  <text class="text">({{goodsList[navIndex].introduce}})</text>
-</view>
-
-<text class="prompt">提交订单，表示您同意相关服务协议。</text>
-<text class="prompt" wx:if="{{goodsList[navIndex].good_type == 2}}" style="border:none;">注：此商品为限购商品，每个用户限购一次</text>
-
-<button bindtap='purchase'>立即支付</button> -->
+	<button bindtap='purchase'>立即支付</button>
+</block>
+<!-- <text wx:else class="notData">暂无充值服务~</text> -->

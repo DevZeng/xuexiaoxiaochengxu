@@ -32,7 +32,7 @@ Page({
         console.log(e)
         var self =this;
         wx.navigateTo({
-          url: '../notice-list/notice-list?classid=' + e.currentTarget.dataset.classid,
+          url: '../notice-list/notice-list?classid=' + e.currentTarget.dataset.classid + '&studentid=' +  e.currentTarget.dataset.studentid,
         })
     }
    

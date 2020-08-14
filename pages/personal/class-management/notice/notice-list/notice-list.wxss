@@ -34,7 +34,7 @@
 .tableviewcell rich-text {
     width: 500rpx;
     font-size: 30rpx;
-    margin-left: 14rpx;
+    /* margin-left: 14rpx; */
 }
 
 .tableviewcell button {

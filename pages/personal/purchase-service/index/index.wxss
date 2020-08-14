@@ -1,19 +1,33 @@
 page {
   background-color: #f8f8f8;
-  color:#666;
+  color: #666;
   font-size: 30rpx;
 }
 
-
-.recordBox{
-  width:100%;
-  height:100rpx;
-  line-height:100rpx;
+.header {
+  position: relative;
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
   text-align: right;
+  /* background-color:#aaa; */
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
-.recordBox text{
-  margin:0 20rpx 0 0;
+
+.recordBox {
+  display: flex;
+  align-items: center;
 }
+
+.recordBox image {
+  width: 30rpx;
+  height: 30rpx;
+  margin: 0 20rpx 0 10rpx;
+}
+
 .title {
   display: block;
   padding: 20rpx;
@@ -21,94 +35,9 @@ page {
   font-size: 30rpx;
 }
 
-
-/* banner */
-swiper{
-  width: 750rpx;
-  height: 450rpx;
-  background-color: #eee;
-}
-swiper-item{
-  padding-top: 100rpx;
-}
-.banner{
-  border:5rpx solid #666;
-  border-radius: 10rpx;
-  width: 375rpx;
-  height: 250rpx;
-  position: absolute;
-  left: 50%;
-  margin-left: -188rpx;
-  background-color: #fff;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-.banner.active{
-  transform: scale(1.14);
-  transition:all .2s ease-in 0s;
-}
-.banner .name{
-  color:#000;
-  font-size: 38rpx;
-  font-weight: bold;
-}
-.banner .price{
-  color:red;
-  font-size: 38rpx;
-  font-weight: bold;
-}
-
-.promptBox{
-  width:690rpx;
-  margin:80rpx auto;
-  display: flex;
-  flex-direction: column;
-}
-.promptBox text{
-  width:690rpx;
-  padding:20rpx 0;
-}
-
-.promptBox .prompt{
-  font-size: 25rpx;
-  color:#999;
-  border-top:2rpx solid #ddd;
-}
-
-/* 底部导航 */
-.foot{
-  position:absolute;
-  left:0;
-  bottom:0;
-  width:100%;
-  height:100rpx;
-  line-height:100rpx;
-  background-color:#fff;
-}
-.foot .total_price{
-  margin-left:15rpx;
-  color:#471909;
-}
-.foot .settlement{
-  display:inline-block;
-  float:right; 
-  text-align:center;
-  width:200rpx;
-  height:100%;
-  background-color:#2a9f93;
-  color:#fff;
-}
-
-
-
-
-/* 
 .nav {
   overflow-y: auto;
-  width:100vw;
+  width: 100vw;
   height: 70rpx;
   display: flex;
   justify-content: flex-start;
@@ -116,79 +45,158 @@ swiper-item{
 }
 
 .nav text {
-  word-break:keep-all;          
-  white-space:nowrap;         
+  word-break: keep-all;
+  /* 文字不换行 */
+  white-space: nowrap;
+  /* 文字不换行 */
   min-width: 120rpx;
   height: 50rpx;
-  line-height:50rpx;
-  padding:0 20rpx;
-  margin:0 0 5rpx 15rpx;
+  line-height: 50rpx;
+  padding: 0 20rpx;
+  margin: 0 0 5rpx 15rpx;
   text-align: center;
   background-color: #fff;
   border-radius: 8rpx;
   font-size: 28rpx;
   color: #666;
 }
-.nav .this {
+
+.nav .nav_active {
+  /* width: 150rpx; */
   height: 65rpx;
-  line-height:65rpx;
+  line-height: 65rpx;
   text-align: center;
-  background-color: #2a9f93;
+  background-color: #5CBB81;
   border-radius: 12rpx;
   font-size: 32rpx;
   color: #fff;
 }
 
-.content{
-  height:300rpx;
-  padding:30rpx 0 0 0;
-  background-color:#fff;
-  display: flex; 
+.content {
+  height: 300rpx;
+  padding: 30rpx 0 0 0;
+  background-color: #fff;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.content .price{
-  color:red;
+
+.content .price {
+  color: red;
   font-size: 80rpx;
 }
-.content .text{
-  color:#999;
+
+.content .text {
+  color: #999;
   font-size: 25rpx;
 }
 
-.prompt{
+.prompt {
   display: block;
-  width:690rpx;
-  height:80rpx;
-  line-height:80rpx;
-  margin:80rpx auto;
+  width: 690rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: 80rpx auto;
   font-size: 25rpx;
-  color:#999;
-  border-top:2rpx solid #ddd;
+  color: #999;
+  border-top: 2rpx solid #ddd;
 }
 
 
-button{
-  position: fixed;
+/* 附赠礼品 */
+.tableviewcell {
+  position: relative;
+  padding: 25rpx;
+
+  border-bottom: 2rpx solid #dcdcdc;
+  background-color: #fff;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30rpx;
+}
+
+.tableviewcell text {
+  width: 200rpx;
+  font-size: 30rpx;
+}
+
+.tableviewcell radio-group {
+  flex: 1;
+  text-align: right;
+}
+
+.tableviewcell radio {
+  width: 45rpx;
+  height: 45rpx;
+  margin: -15rpx 15rpx 0 30rpx;
+  transform: scale(0.7);
+}
+
+.tableviewcell .text {
+  flex: 1 !important;
+}
+
+
+/* 立即支付 */
+button {
+  /* position: fixed;
   left:50%;
   bottom:100rpx;
-  transform: translate(-50%,-50%);
-  width:690rpx;
-  height:80rpx;
-  line-height:80rpx;
-  margin:100rpx auto 50rpx auto;
-  color:#fff;
-  background-color:#2a9f93;
+  transform: translate(-50%,-50%); */
+  width: 690rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: 100rpx auto 50rpx auto;
+  color: #fff;
+  background-color: #5CBB81;
   border-radius: 10rpx;
   font-size: 32rpx;
 }
-button::after{
+
+button::after {
   border: none;
-} */
+}
 
+/* 选择孩子 */
+.choose {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 10rpx;
+}
 
+.choose button {
+  width: 160rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  background-color: #2a9f93;
+  color: #fff;
+}
 
+.choose .input {
+  width: 450rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 26rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+  padding: 10rpx;
+  margin-right: 10rpx;
+  background-color: #fff;
+}
 
+.choose text {
+  width: 160rpx;
+  font-size: 26rpx;
+  height: 62rpx;
+  line-height: 62rpx;
+  border-radius: 10rpx;
+  padding: 12rpx;
+  background-color: #2a9f93;
+  color: #fff;
 
-
+}

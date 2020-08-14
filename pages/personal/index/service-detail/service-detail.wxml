@@ -1,0 +1,15 @@
+<!--pages/personal/index/service-detail/service-detail.wxml-->
+<view class="detail">
+	<view class="title">
+		<text>商品名：{{title}}</text>
+	</view>
+	<view class="expire">
+		<text wx:if="{{state == 1}}" style="color: red">本服务即将到期，请尽快续费</text>
+	</view>
+	<block wx:for="{{detailList}}">
+		<view class="item">
+			<view class="name">服务名: <text style="color: green">{{item.name}}</text></view>
+			<view class="time"><view style="width: 180rpx">到期时间:</view>  <text style="color: green">{{time}}</text></view>
+		</view>
+	</block>
+</view>

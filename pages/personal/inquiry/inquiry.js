@@ -6,33 +6,34 @@ Page({
     childrenName: [], //孩子名字列表
     childrenIndex: 0, //选中的孩子下标
     achievementList: [], //成绩列表
-    switchList: []
+    switchList: [],
+    scoresList: [], // 各科成绩
+    showScore: false,
+    totalScore: '',
+    title: ''
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     this.childrenIndex = 0;
     this.childrenList = [];
     this.getChildrenList();
   },
-  onShow: function() {
+  onShow: function () {
 
   },
   // 获取我的孩子列表
-  getChildrenList: function() {
+  getChildrenList: function () {
     let that = this;
     wx.request({
-      url: app.globalData.https + '/security/select_save',
-      data: {
-        user_openid: app.globalData.opnID
-      },
+      url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
       method: 'get',
-      success: function(res) {
+      success: function (res) {
         console.log('孩子列表')
         console.log(res)
         if (res.data.data) {
           if (res.data.data.length > 0) { //有孩子
             let data = []
             for (let i = 0; i < res.data.data.length; i++) {
-              data[data.length] = res.data.data[i].stu_name
+              data[data.length] = res.data.data[i].name
             }
             that.childrenList = res.data.data;
             that.childrenName = data
@@ -41,105 +42,75 @@ Page({
               childrenName: data
             })
             // 先获取第一个学生的成绩信息
-            that.getAchievement(res.data.data[0].stu_number);
+            that.getAchievement(res.data.data[0].number, res.data.data[0].school_id,res.data.data[0].id);
           }
         }
       }
     });
   },
   // 孩子选择
-  childrenChange: function(e) {
+  childrenChange: function (e) {
     this.childrenIndex = e.detail.value
     this.setData({
       childrenIndex: e.detail.value,
     })
     // 获取学生的成绩
-    this.getAchievement(this.childrenList[this.childrenIndex].stu_number);
+    this.getAchievement(this.childrenList[this.childrenIndex].number, this.childrenList[this.childrenIndex].school_id,this.childrenList[this.childrenIndex].id);
   },
   // 获取学生的成绩
-  getAchievement: function(stu_number) {
-    console.log('学号：' + stu_number)
+  getAchievement: function (number, school_id, student_id) {
+    console.log('学号：' + number)
     let that = this;
     wx.request({
-      url: app.globalData.https + '/excel/select_stu',
+      url: app.globalData.host + '/student/exam',
       data: {
-        sch_num: stu_number
+        school_id: school_id,
+        number: number,
+        student_id: student_id,
+        token: wx.getStorageSync('token')
       },
       method: 'get',
-      success: function(res) {
+      success: function (res) {
         console.log('学生成绩列表')
         console.log(res)
-        if (res.data.code == 200) {
-          let data = res.data.data,
-            list = {
-              art: true,
-              biology: true,
-              chemistry: true,
-              chineses: true,
-              class_advance: true,
-              class_ranking: true,
-              classes: true,
-              creatime: true,
-              english: true,
-              english_k: true,
-              grade_advance: true,
-              grade_ranking: true,
-              id: true,
-              k_date: true,
-              k_name: true,
-              li_zong: true,
-              mathematics: true,
-              physics: true,
-              politics: true,
-              s_status: true,
-              sch_num: true,
-              score: true,
-              sports: true,
-              wen_zong: true
-            };
-          if (data.length > 0) { //有成绩信息
-            console.log(data)
-            for (let t = 0; t < data[0].length; t++) {
-              list[t] = true
-            }
-            console.log(list)
-            for (let i = 0; i < data.length; i++) {
-              if (!data[i].art) list.art = false
-              if (!data[i].biology) list.biology = false
-              if (!data[i].chemistry) list.chemistry = false
-              if (!data[i].chineses) list.chineses = false
-              if (!data[i].class_advance) list.class_advance = false
-              if (!data[i].class_ranking) list.class_ranking = false
-              if (!data[i].classes) list.classes = false
-              if (!data[i].creatime) list.creatime = false
-              if (!data[i].english) list.english = false
-              if (!data[i].english_k) list.english_k = false
-              if (!data[i].grade_advance) list.grade_advance = false
-              if (!data[i].grade_ranking) list.grade_ranking = false
-              if (!data[i].id) list.id = false
-              if (!data[i].k_date) list.k_date = false
-              if (!data[i].k_name) list.k_name = false
-              if (!data[i].li_zong) list.li_zong = false
-              if (!data[i].mathematics) list.mathematics = false
-              if (!data[i].physics) list.physics = false
-              if (!data[i].politics) list.politics = false
-              if (!data[i].s_status) list.s_status = false
-              if (!data[i].sch_num) list.sch_num = false
-              if (!data[i].score) list.score = false
-              if (!data[i].sports) list.sports = false
-              if (!data[i].wen_zong) list.wen_zong = false
-              // console.log(data[i].hasOwnProperty("art"));
-            }
-          }
-          console.log(list)
-          that.achievementList = data;
-          that.switchList = list
+        if (res.statusCode == 200) {
+          let data = res.data.data
           that.setData({
-            achievementList: data,
-            switchList: list
+            achievementList: data
           })
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            success: function () {
+                setTimeout(() => {
+                    wx.reLaunch({
+                      url: '/pages/personal/index/index',
+                    })
+                }, 2000);
+            }
+        })
         }
       }
     });
+  },
+
+  // 显示各科成绩
+  showScores(e) {
+    var self = this;
+    self.setData({
+      scoresList: e.currentTarget.dataset.scores,
+      totalScore: e.currentTarget.dataset.score,
+      title: e.currentTarget.dataset.title,
+      showScore: true
+    })
+  },
+
+  // 隐藏各科成绩
+  close() {
+    var self = this;
+    self.setData({
+      showScore: false
+    })
   }
 })

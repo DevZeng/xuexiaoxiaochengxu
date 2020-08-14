@@ -1,6 +1,6 @@
 <!-- 家长已绑定的学生 -->
 <view class="list" wx:for="{{notice_childList}}" wx:key="index">
-  <view bindtap="toNotice" data-classid="{{item.class_id}}"  class="tableviewcell">
+  <view bindtap="toNotice" data-classid="{{item.class_id}}" data-studentid="{{item.id}}"  class="tableviewcell">
     <image class="left-icon" src="/icon/children.png" />
     <text>{{item.name}}({{item.number}})</text>
     <image class="right-icon" src="/icon/right.png" />

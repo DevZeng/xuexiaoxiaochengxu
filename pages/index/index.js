@@ -13,8 +13,7 @@ Page({
     school: ''
   },
   onLoad: function (options) {
-    // this.getSchool();
-
+    this.getSchool();
     console.log(options)
     wx.showToast({
       title: '加载中',
@@ -57,14 +56,11 @@ Page({
         }
       })
     }
-
-
   },
   onShow: function () {
-    this.getSchool();
 
     lock = true;
-    this.information = []
+    self.information = []
     // this.getInformation();
   },
   //滚动监听
@@ -197,7 +193,7 @@ Page({
         method: 'get',
         success: function (res) {
           wx.hideToast()
-          console.log('资讯列表返回')
+          console.log('1111')
           console.log(res)
           if (res.statusCode == 200) {
             let data = res.data.data.data;
@@ -205,6 +201,7 @@ Page({
             that.setData({
               banner: data
             })
+            
           }
         }
       });
@@ -253,14 +250,26 @@ Page({
         success: function (res) {
           wx.hideToast()
           console.log('资讯列表返回')
-          
           console.log(res)
           if (res.statusCode == 200) {
+
             let data = res.data.data;
             console.log(11, data)
             that.setData({
               schoolList: data,
               school: data[0].name
+            })
+            // app.globalData.school_id = data[0].id
+            // if(data[0].mode == 2 && app.globalData.userInfo.worker == 0) {  
+            //   app.globalData.showBuy = true;
+            // };
+            data.forEach(item => {
+              if (item.mode == 2 && app.globalData.userInfo.worker == 0) {
+                app.globalData.showBuy = true;
+                self.setData({
+                  showBuy: app.globalData.showBuy
+                })
+              }
             })
             if (data.length > 0) {
               // 轮播图
@@ -394,6 +403,13 @@ Page({
       is_school: e.detail.value,
       school: ''
     })
+    console.log(112, this.data.schoolList[e.detail.value].mode)
+    if(this.data.schoolList[e.detail.value].mode == 2) {
+      app.globalData.showBuy = true
+    }else {
+      app.globalData.showBuy = false
+    }
+    app.globalData.school_id = this.data.schoolList[e.detail.value].id
     console.log(112, this.data.schoolList[e.detail.value].id)
     this.getSchoolBanner(this.data.schoolList[e.detail.value].id)
     this.getSchoolType(this.data.schoolList[e.detail.value].id)

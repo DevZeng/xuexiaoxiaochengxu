@@ -1,18 +1,30 @@
-.bill-list{
-  padding:25rpx 30rpx;
+/* pages/personal/buy/bill/bill.wxss */
+page {
+  background-color: #f8f8f8;
+  color: #666;
   font-size: 30rpx;
-  color:#AAA;
+}
+.bill-list {
+  padding: 25rpx 30rpx;
+  font-size: 30rpx;
+  color: #AAA;
   border-bottom: 1px solid #DDD;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.bill-list text{
-  display:block;
+
+.bill-list text {
+  display: block;
 }
-.bill-list .amount{
+
+.bill-list .amount {
   color: red;
   font-size: 35rpx;
   font-weight: bold;
+  text-align: center;
+}
+
+.notData {
   text-align: center;
 }
