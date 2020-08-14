@@ -9,21 +9,22 @@ Page({
     memberTime: null,
     notice_childList: null,
     class_id: null,
-    serviceList: [] // 服务列表
+    childList: [] // 服务列表
   },
   onLoad: function () {
     this.setData({
       showBuy: app.globalData.showBuy
     })
-    if(wx.getStorageSync('token')) {
-      this.getSchool()
+    if (wx.getStorageSync('token')) {
+      this.getSchool();
+      this.getChildrenList();
     }
   },
   onShow: function () {
     // 个人信息
     this.getMyinfo()
     this.getNoticeChild()
-    this.getSevice()
+    this.getService()
     this.setData({
       showBuy: app.globalData.showBuy
     })
@@ -122,6 +123,8 @@ Page({
                     })
                     that.getNoticeChild()
                     that.getSchool();
+                    that.getChildrenList();
+
                     setTimeout(() => {
                       wx.reLaunch({
                         url: '/pages/index/index',
@@ -452,15 +455,34 @@ Page({
     }
   },
 
+  // 获取我的孩子列表
+  getChildrenList: function () {
+    let that = this;
+    wx.request({
+      url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
+      data: {
+        // school_id: app.globalData.school_id
+      },
+      method: 'get',
+      success: function (res) {
+        if (res.statusCode == 200) {
+          let data = res.data.data;
+          console.log(11, data)
+          that.setData({
+            childList: res.data.data
+          })
+        }
+      }
+    });
+  },
+
   // 获取服务信息
-  getSevice() {
+  getService() {
     var self = this;
     wx.request({
       url: app.globalData.host + '/user/serves?token=' + wx.getStorageSync('token'),
       method: 'get',
-      data: {
-        school_id: 44
-      },
+      data: {},
       success: function (res) {
         if (res.statusCode == 200) {
           self.setData({
@@ -470,11 +492,12 @@ Page({
       }
     })
   },
+
+
   childrenChange(e) {
     var self = this;
-    var details = JSON.stringify(self.data.serviceList[e.detail.value].details)
     wx.navigateTo({
-      url: './service-detail/service-detail?title=' + self.data.serviceList[e.detail.value].title + '&detail=' + details + '&time=' + self.data.serviceList[e.detail.value].expireTime + '&state=' + self.data.serviceList[e.detail.value].state
+      url: './service-detail/service-detail?student_id=' + self.data.childList[e.detail.value].id
     })
   }
 

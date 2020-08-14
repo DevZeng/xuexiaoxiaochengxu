@@ -2,8 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/personal/index/index",
-
     "pages/personal/index/service-detail/service-detail",
+
     "pages/campus-information/classification/classification",
     "pages/campus-information/details/details",
     "pages/campus-safety/history/history",

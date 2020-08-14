@@ -14,7 +14,7 @@
 	</view>
 
 	<view class="nav" wx:else>
-		<picker bindchange="childrenChange" value="{{index}}" range-key="title" range="{{serviceList}}">
+		<picker bindchange="childrenChange" value="{{index}}" range-key="name" range="{{childList}}">
 			<view class="navbtu">
 				<text>查看当前已购买的服务详情</text>
 				<image src="/icon/down.png"></image>

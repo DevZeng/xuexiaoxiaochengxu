@@ -1,10 +1,13 @@
 // pages/personal/index/service-detail/service-detail.js
+const app = getApp()
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
+        student_id: '',
         title: '',
         time: '',
         detailList: [],
@@ -17,10 +20,29 @@ Page({
     onLoad: function (options) {
         console.log(options)
         this.setData({
-            state: options.state,
-            time: options.time,
-            title: options.title,
-            detailList: JSON.parse(options.detail)
+            student_id: options.student_id
+        })
+        this.getService()
+    },
+
+    // 获取服务信息
+    getService() {
+        var self = this;
+        wx.request({
+            url: app.globalData.host + '/user/serves?token=' + wx.getStorageSync('token'),
+            method: 'get',
+            data: {
+                // student_id: self.data.student_id
+                student_id: 7492
+
+            },
+            success: function (res) {
+                if (res.statusCode == 200) {
+                    self.setData({
+                        detailList: res.data.data
+                    })
+                }
+            }
         })
     },
 
