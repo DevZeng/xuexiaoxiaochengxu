@@ -9,12 +9,12 @@ Page({
     memberTime: null,
     notice_childList: null,
     class_id: null,
-    childList: [] // 服务列表
+    childList: [], // 服务列表
+    school_id: '',
+    showBuy: false,
+    user_id: '',
   },
   onLoad: function () {
-    this.setData({
-      showBuy: app.globalData.showBuy
-    })
     if (wx.getStorageSync('token')) {
       this.getSchool();
       this.getChildrenList();
@@ -25,9 +25,6 @@ Page({
     this.getMyinfo()
     this.getNoticeChild()
     this.getService()
-    this.setData({
-      showBuy: app.globalData.showBuy
-    })
   },
   getSchool() {
     var self = this;
@@ -37,18 +34,10 @@ Page({
       method: 'get',
       success: function (res) {
         let data = res.data.data;
-        // app.globalData.school_id = data[0].id
-        // if (data[0].mode == 2 && app.globalData.userInfo.worker == 0) {
-        //   app.globalData.showBuy = true;
-        //   self.setData({
-        //     showBuy: app.globalData.showBuy
-        //   })
-        // };
         data.forEach(item => {
-          if (item.mode == 2 && app.globalData.userInfo.worker == 0) {
-            app.globalData.showBuy = true;
+          if (item.mode == 2) {
             self.setData({
-              showBuy: app.globalData.showBuy
+              showBuy: true
             })
           }
         })
@@ -65,8 +54,10 @@ Page({
         if (res.statusCode == 200) {
           this.setData({
             userInfo: res.data.data,
-            class_id: res.data.data.class_id
+            class_id: res.data.data.class_id,
+            user_id: res.data.data.user_id
           })
+          this.getSchool()
         } else {
           this.setData({
             userInfo: null
@@ -124,13 +115,7 @@ Page({
                     that.getNoticeChild()
                     that.getSchool();
                     that.getChildrenList();
-
-                    setTimeout(() => {
-                      wx.reLaunch({
-                        url: '/pages/index/index',
-                      })
-                    }, 1000);
-
+                    that.getService()
                   } else {
                     that.setData({
                       userInfo: {}
@@ -195,6 +180,16 @@ Page({
   // 跳转我的孩子页
   openChildren: function () {
     let that = this;
+    if (wx.getStorageSync('token')) {
+      wx.navigateTo({
+        url: '../children/index/index'
+      })
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+    }
     if (!this.data.userInfo.phone) {
       wx.showModal({
         title: '提示',
@@ -202,9 +197,6 @@ Page({
       })
       return;
     }
-    wx.navigateTo({
-      url: '../children/index/index'
-    })
   },
   // 跳转家庭成员页
   // openFamily: function () {
@@ -289,12 +281,12 @@ Page({
       url: app.globalData.host + '/forbidden/products?token=' + wx.getStorageSync('token'),
       method: 'get',
       data: {
-        school_id: app.globalData.school_id
+        school_id: that.data.school_id
       },
       success: function (res) {
         if (res.data.data == 2) {
           wx.navigateTo({
-            url: '../purchase-service/index/index'
+            url: '../purchase-service/index/index?user_id=' + that.data.user_id
           })
         } else {
           wx.showToast({
@@ -388,9 +380,17 @@ Page({
   },
   // 跳转成绩查询
   openInquiry: function () {
-    wx.navigateTo({
-      url: '../inquiry/inquiry'
-    })
+    if (wx.getStorageSync('token')) {
+      wx.navigateTo({
+        url: '../inquiry/inquiry'
+      })
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+    }
+    
     // wx.showToast({
     //   title: '暂不开放！',
     //   icon: 'fail',
@@ -461,7 +461,7 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
       data: {
-        // school_id: app.globalData.school_id
+        mode: 2
       },
       method: 'get',
       success: function (res) {
@@ -469,7 +469,7 @@ Page({
           let data = res.data.data;
           console.log(11, data)
           that.setData({
-            childList: res.data.data
+            childList: res.data.data,
           })
         }
       }

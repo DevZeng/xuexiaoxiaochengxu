@@ -9,18 +9,21 @@
 			<button class="login-button" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 立即登录 </button>
 		</view>
 	</view>
-	<view class="prompt-box" wx:if="{{serviceList.length == 0}}">
-		<text class="not">未购买任何服务</text>
+	<view wx:if="{{showBuy}}">
+		<view class="prompt-box" wx:if="{{serviceList.length == 0}}">
+			<text class="not">未购买任何服务</text>
+		</view>
+
+		<view class="nav" wx:else>
+			<picker bindchange="childrenChange" value="{{index}}" range-key="name" range="{{childList}}">
+				<view class="navbtu">
+					<text>查看当前已购买的服务详情</text>
+					<image src="/icon/down.png"></image>
+				</view>
+			</picker>
+		</view>
 	</view>
 
-	<view class="nav" wx:else>
-		<picker bindchange="childrenChange" value="{{index}}" range-key="name" range="{{childList}}">
-			<view class="navbtu">
-				<text>查看当前已购买的服务详情</text>
-				<image src="/icon/down.png"></image>
-			</view>
-		</picker>
-	</view>
 
 	<view class="list">
 		<view bindtap='openInformation'>
@@ -35,7 +38,7 @@
 			<image src="/icon/children.png" />
 			<text>我的孩子</text>
 		</view>
-		<block wx:if="{{showBuy}}">
+		<!-- <block wx:if="{{showBuy}}">
 			<view bindtap='openPurchaseService'>
 				<form bindsubmit="getFormID" report-submit="true">
 					<button formType="submit" class="formBtu"></button>
@@ -43,7 +46,7 @@
 				<image src="/icon/shoppingCart.png" />
 				<text>购买服务</text>
 			</view>
-		</block>
+		</block> -->
 
 		<view bindtap='openEquipment'>
 			<form bindsubmit="getFormID" report-submit="true">
@@ -133,4 +136,4 @@
 	</view>
 </view>
 <!-- <official-account></official-account> -->
-<view class="supportText">图巴诺科技提供技术支持v1.0.15</view>
+<view class="supportText">图巴诺科技提供技术支持v1.0.16</view>

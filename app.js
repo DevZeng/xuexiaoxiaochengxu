@@ -4,11 +4,6 @@ let num = 5;
 App({
   onShow:function(){
     this.getConfig();
-    if(wx.getStorageSync('token')) {
-      wx.switchTab({
-        url: '/pages/index/index',
-      })
-    }
   },
   onLaunch: function() {
     let that = this;
@@ -84,7 +79,7 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2005',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2006',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
@@ -423,15 +418,14 @@ App({
     opnID: null, //用户openID
     openFace:false,
     token:null,
-    showBuy: false, // 显示购买服务,
     school_id: null,
     https: 'https://huan.fengniaotuangou.cn', //线上接口地址
     // https: 'http://192.168.1.105:8082',//本地接口地址
     https1: 'https://huan.fengniaotuangou.cn', //总控线上接口地址
     // https1: 'http://192.168.1.105:8085',//总控本地接口地址
     mapKey: '33UBZ-ICQKP-W6FDW-V54Q6-OY542-IZFJ4', //腾讯地图位置服务key
-    host: 'https://school.fengniaotuangou.cn/api',
-    // host: 'http://192.168.0.109/api',
+    // host: 'https://school.fengniaotuangou.cn/api',
+    host: 'http://192.168.0.103/api',
 
     apihost: 'https://api.fengniaotuangou.cn/api',
   }

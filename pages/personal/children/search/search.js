@@ -26,7 +26,7 @@ Page({
         // } else {
         //   console.log('学号')
         // }
-        wx.showToast({ title: '搜索中...', icon: 'loading', duration: 10000 })
+        wx.showToast({ title: '搜索中...', icon: 'loading', duration: 3000 })
         // 搜索关键字
         wx.request({
           url: app.globalData.host + '/students',
@@ -47,8 +47,17 @@ Page({
               } else {
                 wx.showToast({
                   title: '暂无搜索数据~',
+                  icon: 'none'
                 })
               }
+            } else {
+              wx.hideToast({});
+              wx.showToast({
+                title: '找不到该学生,在输入详细点试试~',
+                duration: 3000,
+                icon: 'none'
+
+              })
             }
           }
         });

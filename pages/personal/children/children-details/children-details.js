@@ -39,7 +39,7 @@ Page({
       flash: 'off',
       position: 'front'
     },
-    onlyIn:true
+    onlyIn:false
   },
   onLoad: function(options) {
     this.mask_disable = false;
@@ -49,7 +49,7 @@ Page({
       position: 'front'
     }
     this.setData({
-      onlyIn:true,
+      onlyIn:false,
       showFace :wx.getStorageSync('openFace')
       // showFace = app.globalData.openFace
     })
@@ -167,7 +167,7 @@ Page({
           that.info = res.data.data
           that.setData({
             info: res.data.data,
-            onlyIn:res.data.data.state==1?true:res.data.data.only_in==1?true:false
+            onlyIn:res.data.data.state==1?false:res.data.data.only_in==1?true:false
           })
         } else {
           wx.showToast({

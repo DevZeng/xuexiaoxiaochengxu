@@ -19,6 +19,9 @@ Page({
         var self = this;
         wx.request({
           url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
+          data: {
+            mode: 2
+          },
           method: 'GET',
           success: function(res) {
             self.setData({

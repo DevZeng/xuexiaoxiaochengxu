@@ -25,6 +25,9 @@ Page({
     let that = this;
     wx.request({
       url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
+      data: {
+        mode: 2
+      },
       method: 'get',
       success: function (res) {
         console.log('孩子列表')
@@ -81,14 +84,7 @@ Page({
         } else {
           wx.showToast({
             title: res.data.msg,
-            icon: 'none',
-            success: function () {
-                setTimeout(() => {
-                    wx.reLaunch({
-                      url: '/pages/personal/index/index',
-                    })
-                }, 2000);
-            }
+            icon: 'none'
         })
         }
       }

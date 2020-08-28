@@ -46,7 +46,6 @@
 				</view>
 			</view>
 			<text wx:if="{{information.length == 0}}" class="notData">暂无数据~</text>
-
 		</view>
 	</view>
 </scroll-view>

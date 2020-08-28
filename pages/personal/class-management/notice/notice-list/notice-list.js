@@ -24,35 +24,66 @@ Page({
     },
     getNoticeList() {
         var self = this;
-        wx.request({
-            url: app.globalData.host + '/class/notice',
-            method: 'GET',
-            data: {
-                token: wx.getStorageSync('token'),
-                class_id: self.data.class_id,
-                student_id: self.data.student_id
-            },
-            success: function (res) {
-                if (res.statusCode == 200) {
-                    self.setData({
-                        notice_List: res.data.data
-                    })
-                } else {
-                    wx.showToast({
-                        title: res.data.msg,
-                        icon: 'none',
-                        success: function () {
-                            setTimeout(() => {
-                                wx.reLaunch({
-                                  url: '/pages/personal/index/index',
-                                })
-                            }, 2000);
-                        }
-                    })
+        if(app.globalData.userInfo.worker == 2 && self.data.student_id) {
+            wx.request({
+                url: app.globalData.host + '/class/notice',
+                method: 'GET',
+                data: {
+                    token: wx.getStorageSync('token'),
+                    class_id: self.data.class_id,
+                    student_id: self.data.student_id
+                },
+                success: function (res) {
+                    if (res.statusCode == 200) {
+                        self.setData({
+                            notice_List: res.data.data
+                        })
+                    } else {
+                        wx.showToast({
+                            title: res.data.msg,
+                            icon: 'none',
+                            success: function () {
+                                setTimeout(() => {
+                                    wx.navigateBack({
+                                      delta: 1,
+                                    })
+                                }, 2000);
+                            }
+                        })
+                    }
+    
                 }
-
-            }
-        })
+            })
+        } else {
+            wx.request({
+                url: app.globalData.host + '/class/notice/teacher',
+                method: 'GET',
+                data: {
+                    token: wx.getStorageSync('token'),
+                    class_id: self.data.class_id
+                },
+                success: function (res) {
+                    if (res.statusCode == 200) {
+                        self.setData({
+                            notice_List: res.data.data
+                        })
+                    } else {
+                        wx.showToast({
+                            title: res.data.msg,
+                            icon: 'none',
+                            success: function () {
+                                setTimeout(() => {
+                                    wx.navigateBack({
+                                      delta: 1,
+                                    })
+                                }, 2000);
+                            }
+                        })
+                    }
+    
+                }
+            })
+        }
     },
 
     toDetail(e) {

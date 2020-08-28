@@ -32,15 +32,20 @@ Page({
             url: app.globalData.host + '/user/serves?token=' + wx.getStorageSync('token'),
             method: 'get',
             data: {
-                // student_id: self.data.student_id
-                student_id: 7492
-
+                student_id: self.data.student_id
             },
             success: function (res) {
                 if (res.statusCode == 200) {
-                    self.setData({
-                        detailList: res.data.data
-                    })
+                    if(res.data.data.length > 0) {
+                        self.setData({
+                            detailList: res.data.data
+                        })
+                    } else {
+                        wx.showToast({
+                          title: '暂无购买服务记录',
+                          icon: 'none'
+                        })
+                    }
                 }
             }
         })

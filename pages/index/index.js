@@ -259,18 +259,6 @@ Page({
               schoolList: data,
               school: data[0].name
             })
-            // app.globalData.school_id = data[0].id
-            // if(data[0].mode == 2 && app.globalData.userInfo.worker == 0) {  
-            //   app.globalData.showBuy = true;
-            // };
-            data.forEach(item => {
-              if (item.mode == 2 && app.globalData.userInfo.worker == 0) {
-                app.globalData.showBuy = true;
-                self.setData({
-                  showBuy: app.globalData.showBuy
-                })
-              }
-            })
             if (data.length > 0) {
               // 轮播图
               wx.request({

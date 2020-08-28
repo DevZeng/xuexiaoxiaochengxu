@@ -39,7 +39,11 @@
 				</view>
 			</view>
 		</block>
-		<view wx:else class="notData">暂无成绩信息~</view>
+		<view wx:else class="view-empty">
+			<image src="/icon/not1.png"></image>
+			<text class="hint">暂无成绩信息~</text>
+		</view>
+		<!-- <view wx:else class="notData">暂无成绩信息~</view> -->
 	</view>
 </block>
 <view wx:else class="view-empty">

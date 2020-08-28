@@ -32,13 +32,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('buy', options);
     this.setData({
-      areas_id: options.area_id,
-      detailedAddress_id: options.detailedAddress_id
+      user_id: options.user_id
     })
     this.getChildrenList();
-    this.getGoodsList();
   },
 
   // 获取我的孩子列表
@@ -47,7 +44,7 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/student?token=' + wx.getStorageSync('token'),
       data: {
-        // school_id: app.globalData.school_id
+        mode: 2
       },
       method: 'get',
       success: function (res) {
@@ -60,6 +57,7 @@ Page({
             student_id: data[0].id,
             school_id: data[0].school_id
           })
+          that.getGoodsList();
         }
       }
     });
@@ -73,6 +71,9 @@ Page({
       child: ''
     })
     this.data.student_id = this.data.childList[e.detail.value].id;
+    this.data.school_id = this.data.childList[e.detail.value].school_id;
+    this.getGoodsList();
+
   },
 
   // 跳转账单明细
@@ -91,7 +92,7 @@ Page({
     wx.request({
       url: app.globalData.host + '/products?token=' + wx.getStorageSync('token'),
       data: {
-        school: 44
+        school: self.data.school_id
       },
       method: 'GET',
       success: function (res) {
@@ -115,7 +116,7 @@ Page({
       url: app.globalData.host + '/product/order?token=' + wx.getStorageSync('token'),
       data: {
         school_id: self.data.school_id,
-        user_id: app.globalData.userInfo.user_id,
+        user_id: self.data.user_id,
         product_id: self.data.product_id,
         student_id: self.data.student_id,
         price: self.data.price
@@ -177,6 +178,11 @@ Page({
               }
             })
           }
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none'
+          })
         }
       }
     })
@@ -189,7 +195,6 @@ Page({
     self.setData({
       navIndex: e.currentTarget.dataset.index
     })
-
     // 根据商品获取包含的服务
     wx.request({
       url: app.globalData.host + '/products?token=' + wx.getStorageSync('token'),
