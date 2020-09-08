@@ -39,7 +39,7 @@
 				</view>
 			</view>
 		</block>
-		<view wx:else class="view-empty">
+		<view wx:if="{{achievementList}}" class="view-empty">
 			<image src="/icon/not1.png"></image>
 			<text class="hint">暂无成绩信息~</text>
 		</view>

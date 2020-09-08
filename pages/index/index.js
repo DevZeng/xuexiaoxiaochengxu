@@ -19,7 +19,7 @@ Page({
       title: '加载中',
       icon: 'loading',
       mask: true,
-      duration: 10000
+      duration: 2000
     })
     this.information = []
     // this.getBanner();

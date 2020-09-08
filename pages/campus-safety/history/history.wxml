@@ -2,5 +2,4 @@
 	<view class="item"><text>{{index + 1}}</text> <text style="color: green">{{items.name}}</text> 于 <text style="color: red">{{items.time}}</text> {{items.direction == 1 ? '进入':'离开'}}了学校</view>
 	<image class="item-image" mode="aspectFill" src="{{items.image}}"></image>
 </view>
-
-        <text wx:if="{{recordsList.length == 0}}" class="notData">暂无数据~</text>
+<text wx:if="{{recordsList.length == 0}}" class="notData">暂无数据~</text>

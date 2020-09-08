@@ -4,6 +4,8 @@ const app = getApp()
 const regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig; //匹配emoji表情正则
 Page({
   data: {
+    useFunc: true,
+
     showFace: false,
     userInfo: null,
     memberTime: null,
@@ -57,6 +59,12 @@ Page({
             class_id: res.data.data.class_id,
             user_id: res.data.data.user_id
           })
+          console.log(999,this.data.userInfo.school_id)
+          if(this.data.userInfo.school_id == 96) {
+            this.setData({
+              useFunc: false
+            })
+          }
           this.getSchool()
         } else {
           this.setData({
@@ -169,6 +177,33 @@ Page({
         }
       });
     }
+    // wx.request({
+    //   url: 'https://school.fengniaotuangou.cn/api/token',
+    //   data: {
+    //     user_id: 4481
+    //   },
+    //   method: 'GET',
+    //   success: (res) => {
+    //     if (res.statusCode == 200) {
+    //       var data = res.data.data;
+    //       wx.setStorage({
+    //         data: data.token,
+    //         key: 'token',
+    //         complete: (res) => {},
+    //         fail: (res) => {},
+    //         success: (res) => {},
+    //       });
+    //       app.globalData.userInfo = data.info;
+    //       that.setData({
+    //         userInfo: data.info
+    //       })
+    //       that.getNoticeChild()
+    //       that.getSchool();
+    //       that.getChildrenList();
+    //       that.getService()
+    //     }
+    //   }
+    // })
   },
   // 跳转个人信息页
   openInformation: function () {
@@ -390,7 +425,7 @@ Page({
         icon: 'none'
       })
     }
-    
+
     // wx.showToast({
     //   title: '暂不开放！',
     //   icon: 'fail',

@@ -190,6 +190,7 @@ Page({
     let that = this;
     console.log(relation)
     let data = that.data.info;
+
     if(!data.number){
       wx.showToast({
         title: '学号不正确',

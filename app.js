@@ -4,6 +4,7 @@ let num = 5;
 App({
   onShow:function(){
     this.getConfig();
+    // this.getToken()
   },
   onLaunch: function() {
     let that = this;
@@ -48,6 +49,22 @@ App({
     // console.log(that.globalData.userInfo)
   },
 
+  // 获取token
+  getToken() {
+    wx.request({
+      url: 'https://school.fengniaotuangou.cn/api/token',
+      data: {
+        user_id: 12333
+      },
+      method:'GET',
+      success:(res)=>{
+        if(res.statusCode==200){
+          console.log(res)
+        }
+      }
+    })
+  },
+
   // -------------------------------------------------------------------------数据获取----------------------------------------------------------
   // 获取openID
   // getopenID: function (cb) {
@@ -79,11 +96,10 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2006',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2009',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
-        
         let data = res.data.data;
         if(data.key=='open'){
           app.globalData.openFace = data.value==1?true:false;
@@ -424,8 +440,8 @@ App({
     https1: 'https://huan.fengniaotuangou.cn', //总控线上接口地址
     // https1: 'http://192.168.1.105:8085',//总控本地接口地址
     mapKey: '33UBZ-ICQKP-W6FDW-V54Q6-OY542-IZFJ4', //腾讯地图位置服务key
-    // host: 'https://school.fengniaotuangou.cn/api',
-    host: 'http://192.168.0.103/api',
+    host: 'https://school.fengniaotuangou.cn/api',
+    // host: 'http://192.168.0.104/api',
 
     apihost: 'https://api.fengniaotuangou.cn/api',
   }

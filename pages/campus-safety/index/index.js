@@ -478,7 +478,7 @@ var Lunar = {
 Page({
   data: {
     childrenlist: [],
-    recordsList: [], // 进出
+    recordsList: null, // 进出
     currentIndex: 0,
     cardRightIn: false,
     cardLeftIn: false,
@@ -635,6 +635,7 @@ Page({
         time: gregorian.year + '-' + gregorian.month + '-' + gregorian.date,
         // school_id: 43,
         // id: 3949,
+        face_id: that.childrenlist[that.currentIndex].face_id,
         student_id: that.childrenlist[that.currentIndex].id,
         school_id: that.childrenlist[that.currentIndex].school_id,
         number: that.childrenlist[that.currentIndex].number
@@ -642,11 +643,9 @@ Page({
       method: 'get',
       success: function (res) {
         if (res.statusCode === 200) {
-          if (res.data.data.direction.length > 0) {
-            that.setData({
-              recordsList: res.data.data.direction
-            })
-          }
+          that.setData({
+            recordsList: res.data.data.direction
+          })
         } else {
           wx.showToast({
             title: res.data.msg,
@@ -866,8 +865,9 @@ Page({
   // 跳转历史记录
   toRecord: function (e) {
     let history_data = e.currentTarget.dataset.value;
+    console.log(e)
     wx.navigateTo({
-      url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number
+      url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number + '&student_id=' + history_data.id + '&face_id=' + history_data.face_id
     })
   },
 

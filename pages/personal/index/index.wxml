@@ -9,131 +9,135 @@
 			<button class="login-button" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 立即登录 </button>
 		</view>
 	</view>
-	<view wx:if="{{showBuy}}">
-		<view class="prompt-box" wx:if="{{serviceList.length == 0}}">
-			<text class="not">未购买任何服务</text>
+	<!-- 禁止学校id为96使用 -->
+	<block wx:if="{{useFunc}}">
+		<view wx:if="{{showBuy}}">
+			<view class="prompt-box" wx:if="{{serviceList.length == 0}}">
+				<text class="not">未购买任何服务</text>
+			</view>
+
+			<view class="nav" wx:else>
+				<picker bindchange="childrenChange" value="{{index}}" range-key="name" range="{{childList}}">
+					<view class="navbtu">
+						<text>查看当前已购买的服务详情</text>
+						<image src="/icon/down.png"></image>
+					</view>
+				</picker>
+			</view>
 		</view>
 
-		<view class="nav" wx:else>
-			<picker bindchange="childrenChange" value="{{index}}" range-key="name" range="{{childList}}">
-				<view class="navbtu">
-					<text>查看当前已购买的服务详情</text>
-					<image src="/icon/down.png"></image>
-				</view>
-			</picker>
-		</view>
-	</view>
 
-
-	<view class="list">
-		<view bindtap='openInformation'>
-			<button formType="submit" class="formBtu"></button>
-			<image src="/icon/information.png" />
-			<text>个人信息</text>
-		</view>
-		<view bindtap='openChildren'>
-			<form bindsubmit="getFormID" report-submit="true">
+		<view class="list">
+			<view bindtap='openInformation'>
 				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/children.png" />
-			<text>我的孩子</text>
-		</view>
-		<!-- <block wx:if="{{showBuy}}">
-			<view bindtap='openPurchaseService'>
+				<image src="/icon/information.png" />
+				<text>个人信息</text>
+			</view>
+			<view bindtap='openChildren'>
 				<form bindsubmit="getFormID" report-submit="true">
 					<button formType="submit" class="formBtu"></button>
 				</form>
-				<image src="/icon/shoppingCart.png" />
-				<text>购买服务</text>
+				<image src="/icon/children.png" />
+				<text>我的孩子</text>
 			</view>
-		</block> -->
+			<block wx:if="{{showBuy}}">
+				<view bindtap='openPurchaseService'>
+					<form bindsubmit="getFormID" report-submit="true">
+						<button formType="submit" class="formBtu"></button>
+					</form>
+					<image src="/icon/shoppingCart.png" />
+					<text>购买服务</text>
+				</view>
+			</block>
 
-		<view bindtap='openEquipment'>
-			<form bindsubmit="getFormID" report-submit="true">
-				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/setUp.png" />
-			<text>我的设备</text>
-		</view>
-		<!-- <view bindtap='openNtice'>
+			<view bindtap='openEquipment'>
+				<form bindsubmit="getFormID" report-submit="true">
+					<button formType="submit" class="formBtu"></button>
+				</form>
+				<image src="/icon/setUp.png" />
+				<text>我的设备</text>
+			</view>
+			<!-- <view bindtap='openNtice'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
       <image src="/icon/news3.png" />
       <text>班级公告</text>
     </view> -->
-		<!-- <view bindtap='openPostRecord'>
+			<!-- <view bindtap='openPostRecord'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
       <image src="/icon/record.png" />
       <text>发帖及记录</text>
     </view> -->
-		<view bindtap='openClassManagement' wx:if="{{userInfo.worker==2&&userInfo.state==2}}">
-			<form bindsubmit="getFormID" report-submit="true">
+			<view bindtap='openClassManagement' wx:if="{{userInfo.worker==2&&userInfo.state==2}}">
+				<form bindsubmit="getFormID" report-submit="true">
+					<button formType="submit" class="formBtu"></button>
+				</form>
+				<image src="/icon/classManagement.png" />
+				<text>班级管理</text>
+			</view>
+			<!-- 绑定孩子的用户可看班级公告 -->
+			<view bindtap='openClassNotice' wx:if="{{notice_childList.length > 0}}">
+				<form bindsubmit="getFormID" report-submit="true">
+					<button formType="submit" class="formBtu"></button>
+				</form>
+				<image src="/icon/news3.png" />
+				<text>班级公告</text>
+			</view>
+			<view bindtap='openHelpDocument'>
+				<form bindsubmit="getFormID" report-submit="true">
+					<button formType="submit" class="formBtu"></button>
+				</form>
+				<image src="/icon/file.png" />
+				<text>帮助文档</text>
+			</view>
+			<view bindtap='openFaceApplication'>
 				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/classManagement.png" />
-			<text>班级管理</text>
-		</view>
-		<!-- 绑定孩子的用户可看班级公告 -->
-		<view bindtap='openClassNotice' wx:if="{{notice_childList.length > 0}}">
-			<form bindsubmit="getFormID" report-submit="true">
+				<image src="/icon/visitor.png" />
+				<text>访客申请</text>
+			</view>
+			<view bindtap='openVisitorList' wx:if="{{userInfo.worker!=0&&userInfo.state==2}}">
 				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/news3.png" />
-			<text>班级公告</text>
-		</view>
-		<view bindtap='openHelpDocument'>
-			<form bindsubmit="getFormID" report-submit="true">
-				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/file.png" />
-			<text>帮助文档</text>
-		</view>
-		<view bindtap='openFaceApplication'>
-			<button formType="submit" class="formBtu"></button>
-			<image src="/icon/visitor.png" />
-			<text>访客申请</text>
-		</view>
-		<view bindtap='openVisitorList' wx:if="{{userInfo.worker!=0&&userInfo.state==2}}">
-			<button formType="submit" class="formBtu"></button>
-			<image src="/icon/visitor.png" />
-			<text>访客管理</text>
-		</view>
-		<!-- <view wx:if="{{userInfo.status != 2 && userInfo.status != 1 && userInfo.staff_status != 0 && userInfo.staff_status != 1}}" bindtap='openFaceApplication'>
+				<image src="/icon/visitor.png" />
+				<text>访客管理</text>
+			</view>
+			<!-- <view wx:if="{{userInfo.status != 2 && userInfo.status != 1 && userInfo.staff_status != 0 && userInfo.staff_status != 1}}" bindtap='openFaceApplication'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
       <image src="/icon/visitor.png" />
       <text>访客申请</text>
     </view>-->
-		<button open-type="contact">
-			<image src="/icon/service.png" />
-			<text>客服</text>
-		</button>
-		<view bindtap='openCoach'>
-			<form bindsubmit="getFormID" report-submit="true">
-				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/coach.png" />
-			<text>学习辅导</text>
-		</view>
-		<view bindtap='openInquiry'>
-			<form bindsubmit="getFormID" report-submit="true">
-				<button formType="submit" class="formBtu"></button>
-			</form>
-			<image src="/icon/lookup.png" />
-			<text>成绩查询</text>
-		</view>
-		<!-- <view bindtap='bindViewTap'>
+			<button open-type="contact">
+				<image src="/icon/service.png" />
+				<text>客服</text>
+			</button>
+			<view bindtap='openCoach'>
+				<form bindsubmit="getFormID" report-submit="true">
+					<button formType="submit" class="formBtu"></button>
+				</form>
+				<image src="/icon/coach.png" />
+				<text>学习辅导</text>
+			</view>
+			<view bindtap='openInquiry'>
+				<form bindsubmit="getFormID" report-submit="true">
+					<button formType="submit" class="formBtu"></button>
+				</form>
+				<image src="/icon/lookup.png" />
+				<text>成绩查询</text>
+			</view>
+			<!-- <view bindtap='bindViewTap'>
       <form bindsubmit="getFormID" report-submit="true">
         <button formType="submit" class="formBtu"></button>
       </form>
       <image src="/icon/lookup.png" />
       <text>服务推送</text>
     </view> -->
-	</view>
+		</view>
+	</block>
+
 </view>
 <!-- <official-account></official-account> -->
-<view class="supportText">图巴诺科技提供技术支持v1.0.16</view>
+<view class="supportText">图巴诺科技提供技术支持v1.0.17</view>

@@ -24,7 +24,7 @@ Page({
     },
     getNoticeList() {
         var self = this;
-        if(app.globalData.userInfo.worker == 2 && self.data.student_id) {
+        if ((app.globalData.userInfo.worker != 2 && self.data.student_id) || (app.globalData.userInfo.worker == 2 && self.data.student_id)) {
             wx.request({
                 url: app.globalData.host + '/class/notice',
                 method: 'GET',
@@ -45,13 +45,13 @@ Page({
                             success: function () {
                                 setTimeout(() => {
                                     wx.navigateBack({
-                                      delta: 1,
+                                        delta: 1,
                                     })
                                 }, 2000);
                             }
                         })
                     }
-    
+
                 }
             })
         } else {
@@ -74,13 +74,13 @@ Page({
                             success: function () {
                                 setTimeout(() => {
                                     wx.navigateBack({
-                                      delta: 1,
+                                        delta: 1,
                                     })
                                 }, 2000);
                             }
                         })
                     }
-    
+
                 }
             })
         }
@@ -106,6 +106,9 @@ Page({
                 if (res.confirm) {
                     wx.request({
                         url: app.globalData.host + '/class/notice?id=' + id,
+                        data: {
+                            token: wx.getStorageSync('token')
+                        },
                         method: 'DELETE',
                         success: function (res) {
                             if (res.data.msg == 'ok') {

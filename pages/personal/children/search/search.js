@@ -52,6 +52,9 @@ Page({
               }
             } else {
               wx.hideToast({});
+              that.setData({
+                strList: []
+              })
               wx.showToast({
                 title: '找不到该学生,在输入详细点试试~',
                 duration: 3000,

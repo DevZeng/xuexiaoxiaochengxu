@@ -8,7 +8,7 @@ Page({
       title: '加载中',
       icon: 'loading',
       mask: true,
-      duration: 10000
+      duration: 2000
     })
   },
   letout:function(e){
@@ -237,7 +237,7 @@ Page({
   onShareAppMessage:(e)=>{
     console.log(e)
     let invite_id = e.target.dataset.value;
-    
+    debugger
     if(invite_id!=0){
       return {
         title:'邀请加入',

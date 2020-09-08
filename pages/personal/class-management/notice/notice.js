@@ -64,7 +64,7 @@ Page({
               title: '发布成功',
               success: function(res) {
                 setTimeout(function() {
-                  wx.reLaunch({
+                  wx.navigateTo({
                     url: '../notice/notice-list/notice-list?btn_del=' + 'true' + '&classid=' + self.data.class_id,
                   })
                 }, 2000)

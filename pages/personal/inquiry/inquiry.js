@@ -5,7 +5,7 @@ Page({
     childrenList: [], //孩子列表
     childrenName: [], //孩子名字列表
     childrenIndex: 0, //选中的孩子下标
-    achievementList: [], //成绩列表
+    achievementList: null, //成绩列表
     switchList: [],
     scoresList: [], // 各科成绩
     showScore: false,
