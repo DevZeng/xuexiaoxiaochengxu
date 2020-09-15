@@ -164,7 +164,7 @@ button::after {
 .choose {
   display: flex;
   justify-content: flex-start;
-  margin-left: 10rpx;
+  margin-left: 20rpx;
 }
 
 .choose button {
@@ -179,13 +179,14 @@ button::after {
 
 .choose .input {
   width: 450rpx;
+  /* width: 72%; */
   height: 44rpx;
   line-height: 44rpx;
   font-size: 26rpx;
   border: 1rpx solid #ccc;
   border-radius: 10rpx;
   padding: 10rpx;
-  margin-right: 10rpx;
+  margin-right: 20rpx;
   background-color: #fff;
 }
 

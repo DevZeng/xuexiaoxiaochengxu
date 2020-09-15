@@ -96,7 +96,7 @@ App({
     let app = this;
     console.log('getXConfig');
     wx.request({
-      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2009',
+      url: 'https://gong.fengniaotuangou.cn/api/user/config?school=all&version=2011',
       method:'GET',
       success:function(res){
         console.log(res.data.data);
@@ -436,7 +436,7 @@ App({
     token:null,
     school_id: null,
     https: 'https://huan.fengniaotuangou.cn', //线上接口地址
-    // https: 'http://192.168.1.105:8082',//本地接口地址
+    https: 'http://192.168.1.105:8082',//本地接口地址
     https1: 'https://huan.fengniaotuangou.cn', //总控线上接口地址
     // https1: 'http://192.168.1.105:8085',//总控本地接口地址
     mapKey: '33UBZ-ICQKP-W6FDW-V54Q6-OY542-IZFJ4', //腾讯地图位置服务key

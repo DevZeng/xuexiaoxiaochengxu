@@ -20,7 +20,7 @@ Page({
             btn_del: options.btn_del,
             student_id: options.studentid
         })
-        this.getNoticeList()
+        this.getNoticeList();
     },
     getNoticeList() {
         var self = this;
@@ -38,19 +38,21 @@ Page({
                         self.setData({
                             notice_List: res.data.data
                         })
-                    } else {
-                        wx.showToast({
-                            title: res.data.msg,
-                            icon: 'none',
-                            success: function () {
-                                setTimeout(() => {
-                                    wx.navigateBack({
-                                        delta: 1,
-                                    })
-                                }, 2000);
-                            }
-                        })
-                    }
+                    } 
+                    // else {
+                    //     wx.showToast({
+                    //         title: res.data.msg,
+                    //         icon: 'none',
+                    //         success: function () {
+                    //             setTimeout(() => {
+                    //                 wx.navigateBack({
+                    //                     delta: 1,
+                    //                 })
+                    //             }, 2000);
+                                
+                    //         }
+                    //     })
+                    // }
 
                 }
             })

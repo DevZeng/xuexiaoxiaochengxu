@@ -16,9 +16,10 @@ Page({
     this.childrenIndex = 0;
     this.childrenList = [];
     this.getChildrenList();
+ 
   },
   onShow: function () {
-
+   
   },
   // 获取我的孩子列表
   getChildrenList: function () {
@@ -58,10 +59,14 @@ Page({
       childrenIndex: e.detail.value,
     })
     // 获取学生的成绩
+    wx.showLoading({
+      title: '数据加载中...',
+    })
     this.getAchievement(this.childrenList[this.childrenIndex].number, this.childrenList[this.childrenIndex].school_id,this.childrenList[this.childrenIndex].id);
   },
   // 获取学生的成绩
   getAchievement: function (number, school_id, student_id) {
+    wx.hideLoading()
     console.log('学号：' + number)
     let that = this;
     wx.request({

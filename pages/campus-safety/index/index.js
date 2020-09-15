@@ -865,12 +865,39 @@ Page({
   // 跳转历史记录
   toRecord: function (e) {
     let history_data = e.currentTarget.dataset.value;
-    console.log(e)
-    wx.navigateTo({
-      url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number + '&student_id=' + history_data.id + '&face_id=' + history_data.face_id
-    })
-  },
+    wx.request({
+      url: app.globalData.host + '/user/student/faceLogs?token=' + wx.getStorageSync('token'),
+      data: {
+        page: 1,
+        limit: 300,
+        school_id: history_data.school_id,
+        number: history_data.number,
+        student_id: history_data.id,
+        face_id: history_data.face_id
+        // school_id: 43,
+        // number: 20200212,
+        // student_id: 11682,
+        // face_id: 'face_5f4b9918688fa'
+      },
+      method: 'get',
+      success: function (res) {
+        if (res.statusCode == 200) {
+          console.log(e)
+          wx.navigateTo({
+            url: '../history/history?school_id=' + history_data.school_id + '&number=' + history_data.number + '&student_id=' + history_data.id + '&face_id=' + history_data.face_id
+          })
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 2000
+          })
+        }
 
+      }
+    });
+
+  },
 
   // 日历选择(显示日历)
   calendar: function (e) {

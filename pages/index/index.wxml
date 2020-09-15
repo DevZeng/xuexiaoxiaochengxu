@@ -1,9 +1,8 @@
 <!--index.wxml-->
 <official-account></official-account>
 <view class="choose-banner" wx:if="{{schoolList.length > 1}}">
-	<!-- <text></text> -->
-	<input class="input" disabled="true" placeholder="请选择孩子所在的学校" value="当前学校:{{school? school : schoolList[is_school].name}}"></input>
-
+	<view class="area">当前学校</view>
+	<input class="input" disabled="true" placeholder="请选择孩子所在的学校" value="{{school? school : schoolList[is_school].name}}"></input>
 	<picker bindchange="schoolChange" range="{{schoolList}}" range-key="name" value="{{index}}" class="picker">
 		<button>切换学校</button>
 		<!-- <image src="/icon/right.png"></image> -->

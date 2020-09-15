@@ -43,13 +43,14 @@ Page({
                     that.setData({
                         recordsList: res.data.data.direction
                     })
-                } else {
-                    wx.showToast({
-                        title: res.data.msg,
-                        icon: 'none',
-                        duration: 2000
-                    })
-                }
+                } 
+                // else {
+                //     wx.showToast({
+                //         title: res.data.msg,
+                //         icon: 'none',
+                //         duration: 2000
+                //     })
+                // }
 
             }
         });
